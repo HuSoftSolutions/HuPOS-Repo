@@ -12,8 +12,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.set("test", forKey:"Test")
-    
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 

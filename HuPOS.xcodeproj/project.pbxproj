@@ -7,13 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
+		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
+		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
+		3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EC2027881B00B88A76 /* Transaction.swift */; };
 		35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B8DD87201FB086002F49C9 /* AppDelegate.swift */; };
-		35B8DD8A201FB086002F49C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B8DD89201FB086002F49C9 /* ViewController.swift */; };
 		35B8DD8D201FB086002F49C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B8DD8B201FB086002F49C9 /* Main.storyboard */; };
 		35B8DD8F201FB086002F49C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35B8DD8E201FB086002F49C9 /* Assets.xcassets */; };
 		35B8DD92201FB086002F49C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B8DD90201FB086002F49C9 /* LaunchScreen.storyboard */; };
 		35B8DD9D201FB086002F49C9 /* HuPOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B8DD9C201FB086002F49C9 /* HuPOSTests.swift */; };
 		35B8DDA8201FB086002F49C9 /* HuPOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B8DDA7201FB086002F49C9 /* HuPOSUITests.swift */; };
+		35B8DDB7201FB7D5002F49C9 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDB6201FB7D5002F49C9 /* CoreBluetooth.framework */; };
+		35B8DDB9201FB7DB002F49C9 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDB8201FB7DB002F49C9 /* ExternalAccessory.framework */; };
+		35B8DDBD201FB7F3002F49C9 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBA201FB7F3002F49C9 /* StarIO.framework */; };
+		35B8DDBE201FB7F3002F49C9 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */; };
+		35B8DDBF201FB7F3002F49C9 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */; };
+		35B8DDC2201FC7FC002F49C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */; };
+		8EA188CB0AD7D2A0118A0A74 /* Pods_HuPOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */; };
+		C9D460034DA187E891158FE3 /* Pods_HuPOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */; };
+		DD5D1AC24026576275D770AB /* Pods_HuPOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +46,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
+		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
+		3569B3EC2027881B00B88A76 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		35B8DD84201FB086002F49C9 /* HuPOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HuPOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35B8DD87201FB086002F49C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		35B8DD89201FB086002F49C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		35B8DD8C201FB086002F49C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		35B8DD8E201FB086002F49C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35B8DD91201FB086002F49C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +62,22 @@
 		35B8DDA3201FB086002F49C9 /* HuPOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HuPOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35B8DDA7201FB086002F49C9 /* HuPOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuPOSUITests.swift; sourceTree = "<group>"; };
 		35B8DDA9201FB086002F49C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35B8DDB6201FB7D5002F49C9 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		35B8DDB8201FB7DB002F49C9 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		35B8DDBA201FB7F3002F49C9 /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = ExternalFrameworks/StarIO.framework; sourceTree = "<group>"; };
+		35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SMCloudServices.framework; path = ExternalFrameworks/SMCloudServices.framework; sourceTree = "<group>"; };
+		35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = ExternalFrameworks/StarIO_Extension.framework; sourceTree = "<group>"; };
+		35B8DDC0201FB833002F49C9 /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCBridge.h; sourceTree = "<group>"; };
+		35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS.debug.xcconfig"; sourceTree = "<group>"; };
+		68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80EE05793D2D8282B1C96C8D /* Pods-HuPOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS.release.xcconfig"; sourceTree = "<group>"; };
+		8121D9B7285EFFD5C106426A /* Pods-HuPOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5E641BDD054418CB94D5F21 /* Pods-HuPOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		F6CDF85F7FECFE03F9DEFB2A /* Pods-HuPOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +85,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35B8DDBD201FB7F3002F49C9 /* StarIO.framework in Frameworks */,
+				35B8DDBE201FB7F3002F49C9 /* SMCloudServices.framework in Frameworks */,
+				35B8DDBF201FB7F3002F49C9 /* StarIO_Extension.framework in Frameworks */,
+				35B8DDB9201FB7DB002F49C9 /* ExternalAccessory.framework in Frameworks */,
+				35B8DDB7201FB7D5002F49C9 /* CoreBluetooth.framework in Frameworks */,
+				C9D460034DA187E891158FE3 /* Pods_HuPOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD5D1AC24026576275D770AB /* Pods_HuPOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,12 +106,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EA188CB0AD7D2A0118A0A74 /* Pods_HuPOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18C83BE51624950A8510D6D6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */,
+				80EE05793D2D8282B1C96C8D /* Pods-HuPOS.release.xcconfig */,
+				F6CDF85F7FECFE03F9DEFB2A /* Pods-HuPOSTests.debug.xcconfig */,
+				D5E641BDD054418CB94D5F21 /* Pods-HuPOSTests.release.xcconfig */,
+				8121D9B7285EFFD5C106426A /* Pods-HuPOSUITests.debug.xcconfig */,
+				4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		35B8DD7B201FB086002F49C9 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +133,8 @@
 				35B8DD9B201FB086002F49C9 /* HuPOSTests */,
 				35B8DDA6201FB086002F49C9 /* HuPOSUITests */,
 				35B8DD85201FB086002F49C9 /* Products */,
+				35B8DDB5201FB7D4002F49C9 /* Frameworks */,
+				18C83BE51624950A8510D6D6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,12 +151,17 @@
 		35B8DD86201FB086002F49C9 /* HuPOS */ = {
 			isa = PBXGroup;
 			children = (
+				3569B3E72027875F00B88A76 /* HomeVC.swift */,
+				3569B3E62027875E00B88A76 /* LockScreenVC.swift */,
+				3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */,
+				3569B3EC2027881B00B88A76 /* Transaction.swift */,
+				35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */,
 				35B8DD87201FB086002F49C9 /* AppDelegate.swift */,
-				35B8DD89201FB086002F49C9 /* ViewController.swift */,
 				35B8DD8B201FB086002F49C9 /* Main.storyboard */,
 				35B8DD8E201FB086002F49C9 /* Assets.xcassets */,
 				35B8DD90201FB086002F49C9 /* LaunchScreen.storyboard */,
 				35B8DD93201FB086002F49C9 /* Info.plist */,
+				35B8DDC0201FB833002F49C9 /* ObjCBridge.h */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -125,6 +184,21 @@
 			path = HuPOSUITests;
 			sourceTree = "<group>";
 		};
+		35B8DDB5201FB7D4002F49C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */,
+				35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */,
+				35B8DDBA201FB7F3002F49C9 /* StarIO.framework */,
+				35B8DDB8201FB7DB002F49C9 /* ExternalAccessory.framework */,
+				35B8DDB6201FB7D5002F49C9 /* CoreBluetooth.framework */,
+				819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */,
+				68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */,
+				94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35B8DDAC201FB086002F49C9 /* Build configuration list for PBXNativeTarget "HuPOS" */;
 			buildPhases = (
+				2E20F9430F7DF7E5BFA966F3 /* [CP] Check Pods Manifest.lock */,
 				35B8DD80201FB086002F49C9 /* Sources */,
 				35B8DD81201FB086002F49C9 /* Frameworks */,
 				35B8DD82201FB086002F49C9 /* Resources */,
+				66BB34940076B68DD5746C42 /* [CP] Embed Pods Frameworks */,
+				D229C875427AE5978BD00B6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +226,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35B8DDAF201FB086002F49C9 /* Build configuration list for PBXNativeTarget "HuPOSTests" */;
 			buildPhases = (
+				A3BDC3D1E9DF7F7B7C28FB19 /* [CP] Check Pods Manifest.lock */,
 				35B8DD94201FB086002F49C9 /* Sources */,
 				35B8DD95201FB086002F49C9 /* Frameworks */,
 				35B8DD96201FB086002F49C9 /* Resources */,
+				A1D7FAC20BD713AA68B50E29 /* [CP] Embed Pods Frameworks */,
+				45BF0AD0C0AF83D1E01B3427 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +247,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35B8DDB2201FB086002F49C9 /* Build configuration list for PBXNativeTarget "HuPOSUITests" */;
 			buildPhases = (
+				BCE050F9B383263CE33819AD /* [CP] Check Pods Manifest.lock */,
 				35B8DD9F201FB086002F49C9 /* Sources */,
 				35B8DDA0201FB086002F49C9 /* Frameworks */,
 				35B8DDA1201FB086002F49C9 /* Resources */,
+				150BB6883E508F281C59C1A6 /* [CP] Embed Pods Frameworks */,
+				FA2998C567729F3F33D97ABA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -234,6 +317,7 @@
 			files = (
 				35B8DD92201FB086002F49C9 /* LaunchScreen.storyboard in Resources */,
 				35B8DD8F201FB086002F49C9 /* Assets.xcassets in Resources */,
+				35B8DDC2201FC7FC002F49C9 /* GoogleService-Info.plist in Resources */,
 				35B8DD8D201FB086002F49C9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -254,13 +338,182 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		150BB6883E508F281C59C1A6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2E20F9430F7DF7E5BFA966F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HuPOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		45BF0AD0C0AF83D1E01B3427 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66BB34940076B68DD5746C42 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1D7FAC20BD713AA68B50E29 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A3BDC3D1E9DF7F7B7C28FB19 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HuPOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCE050F9B383263CE33819AD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HuPOSUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D229C875427AE5978BD00B6D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA2998C567729F3F33D97ABA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		35B8DD80201FB086002F49C9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B8DD8A201FB086002F49C9 /* ViewController.swift in Sources */,
+				3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */,
+				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
 				35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */,
+				3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */,
+				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,14 +677,20 @@
 		};
 		35B8DDAD201FB086002F49C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZRALRG384S;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks",
+				);
 				INFOPLIST_FILE = HuPOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -439,14 +698,20 @@
 		};
 		35B8DDAE201FB086002F49C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80EE05793D2D8282B1C96C8D /* Pods-HuPOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZRALRG384S;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ExternalFrameworks",
+				);
 				INFOPLIST_FILE = HuPOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -454,6 +719,7 @@
 		};
 		35B8DDB0201FB086002F49C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6CDF85F7FECFE03F9DEFB2A /* Pods-HuPOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -471,6 +737,7 @@
 		};
 		35B8DDB1201FB086002F49C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5E641BDD054418CB94D5F21 /* Pods-HuPOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -488,6 +755,7 @@
 		};
 		35B8DDB3201FB086002F49C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8121D9B7285EFFD5C106426A /* Pods-HuPOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -504,6 +772,7 @@
 		};
 		35B8DDB4201FB086002F49C9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
