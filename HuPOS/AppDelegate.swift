@@ -51,6 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let BTDevice = "BT:Star Micronics"
     //let currentUser:User
     
+    override init(){
+        super.init()
+        FirebaseApp.configure()
+        
+        let db = Firestore.firestore()
+        let settings = FirestoreSettings()
+        settings.isPersistenceEnabled = true
+        db.settings = settings
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -66,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.selectedPaperSize = PaperSizeIndex.twoInch
         
         // Configure Firebase for use throughout application
-        FirebaseApp.configure()
+
         return true
     }
     

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 350D63F52028F393005C8CF5 /* GoogleService-Info.plist */; };
+		350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F720292965005C8CF5 /* UserSignInTVC.swift */; };
+		350D63FA20292FAC005C8CF5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F920292FAC005C8CF5 /* User.swift */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
@@ -22,7 +25,6 @@
 		35B8DDBD201FB7F3002F49C9 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBA201FB7F3002F49C9 /* StarIO.framework */; };
 		35B8DDBE201FB7F3002F49C9 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */; };
 		35B8DDBF201FB7F3002F49C9 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */; };
-		35B8DDC2201FC7FC002F49C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */; };
 		8EA188CB0AD7D2A0118A0A74 /* Pods_HuPOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */; };
 		C9D460034DA187E891158FE3 /* Pods_HuPOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */; };
 		DD5D1AC24026576275D770AB /* Pods_HuPOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */; };
@@ -46,6 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		350D63F52028F393005C8CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		350D63F720292965005C8CF5 /* UserSignInTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignInTVC.swift; sourceTree = "<group>"; };
+		350D63F920292FAC005C8CF5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
@@ -68,7 +73,6 @@
 		35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SMCloudServices.framework; path = ExternalFrameworks/SMCloudServices.framework; sourceTree = "<group>"; };
 		35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = ExternalFrameworks/StarIO_Extension.framework; sourceTree = "<group>"; };
 		35B8DDC0201FB833002F49C9 /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCBridge.h; sourceTree = "<group>"; };
-		35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS.debug.xcconfig"; sourceTree = "<group>"; };
 		68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,13 +159,15 @@
 				3569B3E62027875E00B88A76 /* LockScreenVC.swift */,
 				3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */,
 				3569B3EC2027881B00B88A76 /* Transaction.swift */,
-				35B8DDC1201FC7FC002F49C9 /* GoogleService-Info.plist */,
 				35B8DD87201FB086002F49C9 /* AppDelegate.swift */,
 				35B8DD8B201FB086002F49C9 /* Main.storyboard */,
 				35B8DD8E201FB086002F49C9 /* Assets.xcassets */,
 				35B8DD90201FB086002F49C9 /* LaunchScreen.storyboard */,
+				350D63F52028F393005C8CF5 /* GoogleService-Info.plist */,
 				35B8DD93201FB086002F49C9 /* Info.plist */,
 				35B8DDC0201FB833002F49C9 /* ObjCBridge.h */,
+				350D63F720292965005C8CF5 /* UserSignInTVC.swift */,
+				350D63F920292FAC005C8CF5 /* User.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -317,8 +323,8 @@
 			files = (
 				35B8DD92201FB086002F49C9 /* LaunchScreen.storyboard in Resources */,
 				35B8DD8F201FB086002F49C9 /* Assets.xcassets in Resources */,
-				35B8DDC2201FC7FC002F49C9 /* GoogleService-Info.plist in Resources */,
 				35B8DD8D201FB086002F49C9 /* Main.storyboard in Resources */,
+				350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,7 +519,9 @@
 				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
 				35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */,
 				3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */,
+				350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */,
 				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
+				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

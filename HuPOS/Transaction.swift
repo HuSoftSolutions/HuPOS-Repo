@@ -82,21 +82,5 @@ private class SalesItem {
         }
     }
     
-    open class User {
-        var id:String
-        var pin:String
-        var name:String?
-        var address:String?
-        var photo:String?
-        var type:UserType
-        
-        init(_id:String, _pin:String, _name:String? = nil, _address:String? = nil, _photo:String? = nil, _type:UserType = UserType.user){
-            self.id = _id
-            self.pin = _pin
-            self.name = _name
-            self.address = _address
-            self.photo = _photo
-            self.type = _type
-        }
-    }
+   
 }
