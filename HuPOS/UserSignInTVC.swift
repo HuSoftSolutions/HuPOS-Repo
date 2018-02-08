@@ -10,11 +10,17 @@ import Foundation
 import UIKit
 import Firebase
 
+class UserTVC:UITableViewCell {
+    
+    @IBOutlet weak var userName: UILabel!
+    
+}
+
 class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     var users:[User] = []
     let db = Firestore.firestore()
-
+    
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var tableView_: UITableView!
     
@@ -27,6 +33,9 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         button.setTitleColor(UIColor.darkGray, for: .normal)
         button.addTarget(self, action: #selector(addUserTapped(_:)), for: .touchUpInside)
         
+        self.tableView_.delegate = self
+        self.tableView_.dataSource = self
+        
         tableView_.tableFooterView = button
         
         self.tableView_.layer.cornerRadius = 10
@@ -35,11 +44,12 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         self.signInButton.layer.masksToBounds = true
         
         // get users
-        self.refreshUserList()
-        
+        self.refreshUserList{ ()
+            self.tableView_.reloadData()
+        }
     }
     
-    func refreshUserList(){
+    func refreshUserList(_ completion: @escaping () -> ()){
         db.collection("Users").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -49,25 +59,40 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
                     self.users.append(User(id: document.documentID, dictionary: document.data()))
                 }
                 print("\n\nRefreshed list: \(self.users.count)")
-
+                
             }
+            completion()
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        print("Returning \(self.users.count)")
+        return self.users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath)
-        let user = users[indexPath.row]
-        cell.textLabel?.text = user.name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserTVC
+        let user = self.users[indexPath.row]
+        cell.userName.text = self.users[indexPath.row].name
+        print("INSIDE: \(user)")
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+//        if indexPath.row % 2 == 0 {
+//            cell.backgroundColor = UIColor(red: 211/255, green:211/255, blue: 211/255, alpha: 200/255)
+//        }
         return cell
     }
+    
+    
     
     @IBAction func addUserTapped(_ sender: Any) {
         print("tapped")
         
         
     }
+    
+    
 }

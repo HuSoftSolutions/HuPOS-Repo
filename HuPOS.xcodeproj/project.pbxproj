@@ -10,6 +10,7 @@
 		350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 350D63F52028F393005C8CF5 /* GoogleService-Info.plist */; };
 		350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F720292965005C8CF5 /* UserSignInTVC.swift */; };
 		350D63FA20292FAC005C8CF5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F920292FAC005C8CF5 /* User.swift */; };
+		35104213202CEE64002614AC /* UserTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35104212202CEE64002614AC /* UserTVC.swift */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
@@ -51,6 +52,7 @@
 		350D63F52028F393005C8CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		350D63F720292965005C8CF5 /* UserSignInTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignInTVC.swift; sourceTree = "<group>"; };
 		350D63F920292FAC005C8CF5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		35104212202CEE64002614AC /* UserTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTVC.swift; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				35B8DDC0201FB833002F49C9 /* ObjCBridge.h */,
 				350D63F720292965005C8CF5 /* UserSignInTVC.swift */,
 				350D63F920292FAC005C8CF5 /* User.swift */,
+				35104212202CEE64002614AC /* UserTVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
 				35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */,
 				3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */,
+				35104213202CEE64002614AC /* UserTVC.swift in Sources */,
 				350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */,
 				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
 				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,

@@ -67,7 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Thread.sleep(forTimeInterval: 1.0)     // 1000mS!!!
         //   var style = ToastStyle()
         
-        
         self.loadParam()
         
         self.selectedIndex     = 0
