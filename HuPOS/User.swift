@@ -16,7 +16,7 @@ public class User {
     var photo:String?
     var type:UserType?
     
-    init(dictionary: [String:Any]) {
+    init(id:String, dictionary: [String:Any]) {
         self.id = dictionary["id"] as? String
         self.pin = dictionary["pin"] as? String
         self.name = dictionary["name"] as? String
