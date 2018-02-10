@@ -24,5 +24,7 @@ public class User {
         self.address = dictionary["address"] as? String
         self.photo = dictionary["photo"] as? String
         self.type = dictionary["type"] as? UserType
+        
+        print("Printing self: \(dictionary["Pin"])")
     }
 }
