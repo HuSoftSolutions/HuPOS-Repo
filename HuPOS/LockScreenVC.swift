@@ -30,7 +30,7 @@ class LockScreenVC : UIViewController {
     @IBOutlet weak var enterButton: UIButton!
     
     let db = Firestore.firestore()
-    
+    public var currentUser:User?
     
     
     @IBAction func digitPressed(_ sender: UIButton) {
@@ -80,10 +80,16 @@ class LockScreenVC : UIViewController {
         }
     }
     
+    @IBAction func userSwiped(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .left{
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     
     override func viewDidLoad() {
         
+        //print("View loaded successfully! Welcome \(String(describing: currentUser?.name))!")
         self.oneButton.layer.cornerRadius = 10
         self.twoButton.layer.cornerRadius = 10
         self.threeButton.layer.cornerRadius = 10
