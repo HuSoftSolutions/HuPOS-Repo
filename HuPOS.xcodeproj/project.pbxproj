@@ -702,7 +702,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft/HuPOS-Repo/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -723,7 +723,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft/HuPOS-Repo/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

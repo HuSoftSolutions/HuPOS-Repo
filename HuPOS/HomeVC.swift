@@ -18,6 +18,7 @@ class HomeVC:UIViewController, UITableViewDelegate
     @IBOutlet weak var bluetoothSwitch: UISwitch!
     let defaults = UserDefaults.standard
     let BTPref = "BTDevicePreference"
+    var currentUser:User?
     
     // UI Object Variables
     @IBOutlet weak var tableView: UITableView!
@@ -60,6 +61,8 @@ class HomeVC:UIViewController, UITableViewDelegate
         if let pref = defaults.value(forKey: BTPref) as? Bool{
             bluetoothSwitch.isOn = pref
         }
+        
+        print("Welcome to Home View \(self.currentUser?.name)")
     }
     
     override func viewWillAppear(_ animated: Bool) {

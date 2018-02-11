@@ -65,8 +65,6 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         
         self.tableView_.layer.cornerRadius = 10
         self.tableView_.layer.masksToBounds = true
-
-        
         // get users
         self.refreshUserList{ ()
             self.tableView_.reloadData()
@@ -88,6 +86,8 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
             completion()
         }
     }
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // user was selected at indexPath.row

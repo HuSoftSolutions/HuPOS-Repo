@@ -16,15 +16,13 @@ public class User {
     var photo:String?
     var type:UserType?
     
-    // !!! Fix case consistency
     init(id:String, dictionary: [String:Any]) {
-        self.id = dictionary["id"] as? String
-        self.pin = dictionary["pin"] as? String
+        self.id = id
+        self.pin = dictionary["Pin"] as? String
         self.name = dictionary["Name"] as? String
-        self.address = dictionary["address"] as? String
-        self.photo = dictionary["photo"] as? String
-        self.type = dictionary["type"] as? UserType
+        self.address = dictionary["Address"] as? String
+        self.photo = dictionary["Photo"] as? String
+        self.type = dictionary["Type"] as? UserType
         
-        print("Printing self: \(dictionary["Pin"])")
     }
 }
