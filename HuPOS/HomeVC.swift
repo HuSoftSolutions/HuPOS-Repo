@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreBluetooth
+import SideMenu
 //import EmptyDataSet_Swift
 
 class HomeVC:UIViewController, UITableViewDelegate
@@ -19,6 +20,7 @@ class HomeVC:UIViewController, UITableViewDelegate
     let defaults = UserDefaults.standard
     let BTPref = "BTDevicePreference"
     var currentUser:User?
+
     
     // UI Object Variables
     @IBOutlet weak var tableView: UITableView!
