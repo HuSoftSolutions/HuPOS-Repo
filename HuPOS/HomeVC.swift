@@ -12,6 +12,7 @@ import CoreBluetooth
 import SideMenu
 //import EmptyDataSet_Swift
 
+
 class HomeVC:UIViewController, UITableViewDelegate
 /*, EmptyDataSetSource, EmptyDataSetDelegate*/ {
     
@@ -48,14 +49,26 @@ class HomeVC:UIViewController, UITableViewDelegate
         BTCommunication.print()
     }
     
+    @IBAction func signOutTapped(_ sender: Any) {
+        let signIn = UserSignInTVC()
+self.navigationController?.popToRootViewController(animated: true)
+    }
+    
     @IBAction func BTSwitchChanged(_ sender: UISwitch) {
             defaults.set(sender.isOn, forKey:BTPref)
     }
     
     override func viewDidLoad() {
-        self.dashboardButton.layer.cornerRadius = 10
-        self.payButton.layer.cornerRadius = 10
+        self.navigationController?.isToolbarHidden = false
+        self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
+        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
+        //self.navigationController?.
         
+        //        self.dashboardButton.layer.cornerRadius = 10
+//        self.payButton.layer.cornerRadius = 10
+        //SideMenuManager.defaultManager.menuShadowColor = UIColor.black
+        SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
+       // self.navigationController?.navigationBar.isHidden = true
         //tableView.emptyDataSetSource = self
         //tableView.emptyDataSetDelegate = self
         
@@ -63,7 +76,7 @@ class HomeVC:UIViewController, UITableViewDelegate
         if let pref = defaults.value(forKey: BTPref) as? Bool{
             bluetoothSwitch.isOn = pref
         }
-        
+        self.currentUserLabel.text = self.currentUser?.name
         print("Welcome to Home View \(self.currentUser?.name)")
     }
     

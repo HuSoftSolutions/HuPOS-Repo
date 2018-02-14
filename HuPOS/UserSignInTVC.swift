@@ -65,6 +65,8 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         
         self.tableView_.layer.cornerRadius = 10
         self.tableView_.layer.masksToBounds = true
+        
+
         // get users
         self.refreshUserList{ ()
             self.tableView_.reloadData()

@@ -28,7 +28,6 @@ class LockScreenVC : UIViewController {
     @IBOutlet weak var zeroButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var enterButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
     
     let db = Firestore.firestore()
     public var currentUser:User?
@@ -43,10 +42,7 @@ class LockScreenVC : UIViewController {
         self.passcodeTextField.text = ""
     }
     
-    @IBAction func goBackTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "to_UserSignInVC", sender: nil)
-    }
-    
+
     
     func queryPin(isValid: @escaping (Bool) -> Void){
         // Check pin validity
@@ -146,7 +142,6 @@ class LockScreenVC : UIViewController {
         self.zeroButton.layer.cornerRadius = 10
         self.clearButton.layer.cornerRadius = 10
         self.enterButton.layer.cornerRadius = 10
-        self.backButton.layer.cornerRadius = 10
         self.passcodeView.layer.cornerRadius = 10
         
     }
