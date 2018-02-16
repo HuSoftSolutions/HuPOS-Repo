@@ -5,6 +5,8 @@
 //  Created by Cody Husek on 1/4/18.
 //  Copyright © 2018 HuSoft Solutions. All rights reserved.
 //
+// iMac Pro Bridging Header: /Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h
+
 
 import UIKit
 import CoreData
@@ -49,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var selectedPaperSize:        PaperSizeIndex!
     
     let BTDevice = "BT:Star Micronics"
-    //let currentUser:User
+    public var currentUser:User?
     
     override init(){
         super.init()

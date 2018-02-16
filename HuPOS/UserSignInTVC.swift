@@ -18,6 +18,8 @@ class UserTVC:UITableViewCell {
 }
 
 class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource{
+    
+    
     let indicator:UIActivityIndicatorView = UIActivityIndicatorView  (activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
 
     var users:[User] = []
@@ -36,17 +38,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         indicator.bringSubview(toFront: self.view)
         indicator.sizeToFit()
         indicator.startAnimating()
-        let button = UIButton.init()
-        button.frame = CGRect.init(x: 0, y: 0, width: 100, height: 75)
-        button.setTitle("Add User ✚", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.addTarget(self, action: #selector(addUserTapped(_:)), for: .touchUpInside)
-        button.backgroundColor = UIColor.darkGray
-//        button.setTitleColor(UIColor.black, for: .normal)
-//        button.setTitleColor(UIColor.gray, for: .highlighted)
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
+
         let label = UILabel.init()
         label.frame = CGRect.init(x: 0, y: 0, width: 100, height: 100)
         label.text = "User Sign-In"
@@ -59,10 +51,10 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         self.tableView_.delegate = self
         self.tableView_.dataSource = self
         self.tableView_.backgroundColor = UIColor.clear
-        
-        tableView_.tableFooterView = button
+        tableView_.tableFooterView?.backgroundColor = UIColor.darkGray
         tableView_.tableHeaderView = label
-        
+        tableView_.tableFooterView?.layer.cornerRadius = 10
+        tableView_.tableFooterView?.layer.masksToBounds = true
         self.tableView_.layer.cornerRadius = 10
         self.tableView_.layer.masksToBounds = true
         

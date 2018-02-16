@@ -8,14 +8,23 @@
 
 import UIKit
 
-class AddUserVC: UIViewController {
+class AddUserVC: UITableViewController {
 
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet var tableView_: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.registerButton.layer.cornerRadius = 10
+        self.registerButton.layer.masksToBounds = true
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func registerAction(_ sender: UIButton) {
+
+        
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

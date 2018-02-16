@@ -13,8 +13,7 @@ import SideMenu
 //import EmptyDataSet_Swift
 
 
-class HomeVC:UIViewController, UITableViewDelegate
-/*, EmptyDataSetSource, EmptyDataSetDelegate*/ {
+class HomeVC:UIViewController, UITableViewDelegate {
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -62,11 +61,9 @@ self.navigationController?.popToRootViewController(animated: true)
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
-        //self.navigationController?.
+        self.payButton.layer.cornerRadius = 10
+        self.payButton.layer.masksToBounds = true
         
-        //        self.dashboardButton.layer.cornerRadius = 10
-//        self.payButton.layer.cornerRadius = 10
-        //SideMenuManager.defaultManager.menuShadowColor = UIColor.black
         SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
        // self.navigationController?.navigationBar.isHidden = true
         //tableView.emptyDataSetSource = self
