@@ -21,8 +21,6 @@ class SideMenuTableViewController: UITableViewController {
         guard SideMenuManager.default.menuBlurEffectStyle == nil else {
             return
         }
-        
-
     }
     
 

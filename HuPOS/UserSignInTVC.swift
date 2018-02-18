@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class UserTVC:UITableViewCell {
     
@@ -58,6 +59,14 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         self.tableView_.layer.cornerRadius = 10
         self.tableView_.layer.masksToBounds = true
         
+        do{
+            
+            try
+                Auth.auth().signOut()
+            
+        }
+        catch{}
+        
 
         // get users
         self.refreshUserList{ ()
@@ -85,6 +94,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // user was selected at indexPath.row
+        
         self.performSegue(withIdentifier: "to-LockScreenVC", sender: indexPath.row)
         
     }
@@ -110,7 +120,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         let user = self.users[indexPath.row]
         cell.userImage.layer.cornerRadius = 50
         cell.userImage.layer.masksToBounds = true
-        cell.userName.text = self.users[indexPath.row].name
+        cell.userName.text = self.users[indexPath.row].firstName
         print("INSIDE: \(user)")
         cell.selectionStyle = UITableViewCellSelectionStyle.none
 

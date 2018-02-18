@@ -129,7 +129,7 @@ class LockScreenVC : UIViewController {
     
     override func viewDidLoad() {
         
-        print("View loaded successfully! Welcome \(String(describing: currentUser?.name))!")
+        print("View loaded successfully! Welcome \(String(describing: currentUser?.firstName))!")
         self.oneButton.layer.cornerRadius = 10
         self.twoButton.layer.cornerRadius = 10
         self.threeButton.layer.cornerRadius = 10

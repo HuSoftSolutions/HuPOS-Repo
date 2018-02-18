@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -296,7 +297,6 @@
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -317,7 +317,6 @@
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -336,7 +335,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GUY-UU-oxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-103.05755395683454" y="1097.1223021582734"/>
+            <point key="canvasLocation" x="47" y="1017"/>
         </scene>
         <!--Add UserVC-->
         <scene sceneID="6pj-Az-1nM">
@@ -356,14 +355,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="61.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Registration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yez-cb-Ji1">
-                                                    <rect key="frame" x="0.0" y="6" width="1112" height="49"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Registration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yez-cb-Ji1">
+                                                    <rect key="frame" x="0.0" y="5" width="1112" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="43"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Yez-cb-Ji1" firstAttribute="leading" secondItem="2um-ph-13q" secondAttribute="leading" id="AsU-zq-Apr"/>
+                                                <constraint firstItem="Yez-cb-Ji1" firstAttribute="centerY" secondItem="2um-ph-13q" secondAttribute="centerY" id="Dqd-s1-uRu"/>
+                                                <constraint firstItem="Yez-cb-Ji1" firstAttribute="top" secondItem="2um-ph-13q" secondAttribute="topMargin" constant="-5" id="rN8-6k-aO7"/>
+                                                <constraint firstAttribute="trailing" secondItem="Yez-cb-Ji1" secondAttribute="trailing" id="t1O-Zr-hgb"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -377,14 +381,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter email address here" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ebm-pg-noe">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter email address here" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ebm-pg-noe">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="JXH-ax-45A"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Ebm-pg-noe" firstAttribute="centerX" secondItem="nxY-cg-CNa" secondAttribute="centerX" id="1rg-K1-cb8"/>
+                                                <constraint firstItem="Ebm-pg-noe" firstAttribute="centerY" secondItem="nxY-cg-CNa" secondAttribute="centerY" id="4Yb-By-b1h"/>
+                                                <constraint firstItem="Ebm-pg-noe" firstAttribute="top" secondItem="nxY-cg-CNa" secondAttribute="top" id="6wV-8a-dyx"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -398,14 +409,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Pin" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="elc-Cz-iTQ">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Pin" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="elc-Cz-iTQ">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="xtu-Hk-l3n"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="elc-Cz-iTQ" firstAttribute="centerX" secondItem="Qlc-D1-aUZ" secondAttribute="centerX" id="WwQ-WR-6pP"/>
+                                                <constraint firstItem="elc-Cz-iTQ" firstAttribute="top" secondItem="Qlc-D1-aUZ" secondAttribute="top" id="XKN-Ec-iAX"/>
+                                                <constraint firstItem="elc-Cz-iTQ" firstAttribute="centerY" secondItem="Qlc-D1-aUZ" secondAttribute="centerY" id="fr4-k3-Q6W"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="SaS-Bl-qRS">
@@ -415,14 +433,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Re-Enter Pin" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Wz-aJ-nJL">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Re-Enter Pin" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Wz-aJ-nJL">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="zsh-C0-pdP"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="9Wz-aJ-nJL" firstAttribute="top" secondItem="j12-JY-P6b" secondAttribute="top" id="I2f-GG-aAH"/>
+                                                <constraint firstItem="9Wz-aJ-nJL" firstAttribute="centerX" secondItem="j12-JY-P6b" secondAttribute="centerX" id="eai-XL-Vi0"/>
+                                                <constraint firstItem="9Wz-aJ-nJL" firstAttribute="centerY" secondItem="j12-JY-P6b" secondAttribute="centerY" id="sEl-zn-2zw"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -436,14 +461,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pt0-iW-FfJ">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pt0-iW-FfJ">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="iBW-f3-lpt"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" textContentType="name"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pt0-iW-FfJ" firstAttribute="top" secondItem="kFj-qD-8hp" secondAttribute="top" id="N1t-g4-ZX1"/>
+                                                <constraint firstItem="pt0-iW-FfJ" firstAttribute="centerY" secondItem="kFj-qD-8hp" secondAttribute="centerY" id="QyQ-us-kUE"/>
+                                                <constraint firstItem="pt0-iW-FfJ" firstAttribute="centerX" secondItem="kFj-qD-8hp" secondAttribute="centerX" id="qfz-AW-Pfx"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="prC-d8-lZc">
@@ -453,14 +485,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rl1-L2-I2p">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rl1-L2-I2p">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="VUv-va-wFL"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" textContentType="family-name"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="rl1-L2-I2p" firstAttribute="centerX" secondItem="m7T-68-hTe" secondAttribute="centerX" id="G86-A6-0EL"/>
+                                                <constraint firstItem="rl1-L2-I2p" firstAttribute="top" secondItem="m7T-68-hTe" secondAttribute="top" id="TJr-iP-30m"/>
+                                                <constraint firstItem="rl1-L2-I2p" firstAttribute="centerY" secondItem="m7T-68-hTe" secondAttribute="centerY" id="if2-VE-699"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -474,14 +513,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="1112" height="79.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Job Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GSk-Ho-Q79">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Job Title" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GSk-Ho-Q79">
                                                     <rect key="frame" x="20" y="0.0" width="1072" height="79"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1072" id="cRq-JB-gP3"/>
+                                                    </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="emailAddress" textContentType="organization-title"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="GSk-Ho-Q79" firstAttribute="centerY" secondItem="X3n-r8-98L" secondAttribute="centerY" id="BFp-XF-uBz"/>
+                                                <constraint firstItem="GSk-Ho-Q79" firstAttribute="top" secondItem="X3n-r8-98L" secondAttribute="top" id="CUq-Us-T6K"/>
+                                                <constraint firstItem="GSk-Ho-Q79" firstAttribute="centerX" secondItem="X3n-r8-98L" secondAttribute="centerX" id="Twl-gp-uA2"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -496,15 +542,27 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgg-At-NgZ">
-                                                    <rect key="frame" x="231" y="11" width="651" height="70"/>
+                                                    <rect key="frame" x="252" y="11" width="300" height="71"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="0.24609006319632626" green="0.55843444258267616" blue="0.56977224349975586" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <color key="backgroundColor" red="0.57045853140000002" green="0.57047235969999999" blue="0.57046490910000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="51"/>
-                                                    <state key="normal" title="Register">
+                                                    <state key="normal" title="Cancel">
                                                         <color key="titleColor" red="0.98740684020946889" green="1" blue="0.97403652485786152" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="registerAction:" destination="4SK-KK-ibT" eventType="touchUpInside" id="YEJ-jO-SIR"/>
+                                                        <action selector="cancelAction:" destination="4SK-KK-ibT" eventType="touchUpInside" id="rSv-N5-h2k"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JK1-xc-1l0">
+                                                    <rect key="frame" x="560" y="11" width="300" height="70"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" red="0.24609006319999999" green="0.55843444259999997" blue="0.5697722435" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="51"/>
+                                                    <state key="normal" title="Register">
+                                                        <color key="titleColor" red="0.98740684020000002" green="1" blue="0.97403652490000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="registerAction:" destination="4SK-KK-ibT" eventType="touchUpInside" id="j7k-Cl-kbb"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -520,13 +578,20 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="registerButton" destination="Jgg-At-NgZ" id="MGe-DC-NLU"/>
+                        <outlet property="cancelButton" destination="Jgg-At-NgZ" id="FZq-eF-ZBM"/>
+                        <outlet property="emailField" destination="Ebm-pg-noe" id="0Fe-Q2-azG"/>
+                        <outlet property="firstNameField" destination="pt0-iW-FfJ" id="sel-t7-iLV"/>
+                        <outlet property="lastNameField" destination="rl1-L2-I2p" id="2gH-S6-5Ga"/>
+                        <outlet property="pin1Field" destination="elc-Cz-iTQ" id="sAE-Ep-95N"/>
+                        <outlet property="pin2Field" destination="9Wz-aJ-nJL" id="Kv8-9j-qhO"/>
+                        <outlet property="positionField" destination="GSk-Ho-Q79" id="kRA-2G-hNs"/>
+                        <outlet property="registerButton" destination="JK1-xc-1l0" id="Qwv-UB-buh"/>
                         <outlet property="tableView_" destination="qmB-9i-r1V" id="lr1-M4-nmv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OeK-ad-AXO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="614" y="1097"/>
+            <point key="canvasLocation" x="712" y="701"/>
         </scene>
         <!--HomeVC-->
         <scene sceneID="PD9-r1-8DH">
@@ -706,7 +771,7 @@
                             </connections>
                         </barButtonItem>
                         <view key="titleView" contentMode="scaleToFill" id="rd3-Nk-1GH">
-                            <rect key="frame" x="72" y="3" width="948" height="38"/>
+                            <rect key="frame" x="72" y="3" width="947.5" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current User" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0fj-Jl-LV3">
@@ -717,7 +782,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="850" y="4" width="46" height="31"/>
+                                    <rect key="frame" x="846.70174033479634" y="4" width="44.757045246592043" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreBluetooth
 import SideMenu
+import FirebaseAuth
 //import EmptyDataSet_Swift
 
 
@@ -49,6 +50,13 @@ class HomeVC:UIViewController, UITableViewDelegate {
     }
     
     @IBAction func signOutTapped(_ sender: Any) {
+        do{
+            try
+                Auth.auth().signOut()
+        }
+        catch{}
+        
+        
         let signIn = UserSignInTVC()
 self.navigationController?.popToRootViewController(animated: true)
     }
@@ -73,8 +81,9 @@ self.navigationController?.popToRootViewController(animated: true)
         if let pref = defaults.value(forKey: BTPref) as? Bool{
             bluetoothSwitch.isOn = pref
         }
-        self.currentUserLabel.text = self.currentUser?.name
-        print("Welcome to Home View \(self.currentUser?.name)")
+        Auth.auth().signIn(withEmail: currentUser!.email!, password: currentUser!.pin!, completion: nil)
+        self.currentUserLabel.text = self.currentUser?.firstName
+        print("Welcome to Home View \(self.currentUser?.firstName)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
