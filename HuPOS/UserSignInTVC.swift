@@ -60,12 +60,11 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         self.tableView_.layer.masksToBounds = true
         
         do{
-            
-            try
-                Auth.auth().signOut()
-            
+            try Auth.auth().signOut()
         }
-        catch{}
+        catch{
+            print(error.localizedDescription)
+        }
         
 
         // get users
