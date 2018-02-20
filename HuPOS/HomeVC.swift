@@ -28,7 +28,6 @@ public class Item {
 }
 
 public class Page {
-    var name:String?
     var collection:[String]?
     var items:[Item]?
 }
@@ -41,6 +40,7 @@ class HomeVC:UIViewController, UITableViewDelegate {
     let BTPref = "BTDevicePreference"
     var currentUser:User?
     var pages:[Page]?
+    var pageIndex = 0
     
     // UI Object Variables
     @IBOutlet weak var tableView: UITableView!
