@@ -9,9 +9,12 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
+let COLLECTION_SIZE_:Int = 16
 
 class ItemsCV : UICollectionViewController {
 
+    var itemCells:[String] = ["blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell",]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,11 +52,11 @@ class ItemsCV : UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return COLLECTION_SIZE_
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.itemCells[indexPath.row], for: indexPath)
     
         // Configure the cell
     

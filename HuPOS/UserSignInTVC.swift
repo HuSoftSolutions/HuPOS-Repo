@@ -6,6 +6,19 @@
 //  Copyright © 2018 HuSoft Solutions. All rights reserved.
 //
 
+//                    UIView.animate(withDuration: 0.3,
+//                                   animations: {
+//                                    //self.selectedCell?.backgroundColor = UIColor.red
+//                    },
+//                                   completion: { _ in
+//                                    UIView.animate(withDuration: 0.3) {
+//                                        //self.selectedCell?.backgroundColor = UIColor.lightGray
+//
+//                                    }
+//                    })
+
+
+
 import Foundation
 import UIKit
 import Firebase
@@ -21,7 +34,7 @@ class UserTVC:UITableViewCell {
 class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     
-    
+    var selectedCell:UITableViewCell?
     let indicator:UIActivityIndicatorView = UIActivityIndicatorView  (activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     
     var users:[User] = []
@@ -59,72 +72,29 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     
     
     func queryPin(isValid: @escaping (Bool) -> Void){
-        // Check pin validity
-        let query = db.collection("Users").whereField("Pin", isEqualTo: self.passcodeTextField.text ?? "")
-        // Make sure new pins are not duplicated
-        query.getDocuments { (documents, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-                isValid(false)
-            }else{
-                if(documents?.count == 0){ print("No record found for \(self.passcodeTextField.text)")
-                    UIView.animate(withDuration: 0.3,
-                                   animations: {
-                                    self.passcodeView.backgroundColor = UIColor.red
-                    },
-                                   completion: { _ in
-                                    UIView.animate(withDuration: 0.3) {
-                                        
-                                        self.passcodeView.backgroundColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 1)                                            }
-                    })
-                    print("Auth Denied")
-                    self.passcodeView.shake()
-                    isValid(false)
-                }else{
-                    for document in documents!.documents {
-                        let source = document.metadata.isFromCache ? "local cache" : "server"
-                        print("Metadata: Data fetched from \(source)")
-                        print("Comparing: \(String(describing: self.currentUser?.id)) to \(document.documentID)")
-                        if(self.currentUser?.id == document.documentID){
-                            
-//                            UIView.animate(withDuration: 0.3,
-//                                           animations: {
-//                                            self.passcodeView.backgroundColor = UIColor.green
-//                            },
-//                                           completion: { _ in
-//                                            UIView.animate(withDuration: 0.3) {
-//                                                 self.passcodeView.backgroundColor = UIColor(displayP3Red: 255/255, green: 255/255, blue: 255/255, alpha: 1)                                            }
-//                            })
-                            
-                            
-                            print("Auth Granted")
-                        }
-                    }
-                    isValid(true)
-                }
-            }
+        
+        if(currentUser!.pin == self.passcodeTextField.text!){
+            isValid(true)
+        }else{
+            isValid(false)
         }
         self.passcodeTextField.text = ""
-        // If valid, proceed to home scree n
-        // performSegue(withIdentifier: "toHomeScreen", sender: " ")
     }
     
     
     
     @IBAction func enterPushed(_ sender: UIButton) {
-        self.view.isUserInteractionEnabled = false
-        queryPin { (isValid) in
-            if isValid {
-                self.view.isUserInteractionEnabled = true
-//                let when = DispatchTime.now() + 0.5 // change to desired number of seconds
-//                DispatchQueue.main.asyncAfter(deadline: when) {
-                    // Your code with delay
+        if(self.currentUser != nil){
+            self.view.isUserInteractionEnabled = false
+
+            queryPin { (isValid) in
+                if isValid {
+                    self.view.isUserInteractionEnabled = true
                     self.performSegue(withIdentifier: "to_HomeVC", sender: nil)
-               // }
-            }else{
-                self.view.isUserInteractionEnabled = true
+                }else{
+                    self.view.isUserInteractionEnabled = true
+                }
             }
-            
         }
     }
     
@@ -210,6 +180,8 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // user was selected at indexPath.row
         self.currentUser = self.users[indexPath.row]
+        print("Selected: \(self.currentUser?.firstName) : \(self.currentUser?.pin)")
+        //        self.selectedCell = tableView_.cellForRow(at: indexPath)
         
     }
     
@@ -230,8 +202,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.userName.text = self.users[indexPath.row].firstName
         print("INSIDE: \(user)")
         let selectedView = UIView()
-        selectedView.backgroundColor = UIColor(red: 0, green: 0.7098, blue: 0.749, alpha: 1.0) /* #00b5bf */
-
+        selectedView.backgroundColor = UIColor.darkGray /* #00b5bf */
         
         cell.selectedBackgroundView = selectedView
         //cell.selectionStyle = UITableViewCellSelectionStyle.none
