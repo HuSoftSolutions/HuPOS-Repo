@@ -9,7 +9,7 @@
 import UIKit
 
 
-class AddItemVC: UIViewController {
+class AddItemVC: UITableViewController {
 
     @IBOutlet weak var backgroundView: UIView!
     

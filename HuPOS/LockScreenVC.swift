@@ -69,7 +69,7 @@ class LockScreenVC : UIViewController {
                     for document in documents!.documents {
                         let source = document.metadata.isFromCache ? "local cache" : "server"
                         print("Metadata: Data fetched from \(source)")
-                        print("Comparing: \(self.currentUser?.id) to \(document.documentID)")
+                        print("Comparing: \(String(describing: self.currentUser?.id)) to \(document.documentID)")
                         if(self.currentUser?.id == document.documentID){
                             
                             UIView.animate(withDuration: 0.3,
@@ -101,7 +101,7 @@ class LockScreenVC : UIViewController {
         queryPin { (isValid) in
             if isValid {
                 self.view.isUserInteractionEnabled = true
-                let when = DispatchTime.now() + 1 // change 2 to desired number of seconds
+                let when = DispatchTime.now() + 0.5 // change to desired number of seconds
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Your code with delay
                     self.performSegue(withIdentifier: "to_HomeVC", sender: nil)

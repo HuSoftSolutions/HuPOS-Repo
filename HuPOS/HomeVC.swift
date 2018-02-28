@@ -11,7 +11,6 @@ import UIKit
 import CoreBluetooth
 import SideMenu
 import FirebaseAuth
-//import EmptyDataSet_Swift
 
 public class Item {
     var name:String?
@@ -32,7 +31,7 @@ public class Page {
     var items:[Item]?
 }
 
-class HomeVC:UIViewController, UITableViewDelegate {
+class HomeVC:UIViewController {
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -49,6 +48,8 @@ class HomeVC:UIViewController, UITableViewDelegate {
     @IBOutlet weak var KPI2Label: UILabel!
     @IBOutlet weak var dashboardButton: UIButton!
     @IBOutlet weak var payButton: UIButton!
+    
+    
     
     // UI Object Actions
     @IBAction func menuTapped(_ sender: UIButton) {
