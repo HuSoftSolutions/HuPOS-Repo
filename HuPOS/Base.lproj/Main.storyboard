@@ -622,7 +622,7 @@
             <objects>
                 <collectionViewController id="ikV-aM-1dv" customClass="ItemsCV" customModule="HuPOS" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="c6v-vE-cMg">
-                        <rect key="frame" x="0.0" y="0.0" width="644" height="702"/>
+                        <rect key="frame" x="0.0" y="0.0" width="644" height="710"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="f3X-dR-L5a">
@@ -654,7 +654,7 @@
                                 </view>
                                 <size key="customSize" width="150" height="150"/>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="rff-Dd-82f">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="imageCell" id="rff-Dd-82f">
                                 <rect key="frame" x="162" y="0.0" width="150" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -669,7 +669,7 @@
                                 </view>
                                 <size key="customSize" width="150" height="150"/>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="nameCell" id="JF6-1p-4NK">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="nameCell" id="JF6-1p-4NK">
                                 <rect key="frame" x="324" y="0.0" width="154" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -727,7 +727,7 @@
             <objects>
                 <tableViewController id="yVA-92-jYI" customClass="ItemsTV" customModule="HuPOS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="LzI-NE-rMw">
-                        <rect key="frame" x="0.0" y="0.0" width="420" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="420" height="540"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -948,7 +948,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-qR-s9d">
-                                            <rect key="frame" x="0.0" y="8" width="644" height="702"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="644" height="710"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                             <connections>
                                                 <segue destination="ikV-aM-1dv" kind="embed" id="yUC-MR-iOR"/>
@@ -972,14 +972,14 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gbh-eE-m3U">
-                                <rect key="frame" x="672" y="123" width="420" height="551"/>
+                                <rect key="frame" x="672" y="123" width="420" height="540"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <segue destination="yVA-92-jYI" kind="embed" id="Vm4-iB-2E1"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gkB-Yq-uju">
-                                <rect key="frame" x="774" y="74" width="240" height="41"/>
+                                <rect key="frame" x="672" y="74" width="420" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -1000,7 +1000,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="793" y="4" width="35" height="31"/>
+                                    <rect key="frame" x="792" y="4" width="33" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>

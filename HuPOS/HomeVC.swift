@@ -210,7 +210,6 @@ class HomeVC:UIViewController {
         }
         catch{
             print(error.localizedDescription)
-            
         }
         
         
@@ -249,11 +248,13 @@ class HomeVC:UIViewController {
         saleDropDownButton.setTitle("No Sale", for: .normal)
         saleDropDownButton.translatesAutoresizingMaskIntoConstraints = false
         self.saleView.addSubview(saleDropDownButton)
+        self.saleView.bringSubview(toFront: saleDropDownButton)
+        
         saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
         saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
         saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
         saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
-        saleDropDownButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
         saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
 
         saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
