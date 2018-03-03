@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3506F5442043A17900F6454E /* ItemsCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3506F5432043A17900F6454E /* ItemsCV.swift */; };
-		3506F5482043A24600F6454E /* ItemsTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3506F5472043A24600F6454E /* ItemsTV.swift */; };
 		3507027B203B5EEB00156854 /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507027A203B5EEB00156854 /* AddItemVC.swift */; };
 		3507027D203B628900156854 /* HuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507027C203B628900156854 /* HuView.swift */; };
 		350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 350D63F52028F393005C8CF5 /* GoogleService-Info.plist */; };
@@ -56,8 +54,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3506F5432043A17900F6454E /* ItemsCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCV.swift; sourceTree = "<group>"; };
-		3506F5472043A24600F6454E /* ItemsTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ItemsTV.swift; path = Assets.xcassets/ItemsTV.swift; sourceTree = "<group>"; };
 		3507027A203B5EEB00156854 /* AddItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		3507027C203B628900156854 /* HuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuView.swift; sourceTree = "<group>"; };
 		350D63F52028F393005C8CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -190,8 +186,6 @@
 				3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */,
 				3507027A203B5EEB00156854 /* AddItemVC.swift */,
 				3507027C203B628900156854 /* HuView.swift */,
-				3506F5432043A17900F6454E /* ItemsCV.swift */,
-				3506F5472043A24600F6454E /* ItemsTV.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -549,7 +543,6 @@
 				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
 				35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */,
 				3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */,
-				3506F5442043A17900F6454E /* ItemsCV.swift in Sources */,
 				35104213202CEE64002614AC /* UserTVC.swift in Sources */,
 				3507027D203B628900156854 /* HuView.swift in Sources */,
 				3521579E20337AA3009D1CC5 /* AddUserVC.swift in Sources */,
@@ -559,7 +552,6 @@
 				359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */,
 				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,
-				3506F5482043A24600F6454E /* ItemsTV.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,7 +729,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft/HuPOS-Repo/HuPOS/ObjCBridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -759,7 +751,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = hu.HuPOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft/HuPOS-Repo/HuPOS/ObjCBridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/ObjCBridge.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

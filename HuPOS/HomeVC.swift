@@ -13,9 +13,16 @@ import SideMenu
 import FirebaseAuth
 import YNDropDownMenu
 
+
 protocol dropDownProtocol {
     func dropDownPressed(string:String)
 }
+
+
+class blankCell:UICollectionViewCell{
+    
+}
+
 
 class dropDownButton: UIButton, dropDownProtocol {
     
@@ -42,7 +49,7 @@ class dropDownButton: UIButton, dropDownProtocol {
         
         self.superview?.addSubview(dropView)
         self.superview?.bringSubview(toFront: dropView)
-        
+        dropView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         dropView.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         dropView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         dropView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
@@ -115,7 +122,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-
+    
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -126,6 +133,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
         cell.textLabel?.text = dropDownOptions[indexPath.row]
@@ -161,7 +169,34 @@ public class Page {
     var items:[Item]?
 }
 
-class HomeVC:UIViewController {
+class HomeVC:UIViewController, UICollectionViewDelegate, UICollectionViewDataSource/*, UITableViewDelegate, UITableViewDataSource*/ {
+    var itemCells:[String] = ["addCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell"]
+    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        var cell:
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        <#code#>
+//    }
+//
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        <#code#>
+//    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.itemCells.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var blankCell:blankCell!
+        
+        blankCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! blankCell
+        
+        return blankCell
+        
+    }
+    
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -225,6 +260,8 @@ class HomeVC:UIViewController {
     @IBOutlet weak var saleItemsTableView: UIView!
     
     override func viewDidLoad() {
+        
+        
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
