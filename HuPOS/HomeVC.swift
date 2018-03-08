@@ -19,9 +19,6 @@ protocol dropDownProtocol {
 }
 
 
-class blankCell:UICollectionViewCell{
-    
-}
 
 
 class dropDownButton: UIButton, dropDownProtocol {
@@ -169,34 +166,16 @@ public class Page {
     var items:[Item]?
 }
 
-class HomeVC:UIViewController, UICollectionViewDelegate, UICollectionViewDataSource/*, UITableViewDelegate, UITableViewDataSource*/ {
-    var itemCells:[String] = ["addCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell","blankCell"]
+
+
+class HomeVC:UIViewController {
+
     
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var cell:
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-//
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        <#code#>
-//    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.itemCells.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var blankCell:blankCell!
-        
-        blankCell = collectionView.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! blankCell
-        
-        return blankCell
-        
-    }
-    
+   
+   
+
+
+
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -261,7 +240,7 @@ class HomeVC:UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     
     override func viewDidLoad() {
         
-        
+
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
@@ -284,17 +263,17 @@ class HomeVC:UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         saleDropDownButton = dropDownButton.init(frame: self.saleView.frame)
         saleDropDownButton.setTitle("No Sale", for: .normal)
         saleDropDownButton.translatesAutoresizingMaskIntoConstraints = false
-        self.saleView.addSubview(saleDropDownButton)
-        self.saleView.bringSubview(toFront: saleDropDownButton)
-        
-        saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
-        saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
-        saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
-        saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
-        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
-        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
-
-        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
+//        self.saleView.addSubview(saleDropDownButton)
+//        self.saleView.bringSubview(toFront: saleDropDownButton)
+//        
+//        saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
+//        saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
+//        saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
+//        saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
+//        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
+//        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
+//
+//        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
         
         }
     
