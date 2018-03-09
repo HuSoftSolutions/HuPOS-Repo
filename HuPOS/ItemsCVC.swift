@@ -12,18 +12,50 @@ private let reuseIdentifier = "Cell"
 
 class blankCell:UICollectionViewCell{
     
-    @IBOutlet weak var addImage: UIImageView!
+    @IBOutlet weak var addItemButton: UIButton!
+    @IBOutlet weak var itemName: UILabel!
+    
 }
 
 class ItemsCVC: UICollectionViewController {
     
+    var editModeOn = false
     
-    var itemCells:[String] = ["addCell","testCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
+    @IBOutlet var itemCollectionView: UICollectionView!
+    
+    @IBOutlet var longPressRecognizer: UILongPressGestureRecognizer!
+    @IBAction func longPressRecognized(_ sender: UILongPressGestureRecognizer) {
+        switch(sender.state) {
+            
+        case .began:
+            print("Began edit mode")
+            self.editModeOn = true
+            self.collectionView?.reloadData()
+            guard let selectedIndexPath = itemCollectionView.indexPathForItem(at: sender.location(in: itemCollectionView)) else {
+                break
+            }
+            itemCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            itemCollectionView.updateInteractiveMovementTargetPosition(sender.location(in: sender.view!))
+        case .ended:
+            itemCollectionView.endInteractiveMovement()
+        default:
+            itemCollectionView.cancelInteractiveMovement()
+        }
+    }
+    
+    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
+    func beginEditingCells(){
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.longPressRecognizer.minimumPressDuration = 2.0
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -67,10 +99,20 @@ class ItemsCVC: UICollectionViewController {
         if(self.itemCells[indexPath.row] == "addCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! blankCell
 
-        }else if(self.itemCells[indexPath.row] == "testCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "testCell", for: indexPath) as! blankCell
+            if(!self.editModeOn){
+                cell?.addItemButton.alpha = 0
+            }else{
+                cell?.addItemButton.alpha = 1
+            }
+
+        }else if(self.itemCells[indexPath.row] == "itemCell"){
+            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! blankCell
+            cell?.itemName.addGestureRecognizer(self.longPressRecognizer)
 
         }
+                    let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
+        cell?.addGestureRecognizer(longPressRecognizer)
+        
         return cell!
         
     }
@@ -89,72 +131,7 @@ class ItemsCVC: UICollectionViewController {
         return true
     }
    
-    func longPressGestureRecognized(gestureRecognizer: UIGestureRecognizer) {
-        let longPress = gestureRecognizer as! UILongPressGestureRecognizer
-        let state = longPress.state
-        let locationInView = longPress.location(in: self.collectionView)
-        var indexPath = self.collectionView.indexPathForRow(at: locationInView)
-        
-        struct My {
-            static var cellSnapshot : UIView? = nil
-        }
-        struct Path {
-            static var initialIndexPath : IndexPath? = nil
-        }
-        
-        switch state {
-        case UIGestureRecognizerState.began:
-            if indexPath != nil {
-                Path.initialIndexPath = indexPath as IndexPath?
-                let cell = self.tableView.cellForRow(at: indexPath!) as UITableViewCell!
-                My.cellSnapshot = snapshopOfCell(inputView: cell!)
-                var center = cell?.center
-                My.cellSnapshot!.center = center!
-                My.cellSnapshot!.alpha = 0.0
-                self.collectionView.addSubview(My.cellSnapshot!)
-                
-                UIView.animate(withDuration: 0.25,
-                               animations: { () -> Void in
-                                center?.y = locationInView.y
-                                My.cellSnapshot!.center = center!
-                                My.cellSnapshot!.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                                My.cellSnapshot!.alpha = 0.98
-                                cell?.alpha = 0.0
-                                
-                }, completion: { (finished) -> Void in
-                    if finished {
-                        cell?.isHidden = true
-                    }
-                }
-                )
-            }
-        case UIGestureRecognizerState.changed:
-            var center = My.cellSnapshot!.center
-            center.y = locationInView.y
-            My.cellSnapshot!.center = center
-            if ((indexPath != nil) && (indexPath != Path.initialIndexPath)) {
-                swap(&self.itemCells[indexPath!.row], &self.itemCells[Path.initialIndexPath!.row])
-                self.tableView.moveRow(at: Path.initialIndexPath!, to: indexPath!)
-                Path.initialIndexPath = indexPath
-            }
-        default:
-            let cell = self.collectionView.cellForRow(at: Path.initialIndexPath!) as UITableViewCell!
-            cell?.isHidden = false
-            cell?.alpha = 0.0
-            UIView.animate(withDuration: 0.25, animations: { () -> Void in
-                My.cellSnapshot!.center = (cell?.center)!
-                My.cellSnapshot!.transform = CGAffineTransform.identity
-                My.cellSnapshot!.alpha = 0.0
-                cell?.alpha = 1.0
-            }, completion: { (finished) -> Void in
-                if finished {
-                    Path.initialIndexPath = nil
-                    My.cellSnapshot!.removeFromSuperview()
-                    My.cellSnapshot = nil
-                }
-            })
-        }
-    }
+    
     // MARK: UICollectionViewDelegate
 
     /*

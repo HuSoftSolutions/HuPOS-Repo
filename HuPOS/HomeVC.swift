@@ -259,10 +259,6 @@ class HomeVC:UIViewController {
         Auth.auth().signIn(withEmail: currentUser!.email!, password: currentUser!.pin!, completion: nil)
         self.currentUserLabel.text = self.currentUser?.firstName
         print("Welcome to Home View \(String(describing: self.currentUser?.firstName))")
-        
-        saleDropDownButton = dropDownButton.init(frame: self.saleView.frame)
-        saleDropDownButton.setTitle("No Sale", for: .normal)
-        saleDropDownButton.translatesAutoresizingMaskIntoConstraints = false
 //        self.saleView.addSubview(saleDropDownButton)
 //        self.saleView.bringSubview(toFront: saleDropDownButton)
 //        
