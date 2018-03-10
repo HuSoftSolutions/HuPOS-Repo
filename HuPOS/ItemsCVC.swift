@@ -112,7 +112,7 @@ class ItemsCVC: UICollectionViewController {
         }
                     let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
         cell?.addGestureRecognizer(longPressRecognizer)
-        
+        cell?.layoutIfNeeded()
         return cell!
         
     }
