@@ -168,13 +168,15 @@ public class Page {
 
 
 
-class HomeVC:UIViewController {
+class HomeVC:UIViewController, ItemsCVC_Home_Protocol {
 
     
    
    
-
-
+    @IBOutlet weak var itemsCVC: UIView!
+    
+    @IBOutlet weak var saleItemsTVC: UIView!
+    
 
     
     // Development Options
@@ -238,9 +240,29 @@ class HomeVC:UIViewController {
     @IBOutlet weak var saleDropDown: UIView!
     @IBOutlet weak var saleItemsTableView: UIView!
     
-    override func viewDidLoad() {
+    func setEditModeOn() {
+        print("Edit mode on! [HomeVC]")
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if(segue.identifier == "itemsCVC"){
+        if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
+            itemsCVC.itemsToHome = self
+        }
+    }
+    }
 
+    
+    
+    override func viewDidLoad() {
+        let app = UIApplication.shared.delegate! as! AppDelegate
+        if let viewControllers = app.window?.rootViewController?.childViewControllers {
+            viewControllers.forEach{ vc in
+                print("LISTED VIEW CONTROLLERS \(vc.description)")
+            }
+        }
+        
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
@@ -270,6 +292,8 @@ class HomeVC:UIViewController {
 //        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
 //
 //        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
+        
+        
         
         }
     

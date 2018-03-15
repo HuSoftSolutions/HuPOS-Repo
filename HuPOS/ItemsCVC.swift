@@ -8,7 +8,6 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
 
 class blankCell:UICollectionViewCell{
     
@@ -16,9 +15,16 @@ class blankCell:UICollectionViewCell{
     @IBOutlet weak var itemName: UILabel!
     
 }
+protocol ItemsCVC_Home_Protocol{
+    func setEditModeOn()
+}
+protocol ItemsCVC_SaleItemsTVC_Protocol {
+    func displayEditModeCell()
+}
 
 class ItemsCVC: UICollectionViewController {
     
+    public var itemsToHome:ItemsCVC_Home_Protocol?
     var editModeOn = false
     
     @IBOutlet var itemCollectionView: UICollectionView!
@@ -30,6 +36,7 @@ class ItemsCVC: UICollectionViewController {
         case .began:
             print("Began edit mode")
             self.editModeOn = true
+            self.itemsToHome?.setEditModeOn()
             self.collectionView?.reloadData()
             guard let selectedIndexPath = itemCollectionView.indexPathForItem(at: sender.location(in: itemCollectionView)) else {
                 break
@@ -113,6 +120,7 @@ class ItemsCVC: UICollectionViewController {
                     let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
         cell?.addGestureRecognizer(longPressRecognizer)
         cell?.layoutIfNeeded()
+        
         return cell!
         
     }
