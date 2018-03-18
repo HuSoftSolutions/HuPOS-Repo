@@ -13,13 +13,17 @@ import SideMenu
 import FirebaseAuth
 import YNDropDownMenu
 
+protocol Home_ItemsCVC_Protocol{
+    func setEditModeOff()
+}
+
+protocol Home_SaleItemsTVC_Protocol{
+    func setEditModeOn()
+}
 
 protocol dropDownProtocol {
     func dropDownPressed(string:String)
 }
-
-
-
 
 class dropDownButton: UIButton, dropDownProtocol {
     
@@ -81,7 +85,7 @@ class dropDownButton: UIButton, dropDownProtocol {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
                 self.dropView.layoutIfNeeded()
                 self.dropView.center.y += self.dropView.frame.height / 2
-                }, completion: nil)
+            }, completion: nil)
         }else{
             isOpen = false
             NSLayoutConstraint.deactivate([self.height])
@@ -89,9 +93,9 @@ class dropDownButton: UIButton, dropDownProtocol {
             NSLayoutConstraint.activate([self.height])
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
                 self.dropView.center.y -= self.dropView.frame.height / 2
-
+                
                 self.dropView.layoutIfNeeded()
-
+                
             }, completion: nil)
         }
     }
@@ -119,7 +123,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-    
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -168,16 +172,17 @@ public class Page {
 
 
 
-class HomeVC:UIViewController, ItemsCVC_Home_Protocol {
-
+class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protocol {
     
-   
-   
+    
+    
+    
     @IBOutlet weak var itemsCVC: UIView!
     
     @IBOutlet weak var saleItemsTVC: UIView!
     
-
+    public var homeToSalesItemsTVC:Home_SaleItemsTVC_Protocol?
+    public var homeToItemsCVC:Home_ItemsCVC_Protocol?
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -229,7 +234,7 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol {
         }
         
         
-       // let signIn = UserSignInTVC()
+        // let signIn = UserSignInTVC()
         self.navigationController?.popToRootViewController(animated: true)
     }
     
@@ -241,65 +246,81 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol {
     @IBOutlet weak var saleItemsTableView: UIView!
     
     func setEditModeOn() {
-        print("Edit mode on! [HomeVC]")
-        
+        print("Edit mode on request! [HomeVC]")
+        self.homeToSalesItemsTVC?.setEditModeOn()
     }
+    
+    func setEditModeOff(){
+        print("Edit mode off request! [HomeVC]")
+
+        self.homeToItemsCVC?.setEditModeOff()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if(segue.identifier == "itemsCVC"){
-        if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
-            itemsCVC.itemsToHome = self
+            if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
+                itemsCVC.itemsToHome = self
+                self.homeToItemsCVC = itemsCVC
+            }
+            
+        }else if(segue.identifier == "saleItemsTVC"){
+            if let saleItemsTVC:SaleItemsTVC = segue.destination as! SaleItemsTVC{
+                saleItemsTVC.saleItemsToHome = self
+                self.homeToSalesItemsTVC = saleItemsTVC
+            }
+            
         }
-    }
     }
 
-    
-    
-    override func viewDidLoad() {
-        let app = UIApplication.shared.delegate! as! AppDelegate
-        if let viewControllers = app.window?.rootViewController?.childViewControllers {
-            viewControllers.forEach{ vc in
-                print("LISTED VIEW CONTROLLERS \(vc.description)")
-            }
+
+
+
+override func viewDidLoad() {
+    let app = UIApplication.shared.delegate! as! AppDelegate
+    if let viewControllers = app.window?.rootViewController?.childViewControllers {
+        viewControllers.forEach{ vc in
+            print("LISTED VIEW CONTROLLERS \(vc.description)")
         }
-        
-        self.navigationController?.isToolbarHidden = false
-        self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
-        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
-        self.payButton.layer.cornerRadius = 10
-        self.payButton.layer.masksToBounds = true
-        
-        SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
-        // self.navigationController?.navigationBar.isHidden = true
-        //tableView.emptyDataSetSource = self
-        //tableView.emptyDataSetDelegate = self
-        
-        // Check BT Device Preference
-        if let pref = defaults.value(forKey: BTPref) as? Bool{
-            bluetoothSwitch.isOn = pref
-        }
-        Auth.auth().signIn(withEmail: currentUser!.email!, password: currentUser!.pin!, completion: nil)
-        self.currentUserLabel.text = self.currentUser?.firstName
-        print("Welcome to Home View \(String(describing: self.currentUser?.firstName))")
-//        self.saleView.addSubview(saleDropDownButton)
-//        self.saleView.bringSubview(toFront: saleDropDownButton)
-//        
-//        saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
-//        saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
-//        saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
-//        saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
-//        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
-//        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
-//
-//        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
-        
-        
-        
-        }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
     }
     
-    @IBOutlet weak var saleView: UIView!
+    self.navigationController?.isToolbarHidden = false
+    self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
+    self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
+    self.payButton.layer.cornerRadius = 10
+    self.payButton.layer.masksToBounds = true
+    
+    SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
+    // self.navigationController?.navigationBar.isHidden = true
+    //tableView.emptyDataSetSource = self
+    //tableView.emptyDataSetDelegate = self
+    
+    // Check BT Device Preference
+    if let pref = defaults.value(forKey: BTPref) as? Bool{
+        bluetoothSwitch.isOn = pref
+    }
+    Auth.auth().signIn(withEmail: currentUser!.email!, password: currentUser!.pin!, completion: nil)
+    self.currentUserLabel.text = self.currentUser?.firstName
+    print("Welcome to Home View \(String(describing: self.currentUser?.firstName))")
+    //        self.saleView.addSubview(saleDropDownButton)
+    //        self.saleView.bringSubview(toFront: saleDropDownButton)
+    //
+    //        saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
+    //        saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
+    //        saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
+    //        saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
+    //        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
+    //        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
+    //
+    //        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
+    
+    
+    
+}
+
+override func viewWillAppear(_ animated: Bool) {
+    
+}
+
+@IBOutlet weak var saleView: UIView!
 }

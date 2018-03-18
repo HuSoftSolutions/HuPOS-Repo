@@ -22,7 +22,7 @@ protocol ItemsCVC_SaleItemsTVC_Protocol {
     func displayEditModeCell()
 }
 
-class ItemsCVC: UICollectionViewController {
+class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
     
     public var itemsToHome:ItemsCVC_Home_Protocol?
     var editModeOn = false
@@ -51,12 +51,17 @@ class ItemsCVC: UICollectionViewController {
         }
     }
     
-    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
+    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
     func beginEditingCells(){
         
+    }
+    
+    func setEditModeOff(){
+        self.editModeOn = false
+        self.collectionView?.reloadData()
     }
     
     override func viewDidLoad() {
