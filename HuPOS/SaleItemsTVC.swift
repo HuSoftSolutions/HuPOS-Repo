@@ -10,6 +10,9 @@
 
 
 import UIKit
+import EmptyDataSet_Swift
+
+
 
 protocol SaleItemsTVC_Home_Protocol{
     func setEditModeOff()
@@ -17,10 +20,10 @@ protocol SaleItemsTVC_Home_Protocol{
 
 
 
-
 class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItemsCell_SaleItemsTVC_Protocol {
     
-    
+
+    var noSaleCell:UITableViewCell?
     
     var editMode = false
     
@@ -28,8 +31,18 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     
     public var saleItemsToHome:SaleItemsTVC_Home_Protocol?
     
+    func createCell(){
+        
+        self.noSaleCell = UITableViewCell(style: .default, reuseIdentifier: "NoSaleCell")
+        
+    }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
+        createCell()
+        tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
+        
+        
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -60,9 +73,7 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(self.editMode == true){
-            return 1
-        }else if(self.saleCells.count == 0){
+        if(self.editMode == true || self.saleCells.count == 0){
             return 1
         }else{
             return self.saleCells.count
@@ -74,23 +85,17 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell?
         if(self.editMode == true){
-            // cell = self.tableView.dequeueReusableCell(withIdentifier: "editModeCell") as! EditMenuCell
             let cell_ = self.tableView.dequeueReusableCell(withIdentifier: "editModeCell") as! EditItemsCell
             cell_.editItemsCells = self
             return cell_
             
+        }else if(self.saleCells.count == 0){
+            let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
+            return cell_
             
-            
-        }else if(self.saleCells.count > 0){
+        }else{
             cell = self.tableView.dequeueReusableCell(withIdentifier: "saleCell") as! SaleItemCell
             return cell!
-        }else if(self.saleCells.count == 0){
-            cell = self.tableView.dequeueReusableCell(withIdentifier: "noSaleCell") as! NoSaleCell
-            return cell!
-        }else{
-            print(self.saleCells.count)
-            return cell!
-            
         }
     }
     
@@ -99,9 +104,10 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(editMode == true){
             return 400
+        }else if(self.saleCells.count == 0){
+            return 500
         }else{
             return 150
-            
         }
         
     }

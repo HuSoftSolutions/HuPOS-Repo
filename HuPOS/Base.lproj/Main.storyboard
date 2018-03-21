@@ -757,7 +757,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zsn-L1-0yb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652" y="36"/>
+            <point key="canvasLocation" x="874" y="-61"/>
         </scene>
         <!--Item 2-->
         <scene sceneID="SlY-3f-T40">
@@ -888,7 +888,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="744" y="4" width="39" height="31"/>
+                                    <rect key="frame" x="744" y="4" width="36" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>
