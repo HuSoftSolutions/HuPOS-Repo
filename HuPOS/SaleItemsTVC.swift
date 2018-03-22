@@ -19,7 +19,6 @@ protocol SaleItemsTVC_Home_Protocol{
 }
 
 
-
 class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItemsCell_SaleItemsTVC_Protocol {
     
 
@@ -57,6 +56,7 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
         print("Edit mode set off! [SaleItemsTVC]")
         self.editMode = false
         self.tableView.reloadData()
+        self.saleItemsToHome?.setEditModeOff()
     }
     
     func setEditModeOn() {

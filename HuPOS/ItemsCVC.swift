@@ -8,13 +8,24 @@
 
 import UIKit
 
+//protocol
 
-class blankCell:UICollectionViewCell{
+class itemCell:UICollectionViewCell{
     
     @IBOutlet weak var addItemButton: UIButton!
     @IBOutlet weak var itemName: UILabel!
     
+    @IBAction func editItemAction(_ sender: Any) {
+        
+    }
+    
+    @IBAction func addItemAction(_ sender: Any) {
+        
+    }
+    
 }
+
+
 protocol ItemsCVC_Home_Protocol{
     func setEditModeOn()
 }
@@ -28,7 +39,6 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
     var editModeOn = false
     
     @IBOutlet var itemCollectionView: UICollectionView!
-    
     @IBOutlet var longPressRecognizer: UILongPressGestureRecognizer!
     @IBAction func longPressRecognized(_ sender: UILongPressGestureRecognizer) {
         switch(sender.state) {
@@ -51,7 +61,7 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
         }
     }
     
-    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
+    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
@@ -129,6 +139,8 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
         return cell!
         
     }
+    
+    
     
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         print("Starting Index: \(sourceIndexPath.item)")
