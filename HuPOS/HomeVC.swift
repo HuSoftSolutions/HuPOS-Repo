@@ -287,7 +287,7 @@ override func viewDidLoad() {
     self.navigationController?.isToolbarHidden = false
     self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
     self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
-    self.payButton.layer.cornerRadius = 10
+    self.payButton.layer.cornerRadius = 5
     self.payButton.layer.masksToBounds = true
     
     SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn

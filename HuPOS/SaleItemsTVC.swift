@@ -78,7 +78,6 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
         }else{
             return self.saleCells.count
         }
-        
     }
     
     
@@ -105,7 +104,7 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
         if(editMode == true){
             return 400
         }else if(self.saleCells.count == 0){
-            return 500
+            return self.tableView.frame.height
         }else{
             return 150
         }

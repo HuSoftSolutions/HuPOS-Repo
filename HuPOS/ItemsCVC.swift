@@ -10,10 +10,40 @@ import UIKit
 
 //protocol
 
-class itemCell:UICollectionViewCell{
+class ItemCell:UICollectionViewCell{
     
-    @IBOutlet weak var addItemButton: UIButton!
-    @IBOutlet weak var itemName: UILabel!
+//    @IBOutlet weak var addItemButton: UIButton!
+//    @IBOutlet weak var itemName: UILabel!
+    
+    func setup(){
+        self.backgroundColor = .lightGray
+        
+        self.addSubview(imageView)
+        self.addSubview(titleLabel)
+    
+
+        
+        imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 0, width: 0, height: 50)
+        
+        titleLabel.anchor(top: imageView.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+        
+    }
+    
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.backgroundColor = .green
+        return iv
+    }()
+    
+    let titleLabel:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Name"
+        lbl.textColor = UIColor.white
+        lbl.font = UIFont.systemFont(ofSize: 24)
+        lbl.textAlignment = .center
+        return lbl
+    }()
     
     @IBAction func editItemAction(_ sender: Any) {
         
@@ -21,6 +51,15 @@ class itemCell:UICollectionViewCell{
     
     @IBAction func addItemAction(_ sender: Any) {
         
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
@@ -33,8 +72,10 @@ protocol ItemsCVC_SaleItemsTVC_Protocol {
     func displayEditModeCell()
 }
 
-class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
+class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Home_ItemsCVC_Protocol {
     
+    var itemCells = ["itemCell","itemCell","itemCell","itemCell","itemCell","itemCell","itemCell","itemCell"]
+    var cellId = "itemCell"
     public var itemsToHome:ItemsCVC_Home_Protocol?
     var editModeOn = false
     
@@ -61,7 +102,7 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
         }
     }
     
-    var itemCells:[String] = ["addCell","itemCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell","addCell"]
+    
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
@@ -78,13 +119,12 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
         super.viewDidLoad()
         self.longPressRecognizer.minimumPressDuration = 2.0
         
+        collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Register cell classes
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,7 +149,7 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
         return 1
     }
 
-    
+
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
@@ -117,30 +157,37 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var cell:blankCell?
+        var cell:ItemCell?
         if(self.itemCells[indexPath.row] == "addCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! blankCell
+            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! ItemCell
 
             if(!self.editModeOn){
-                cell?.addItemButton.alpha = 0
+               // cell?.addItemButton.alpha = 0
             }else{
-                cell?.addItemButton.alpha = 1
+              //  cell?.addItemButton.alpha = 1
             }
 
         }else if(self.itemCells[indexPath.row] == "itemCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! blankCell
-            cell?.itemName.addGestureRecognizer(self.longPressRecognizer)
+            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
+          //  cell?.itemName.addGestureRecognizer(self.longPressRecognizer)
 
         }
-                    let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
+        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
         cell?.addGestureRecognizer(longPressRecognizer)
         cell?.layoutIfNeeded()
-        
+        cell?.layer.cornerRadius = 5
+        cell?.layer.masksToBounds = true
         return cell!
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (view.frame.width / 4) - 16, height: 150)
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    }
     
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         print("Starting Index: \(sourceIndexPath.item)")
@@ -188,4 +235,67 @@ class ItemsCVC: UICollectionViewController, Home_ItemsCVC_Protocol {
     }
     */
 
+}
+
+extension UIView {
+    
+    func pinToEdges(view: UIView) {
+        self.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        self.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        self.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        self.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+    }
+    
+    func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, right: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, paddingTop: CGFloat, paddingLeft: CGFloat, paddingRight: CGFloat, paddingBottom: CGFloat, width: CGFloat = 0, height: CGFloat = 0) {
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let top = top {
+            self.topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
+        }
+        if let left = left {
+            self.leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
+        }
+        if let right = right {
+            self.rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
+        }
+        if let bottom = bottom {
+            self.bottomAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true
+        }
+        if width != 0 {
+            self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        }
+        if height != 0 {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
+    }
+    
+    var safeTopAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return safeAreaLayoutGuide.topAnchor
+        }
+        return topAnchor
+    }
+    
+    var safeLeftAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return safeAreaLayoutGuide.leftAnchor
+        }
+        return leftAnchor
+    }
+    
+    var safeRightAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return safeAreaLayoutGuide.rightAnchor
+        }
+        return rightAnchor
+    }
+    
+    var safeBottomAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return safeAreaLayoutGuide.bottomAnchor
+        }
+        return bottomAnchor
+    }
+    
 }

@@ -632,86 +632,7 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="1" minY="1" maxX="1" maxY="1"/>
                         </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="addCell" id="GuF-c9-arF" customClass="itemCell" customModule="HuPOS" customModuleProvider="target">
-                                <rect key="frame" x="1" y="1" width="175" height="175"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c88-Ba-Jdv">
-                                            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <gestureRecognizers/>
-                                            <state key="normal" backgroundImage="plusicon"/>
-                                            <connections>
-                                                <outletCollection property="gestureRecognizers" destination="Gxh-OJ-I58" appends="YES" id="pTK-uu-6C9"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hF2-Ts-cKp">
-                                            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <connections>
-                                                <action selector="addItemAction:" destination="GuF-c9-arF" eventType="touchUpInside" id="hqQ-2O-Mbf"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </view>
-                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="c88-Ba-Jdv" firstAttribute="top" secondItem="GuF-c9-arF" secondAttribute="top" id="CoF-jL-wiO"/>
-                                    <constraint firstItem="c88-Ba-Jdv" firstAttribute="leading" secondItem="GuF-c9-arF" secondAttribute="leadingMargin" constant="-17" id="Db3-iw-hNS"/>
-                                    <constraint firstItem="c88-Ba-Jdv" firstAttribute="centerY" secondItem="GuF-c9-arF" secondAttribute="centerY" id="Y52-Ji-vX6"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="c88-Ba-Jdv" secondAttribute="trailing" constant="-15" id="bEe-7h-QRv"/>
-                                </constraints>
-                                <size key="customSize" width="175" height="175"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="MTB" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="CR">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="addItemButton" destination="c88-Ba-Jdv" id="uZW-b1-OpE"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="itemCell" id="yIz-Td-ln2" customClass="itemCell" customModule="HuPOS" customModuleProvider="target">
-                                <rect key="frame" x="234.5" y="1" width="175" height="175"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="18 Holes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="175" translatesAutoresizingMaskIntoConstraints="NO" id="rzb-AZ-req">
-                                            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58l-Of-fjJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <connections>
-                                                <action selector="editItemAction:" destination="yIz-Td-ln2" eventType="touchUpInside" id="raV-dg-5sd"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </view>
-                                <size key="customSize" width="175" height="175"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="MTB" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="CR">
-                                        <real key="value" value="5"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="itemName" destination="rzb-AZ-req" id="Bvb-4x-rKV"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
+                        <cells/>
                         <connections>
                             <outlet property="dataSource" destination="M1T-H4-7qX" id="x1c-nn-ii9"/>
                             <outlet property="delegate" destination="M1T-H4-7qX" id="AIo-Qd-GGj"/>
@@ -861,7 +782,13 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qFT-hl-g0e">
                                 <rect key="frame" x="672" y="84" width="420" height="606"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="MTB" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="CR">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="Eyc-Dg-uxM" kind="embed" identifier="saleItemsTVC" id="cqt-9B-hTD"/>
                                 </connections>
@@ -902,7 +829,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="741" y="4" width="36" height="31"/>
+                                    <rect key="frame" x="740" y="4" width="35" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>
@@ -1078,19 +1005,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="420" height="409"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="You are currently in edit mode! " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYH-JH-2Dr">
-                                            <rect key="frame" x="20" y="74.5" width="380" height="32.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="ZYH-JH-2Dr" secondAttribute="height" multiplier="95:8" id="QZN-Rh-oVs"/>
-                                                <constraint firstAttribute="height" constant="32.5" id="UJE-zd-F6N"/>
-                                                <constraint firstAttribute="width" constant="380" id="hTR-18-g8q"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="27"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Tap + to add a new item" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phf-Jd-pJe">
-                                            <rect key="frame" x="20" y="161" width="380" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Tap + to add a new item" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phf-Jd-pJe">
+                                            <rect key="frame" x="20" y="134" width="380" height="56"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="IUb-Jb-Nlp"/>
                                                 <constraint firstAttribute="width" constant="380" id="P8e-pF-T9k"/>
@@ -1100,8 +1016,8 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Tap an existing item to edit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuk-S3-OiO">
-                                            <rect key="frame" x="20" y="239" width="380" height="24"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Tap an existing item to edit" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tuk-S3-OiO">
+                                            <rect key="frame" x="20" y="213" width="380" height="51"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="TgF-PL-IbO"/>
                                                 <constraint firstAttribute="width" secondItem="tuk-S3-OiO" secondAttribute="height" multiplier="95:6" id="oQy-nq-3Ow"/>
@@ -1133,6 +1049,17 @@
                                                 <action selector="stopEditingAction:" destination="Oub-qB-zuj" eventType="touchUpInside" id="zXY-Op-iSa"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="You are currently in edit mode! " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYH-JH-2Dr">
+                                            <rect key="frame" x="20" y="35" width="380" height="70"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="ZYH-JH-2Dr" secondAttribute="height" multiplier="95:8" id="QZN-Rh-oVs"/>
+                                                <constraint firstAttribute="height" constant="32.5" id="UJE-zd-F6N"/>
+                                                <constraint firstAttribute="width" constant="380" id="hTR-18-g8q"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="tuk-S3-OiO" firstAttribute="top" secondItem="phf-Jd-pJe" secondAttribute="bottom" constant="54" id="5Jr-5k-Wfx"/>
@@ -1172,6 +1099,12 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="MTB" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="CR">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="Eyc-Dg-uxM" id="g3w-Dt-1IR"/>
                             <outlet property="delegate" destination="Eyc-Dg-uxM" id="tII-OV-c5l"/>
@@ -1180,11 +1113,10 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxh-Ye-S8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="881" y="-755"/>
+            <point key="canvasLocation" x="880.57553956834533" y="-755.39568345323744"/>
         </scene>
     </scenes>
     <resources>
         <image name="default-profile" width="376" height="376"/>
-        <image name="plusicon" width="500" height="500"/>
     </resources>
 </document>
