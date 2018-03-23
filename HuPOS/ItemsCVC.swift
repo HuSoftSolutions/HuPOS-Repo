@@ -10,40 +10,76 @@ import UIKit
 
 //protocol
 
+struct Item_ {
+    let image:String?
+    let title:String?
+    let type:String?
+}
+
 class ItemCell:UICollectionViewCell{
     
-//    @IBOutlet weak var addItemButton: UIButton!
-//    @IBOutlet weak var itemName: UILabel!
+    
+    var item :Item_? {
+        didSet{
+            guard let image_ = item?.image else { return }
+            guard let title_ = item?.title else { return }
+            guard let type_ = item?.type else { return }
+            
+            imageView_.image = UIImage(named: image_)
+            titleLabel.text = title_
+            
+            
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+        setCellShadow()
+    }
+    func setCellShadow(){
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width:0, height:1)
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 1.0
+        self.layer.masksToBounds = false
+        self.clipsToBounds = false
+        self.layer.cornerRadius = 3
+    }
     
     func setup(){
-        self.backgroundColor = .lightGray
+        self.backgroundColor = .white
         
-        self.addSubview(imageView)
+        self.addSubview(imageView_)
         self.addSubview(titleLabel)
     
-
+        self.layer.borderWidth = 0.5
         
-        imageView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 0, width: 0, height: 50)
+        imageView_.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 0, width: 0, height: 50)
         
-        titleLabel.anchor(top: imageView.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+        titleLabel.anchor(top: imageView_.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
     }
     
-    let imageView: UIImageView = {
+    let imageView_: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .green
         return iv
     }()
     
     let titleLabel:UILabel = {
         let lbl = UILabel()
         lbl.text = "Name"
-        lbl.textColor = UIColor.white
+        lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 24)
         lbl.textAlignment = .center
         return lbl
     }()
+    
+    override func prepareForReuse() {
+        self.backgroundColor = .white
+        self.titleLabel.text = "Test"
+    }
     
     @IBAction func editItemAction(_ sender: Any) {
         
@@ -53,10 +89,7 @@ class ItemCell:UICollectionViewCell{
         
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -74,7 +107,26 @@ protocol ItemsCVC_SaleItemsTVC_Protocol {
 
 class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Home_ItemsCVC_Protocol {
     
-    var itemCells = ["itemCell","itemCell","itemCell","itemCell","itemCell","itemCell","itemCell","itemCell"]
+    var itemCells = [Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell"),
+                     Item_(image: "", title: "Test", type: "itemCell")]
     var cellId = "itemCell"
     public var itemsToHome:ItemsCVC_Home_Protocol?
     var editModeOn = false
@@ -118,7 +170,6 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.longPressRecognizer.minimumPressDuration = 2.0
-        
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
         
         
@@ -158,31 +209,34 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell:ItemCell?
-        if(self.itemCells[indexPath.row] == "addCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: "addCell", for: indexPath) as! ItemCell
-
+        if(self.itemCells[indexPath.row].type == "addCell"){
+            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
+            cell?.titleLabel.text = ""
             if(!self.editModeOn){
-               // cell?.addItemButton.alpha = 0
+                cell?.backgroundColor = .white
             }else{
-              //  cell?.addItemButton.alpha = 1
+                cell?.backgroundColor = .red
+
             }
 
-        }else if(self.itemCells[indexPath.row] == "itemCell"){
+        }else if(self.itemCells[indexPath.row].type == "itemCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
-          //  cell?.itemName.addGestureRecognizer(self.longPressRecognizer)
-
+            cell?.item = itemCells[indexPath.row]
         }
         let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
         cell?.addGestureRecognizer(longPressRecognizer)
         cell?.layoutIfNeeded()
         cell?.layer.cornerRadius = 5
         cell?.layer.masksToBounds = true
+        
         return cell!
         
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.frame.width / 4) - 16, height: 150)
+        return CGSize(width: (view.frame.width / 4) - 16, height: (view.frame.height / 5) - 16)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

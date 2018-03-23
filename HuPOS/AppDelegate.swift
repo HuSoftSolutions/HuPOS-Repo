@@ -77,6 +77,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure Firebase for use throughout application
 
+        // To delete storyboard -- Pavel Bogart Collection Views Intro
+        // window = UIWindow(frame: UIScreen.main.bounds)
+        // window?.makeKeyAndVisible()
+        // let layout = UICollectionViewFlowLayout()
+        // let mainVC = ViewController()
+        // window?.rootViewController = UINavigationController(rootViewController: mainVC)
+        
         return true
     }
     
