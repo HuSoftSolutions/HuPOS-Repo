@@ -105,7 +105,12 @@ protocol ItemsCVC_SaleItemsTVC_Protocol {
     func displayEditModeCell()
 }
 
-class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, Home_ItemsCVC_Protocol {
+class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, Home_ItemsCVC_Protocol {
+    
+
+    fileprivate var longPressGesture: UILongPressGestureRecognizer!
+
+    
     
     var itemCells = [Item_(image: "", title: "Test", type: "itemCell"),
                      Item_(image: "", title: "Test", type: "itemCell"),
@@ -127,36 +132,37 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
                      Item_(image: "", title: "Test", type: "itemCell"),
                      Item_(image: "", title: "Test", type: "itemCell"),
                      Item_(image: "", title: "Test", type: "itemCell")]
+    
     var cellId = "itemCell"
     public var itemsToHome:ItemsCVC_Home_Protocol?
     var editModeOn = false
     
     @IBOutlet var itemCollectionView: UICollectionView!
-    @IBOutlet var longPressRecognizer: UILongPressGestureRecognizer!
-    @IBAction func longPressRecognized(_ sender: UILongPressGestureRecognizer) {
-        switch(sender.state) {
-            
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        switch(gesture.state) {
+
         case .began:
             print("Began edit mode")
             self.editModeOn = true
             self.itemsToHome?.setEditModeOn()
-            self.collectionView?.reloadData()
-            guard let selectedIndexPath = itemCollectionView.indexPathForItem(at: sender.location(in: itemCollectionView)) else {
+            guard let selectedIndexPath = self.collectionView?.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
                 break
             }
-            itemCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+            self.collectionView?.beginInteractiveMovementForItem(at: selectedIndexPath)
+           // self.collectionView?.reloadData()
+
         case .changed:
-            itemCollectionView.updateInteractiveMovementTargetPosition(sender.location(in: sender.view!))
+            self.collectionView?.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
         case .ended:
-            itemCollectionView.endInteractiveMovement()
+            self.collectionView?.endInteractiveMovement()
         default:
-            itemCollectionView.cancelInteractiveMovement()
+            self.collectionView?.cancelInteractiveMovement()
         }
+
     }
     
     
-    
-    fileprivate var longPressGesture: UILongPressGestureRecognizer!
 
     func beginEditingCells(){
         
@@ -169,10 +175,16 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.longPressRecognizer.minimumPressDuration = 2.0
+        
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(ItemsCVC.handleLongGesture(_:)))
+        self.collectionView?.addGestureRecognizer(longPressGesture)
+        
+        //self.collectionView?.addGestureRecognizer(self.longPressRecognizer)
+        
+       // self.longPressRecognizer.minimumPressDuration = 2.0
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
-        
-        
+      //  self.collectionView?.dragDelegate = self
+        //self.collectionView?.dragInteractionEnabled = true
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -206,25 +218,32 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
         // #warning Incomplete implementation, return the number of items
         return self.itemCells.count
     }
-
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let temp = self.itemCells.remove(at: sourceIndexPath.item)
+        self.itemCells.insert(temp, at: destinationIndexPath.item)
+    }
+    
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell:ItemCell?
         if(self.itemCells[indexPath.row].type == "addCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
             cell?.titleLabel.text = ""
-            if(!self.editModeOn){
-                cell?.backgroundColor = .white
-            }else{
-                cell?.backgroundColor = .red
-
-            }
+//            if(!self.editModeOn){
+//                cell?.backgroundColor = .white
+//            }else{
+//                cell?.backgroundColor = .red
+//
+//            }
 
         }else if(self.itemCells[indexPath.row].type == "itemCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
             cell?.item = itemCells[indexPath.row]
         }
-        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
-        cell?.addGestureRecognizer(longPressRecognizer)
+//        let longPressRecognizer = UILongPressGestureRecognizer(target:self, action: #selector(ItemsCVC.longPressRecognized(_:)))
+//        cell?.addGestureRecognizer(longPressRecognizer)
         cell?.layoutIfNeeded()
         cell?.layer.cornerRadius = 5
         cell?.layer.masksToBounds = true
@@ -242,20 +261,20 @@ class ItemsCVC: UICollectionViewController, UICollectionViewDelegateFlowLayout, 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print("Starting Index: \(sourceIndexPath.item)")
-        
-        print("Ending Index: \(destinationIndexPath.item)")
-        
-        let temp = self.itemCells[sourceIndexPath.row]
-        self.itemCells[sourceIndexPath.row] = self.itemCells[destinationIndexPath.row]
-        self.itemCells[destinationIndexPath.row] = temp
-    }
-    
-   override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+    override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
+//    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+//        print("Starting Index: \(sourceIndexPath.item)")
+//
+//        print("Ending Index: \(destinationIndexPath.item)")
+//
+//        let temp = self.itemCells[sourceIndexPath.row]
+//        self.itemCells[sourceIndexPath.row] = self.itemCells[destinationIndexPath.row]
+//        self.itemCells[destinationIndexPath.row] = temp
+//    }
+    
+
    
     
     // MARK: UICollectionViewDelegate
@@ -353,3 +372,17 @@ extension UIView {
     }
     
 }
+
+////MARK: one little trick
+//extension CHTCollectionViewWaterfallLayout {
+//
+//    internal override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
+//
+//        let context = super.invalidationContext(forInteractivelyMovingItems: targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition)
+//
+//        self.delegate?.collectionView!(self.collectionView!, moveItemAt: previousIndexPaths[0], to: targetIndexPaths[0])
+//
+//        return context
+//    }
+//}
+

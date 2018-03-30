@@ -83,17 +83,24 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell?
+        
         if(self.editMode == true){
             let cell_ = self.tableView.dequeueReusableCell(withIdentifier: "editModeCell") as! EditItemsCell
             cell_.editItemsCells = self
+            cell_.selectionStyle = .none
+
             return cell_
             
         }else if(self.saleCells.count == 0){
             let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
+            cell_.selectionStyle = .none
+
             return cell_
             
         }else{
             cell = self.tableView.dequeueReusableCell(withIdentifier: "saleCell") as! SaleItemCell
+            cell?.selectionStyle = .none
+
             return cell!
         }
     }
