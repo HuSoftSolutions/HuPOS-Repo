@@ -19,16 +19,16 @@ protocol SaleItemsTVC_Home_Protocol{
 }
 
 
-class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItemsCell_SaleItemsTVC_Protocol {
+class SaleItemsTVC: UITableViewController {
     
+    var editModeObserver:NSObjectProtocol?
 
     var noSaleCell:UITableViewCell?
     
-    var editMode = false
+    var editModeOn = false
     
     var saleCells:[String] = []
     
-    public var saleItemsToHome:SaleItemsTVC_Home_Protocol?
     
     func createCell(){
         
@@ -41,10 +41,34 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
         createCell()
         tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let defaults = UserDefaults.standard
+        self.editModeOn = defaults.bool(forKey: "EditModeOn")
         
         
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
+            let settingsTVC = notification.object as! SettingsTVC
+            if(settingsTVC.EditModeSwitch.isOn){
+                // Edit mode was turned on
+                self.editModeOn = true
+            }else{
+                // Edit mode was turned off
+                self.editModeOn = false
+            }
+            self.tableView.reloadData()
+        })
+        self.tableView.reloadData()
+    }
+    
+    // Prevent memory leak
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(editModeObserver)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,18 +76,9 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
         // Dispose of any resources that can be recreated.
     }
     
-    public func setEditModeOff(){
-        print("Edit mode set off! [SaleItemsTVC]")
-        self.editMode = false
-        self.tableView.reloadData()
-        self.saleItemsToHome?.setEditModeOff()
-    }
+
     
-    func setEditModeOn() {
-        print("Edit mode set on! [SaleItemsTVC]")
-        self.editMode = true
-        self.tableView.reloadData()
-    }
+
     
     // MARK: - Table view data source
     
@@ -73,7 +88,7 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if(self.editMode == true || self.saleCells.count == 0){
+        if(self.editModeOn || self.saleCells.count == 0){
             return 1
         }else{
             return self.saleCells.count
@@ -84,9 +99,9 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell?
         
-        if(self.editMode == true){
+        if(self.editModeOn){
             let cell_ = self.tableView.dequeueReusableCell(withIdentifier: "editModeCell") as! EditItemsCell
-            cell_.editItemsCells = self
+        
             cell_.selectionStyle = .none
 
             return cell_
@@ -108,7 +123,7 @@ class SaleItemsTVC: UITableViewController, Home_SaleItemsTVC_Protocol, EditItems
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if(editMode == true){
+        if(editModeOn){
             return 400
         }else if(self.saleCells.count == 0){
             return self.tableView.frame.height

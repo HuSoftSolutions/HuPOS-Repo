@@ -235,7 +235,7 @@ public class Page {
 
 
 
-class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protocol, SettingsTVC_HomeVC_Protocol, Home_SettingsTVC_Protocol {
+class HomeVC:UIViewController {
  
     // UI Object Variables
     @IBOutlet weak var currentUserLabel: UILabel!
@@ -277,30 +277,23 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
         defaults.set(sender.isOn, forKey:BTPref)
     }
     
-    func setEditModeOn() {
-        print("Edit mode on request! [HomeVC]")
-        self.homeToSalesItemsTVC?.setEditModeOn()
-    }
+
     
-    func setEditModeOff(){
-        print("Edit mode off request! [HomeVC]")
-        self.homeToSettingsTVC?.setEditModeOff()
-        self.homeToItemsCVC?.setEditModeOff()
-    }
+
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if(segue.identifier == "itemsCVC"){
             if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
-                itemsCVC.itemsToHome = self
-                self.homeToItemsCVC = itemsCVC
+//                itemsCVC.itemsToHome = self
+//                self.homeToItemsCVC = itemsCVC
             }
             
         }else if(segue.identifier == "saleItemsTVC"){
             if let saleItemsTVC:SaleItemsTVC = segue.destination as! SaleItemsTVC{
-                saleItemsTVC.saleItemsToHome = self
-                self.homeToSalesItemsTVC = saleItemsTVC
+//                saleItemsTVC.saleItemsToHome = self
+//                self.homeToSalesItemsTVC = saleItemsTVC
             }
             
             

@@ -8,13 +8,6 @@
 
 import UIKit
 
-protocol SettingsTVC_HomeVC_Protocol {
-    func setEditModeOn()
-}
-
-protocol SettingsTVC_SideMenu_Protocol {
-    func setEditModeOn()
-}
 
 class SettingsTVC: UITableViewController {
 
@@ -23,37 +16,33 @@ class SettingsTVC: UITableViewController {
     }
     
     @IBAction func editModeSwitchAction(_ sender: Any) {
-
-        if(self.EditModeSwitch.isOn){
-            self.EditModeLabel.text = "On"
-            self.SideMenu_Protocol?.setEditModeOn()
-        }else{
-            self.EditModeLabel.text = "Off"
-        }
+        NotificationCenter.default.post(name: .editModeChanged, object: self)
+        self.setEditMode(editModeOn: self.EditModeSwitch.isOn)
     }
-    
     
     @IBOutlet weak var EditModeSwitch: UISwitch!
     @IBOutlet weak var EditModeLabel: UILabel!
+    let defaults = UserDefaults.standard
     
-    public var HomeVC_Protocol:SettingsTVC_HomeVC_Protocol?
-    public var SideMenu_Protocol:SideMenuTableViewController?
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        let defaults = UserDefaults.standard
-        self.EditModeSwitch.setOn(false, animated: false)
-        self.EditModeLabel.text = "Off"
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
+        let editModeOn = defaults.bool(forKey: "EditModeOn")
+        self.setEditMode(editModeOn: editModeOn)
+        
+       
     }
 
-    public func setEditModeOff(){
-        self.EditModeSwitch.setOn(false, animated: true)
-        self.EditModeLabel.text = "Off"
+    func setEditMode(editModeOn:Bool){
+        if editModeOn {
+            self.EditModeLabel.text = "On"
+            self.defaults.set(true, forKey: "EditModeOn")
+        }else{
+            self.EditModeLabel.text = "Off"
+            self.defaults.set(false, forKey: "EditModeOn")
+        }
+        self.EditModeSwitch.setOn(editModeOn, animated: false)
     }
     
     override func didReceiveMemoryWarning() {

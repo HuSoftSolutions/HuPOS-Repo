@@ -38,6 +38,7 @@
 		35B8DDBD201FB7F3002F49C9 /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBA201FB7F3002F49C9 /* StarIO.framework */; };
 		35B8DDBE201FB7F3002F49C9 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */; };
 		35B8DDBF201FB7F3002F49C9 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */; };
+		35CB5C17207042620080187C /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB5C16207042620080187C /* NotificationNameExtension.swift */; };
 		8EA188CB0AD7D2A0118A0A74 /* Pods_HuPOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */; };
 		C9D460034DA187E891158FE3 /* Pods_HuPOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */; };
 		DD5D1AC24026576275D770AB /* Pods_HuPOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */; };
@@ -99,6 +100,7 @@
 		35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SMCloudServices.framework; path = ExternalFrameworks/SMCloudServices.framework; sourceTree = "<group>"; };
 		35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = ExternalFrameworks/StarIO_Extension.framework; sourceTree = "<group>"; };
 		35B8DDC0201FB833002F49C9 /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCBridge.h; sourceTree = "<group>"; };
+		35CB5C16207042620080187C /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
 		4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS.debug.xcconfig"; sourceTree = "<group>"; };
 		68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,6 +209,7 @@
 				357678D5205DC9250009828C /* SaleItemCell.swift */,
 				357678DB205DE0680009828C /* NoSaleCell.swift */,
 				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
+				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35CB5C17207042620080187C /* NotificationNameExtension.swift in Sources */,
 				357678D6205DC9250009828C /* SaleItemCell.swift in Sources */,
 				3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */,
 				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
