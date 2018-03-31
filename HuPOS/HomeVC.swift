@@ -13,6 +13,19 @@ import SideMenu
 import FirebaseAuth
 import YNDropDownMenu
 
+
+
+
+
+
+
+
+
+
+protocol Home_SettingsTVC_Protocol{
+    func setEditModeOff()
+}
+
 protocol Home_ItemsCVC_Protocol{
     func setEditModeOff()
 }
@@ -24,6 +37,20 @@ protocol Home_SaleItemsTVC_Protocol{
 protocol dropDownProtocol {
     func dropDownPressed(string:String)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class dropDownButton: UIButton, dropDownProtocol {
     
@@ -105,6 +132,17 @@ class dropDownButton: UIButton, dropDownProtocol {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
 class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     
@@ -172,17 +210,43 @@ public class Page {
 
 
 
-class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protocol {
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protocol, SettingsTVC_HomeVC_Protocol, Home_SettingsTVC_Protocol {
+ 
+    // UI Object Variables
+    @IBOutlet weak var currentUserLabel: UILabel!
+    @IBOutlet weak var payButton: UIButton!
     @IBOutlet weak var itemsCVC: UIView!
-    
     @IBOutlet weak var saleItemsTVC: UIView!
     
+    // protocol delegates
     public var homeToSalesItemsTVC:Home_SaleItemsTVC_Protocol?
     public var homeToItemsCVC:Home_ItemsCVC_Protocol?
+    public var homeToSettingsTVC:Home_SettingsTVC_Protocol?
     
     // Development Options
     @IBOutlet weak var bluetoothSwitch: UISwitch!
@@ -193,36 +257,9 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
     var pageIndex = 0
     var saleDropDownButton = dropDownButton()
     
-    // UI Object Variables
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var currentUserLabel: UILabel!
-    @IBOutlet weak var KPI1Label: UILabel!
-    @IBOutlet weak var KPI2Label: UILabel!
-    @IBOutlet weak var dashboardButton: UIButton!
-    @IBOutlet weak var payButton: UIButton!
-    
-    
-    
-    // UI Object Actions
-    @IBAction func menuTapped(_ sender: UIButton) {
-    }
-    @IBAction func dashboardTapped(_ sender: UIButton) {
-    }
-    @IBAction func searchTapped(_ sender: UIButton) {
-    }
-    @IBAction func helpTapped(_ sender: UIButton) {
-    }
-    @IBAction func backTapped(_ sender: UIButton) {
-    }
-    @IBAction func homeTapped(_ sender: UIButton) {
-    }
     @IBAction func payTapped(_ sender: UIButton) {
         BTCommunication.openDrawer()
         BTCommunication.print()
-    }
-    
-    @IBAction func addItemCollectionAction(_ sender: Any) {
-        
     }
     
     @IBAction func signOutTapped(_ sender: Any) {
@@ -232,8 +269,6 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
         catch{
             print(error.localizedDescription)
         }
-        
-        
         // let signIn = UserSignInTVC()
         self.navigationController?.popToRootViewController(animated: true)
     }
@@ -242,9 +277,6 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
         defaults.set(sender.isOn, forKey:BTPref)
     }
     
-    @IBOutlet weak var saleDropDown: UIView!
-    @IBOutlet weak var saleItemsTableView: UIView!
-    
     func setEditModeOn() {
         print("Edit mode on request! [HomeVC]")
         self.homeToSalesItemsTVC?.setEditModeOn()
@@ -252,9 +284,10 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
     
     func setEditModeOff(){
         print("Edit mode off request! [HomeVC]")
-
+        self.homeToSettingsTVC?.setEditModeOff()
         self.homeToItemsCVC?.setEditModeOff()
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -269,6 +302,8 @@ class HomeVC:UIViewController, ItemsCVC_Home_Protocol, SaleItemsTVC_Home_Protoco
                 saleItemsTVC.saleItemsToHome = self
                 self.homeToSalesItemsTVC = saleItemsTVC
             }
+            
+            
             
         }
     }
@@ -291,10 +326,7 @@ override func viewDidLoad() {
     self.payButton.layer.masksToBounds = true
     
     SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
-    // self.navigationController?.navigationBar.isHidden = true
-    //tableView.emptyDataSetSource = self
-    //tableView.emptyDataSetDelegate = self
-    
+
     // Check BT Device Preference
     if let pref = defaults.value(forKey: BTPref) as? Bool{
         bluetoothSwitch.isOn = pref
@@ -302,19 +334,6 @@ override func viewDidLoad() {
     Auth.auth().signIn(withEmail: currentUser!.email!, password: currentUser!.pin!, completion: nil)
     self.currentUserLabel.text = self.currentUser?.firstName
     print("Welcome to Home View \(String(describing: self.currentUser?.firstName))")
-    //        self.saleView.addSubview(saleDropDownButton)
-    //        self.saleView.bringSubview(toFront: saleDropDownButton)
-    //
-    //        saleDropDownButton.centerXAnchor.constraint(equalTo: self.saleView.centerXAnchor).isActive = true
-    //        saleDropDownButton.centerYAnchor.constraint(equalTo: self.saleView.centerYAnchor).isActive = true
-    //        saleDropDownButton.topAnchor.constraint(equalTo:self.view.topAnchor)
-    //        saleDropDownButton.bottomAnchor.constraint(equalTo:self.saleView.topAnchor)
-    //        saleDropDownButton.widthAnchor.constraint(equalToConstant: self.payButton.frame.width).isActive = true
-    //        saleDropDownButton.heightAnchor.constraint(equalToConstant: 75).isActive = true
-    //
-    //        saleDropDownButton.dropView.dropDownOptions = ["Hello","World"]
-    
-    
     
 }
 

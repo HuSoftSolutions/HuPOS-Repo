@@ -22,6 +22,7 @@
 		357678D6205DC9250009828C /* SaleItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D5205DC9250009828C /* SaleItemCell.swift */; };
 		357678D8205DCBD50009828C /* EditItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D7205DCBD40009828C /* EditItemsCell.swift */; };
 		357678DC205DE0680009828C /* NoSaleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678DB205DE0680009828C /* NoSaleCell.swift */; };
+		358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CABDA206ED8EE002E17FC /* SettingsTVC.swift */; };
 		359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C622B203286AC0002F7AE /* SideBarMenu.swift */; };
 		35A0DB1F2050B64500DDA5F0 /* SaleItemsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */; };
 		35A0DB212050B7E200DDA5F0 /* ItemsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A0DB202050B7E200DDA5F0 /* ItemsCVC.swift */; };
@@ -75,6 +76,7 @@
 		357678D5205DC9250009828C /* SaleItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCell.swift; sourceTree = "<group>"; };
 		357678D7205DCBD40009828C /* EditItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditItemsCell.swift; path = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/EditItemsCell.swift"; sourceTree = "<absolute>"; };
 		357678DB205DE0680009828C /* NoSaleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSaleCell.swift; sourceTree = "<group>"; };
+		358CABDA206ED8EE002E17FC /* SettingsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		359C622B203286AC0002F7AE /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
 		35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemsTVC.swift; sourceTree = "<group>"; };
 		35A0DB202050B7E200DDA5F0 /* ItemsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCVC.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				35A2C6092050C8A3004B040B /* AddItemCVCell.swift */,
 				357678D5205DC9250009828C /* SaleItemCell.swift */,
 				357678DB205DE0680009828C /* NoSaleCell.swift */,
+				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,
+				358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */,
 				35A2C60A2050C8A3004B040B /* AddItemCVCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,10 @@ import SideMenu
 
 class SideMenuTableViewController: UITableViewController {
     
+    
+
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -23,7 +27,13 @@ class SideMenuTableViewController: UITableViewController {
         }
     }
     
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "to_Settings"){
+            if let settingsMenu:SettingsTVC = segue.destination as! SettingsTVC {
+            }
+        }
+        
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath) as! UITableViewVibrantCell

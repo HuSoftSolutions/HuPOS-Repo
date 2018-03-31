@@ -112,8 +112,6 @@ class AddUserVC: UITableViewController {
     
     @IBAction func registerAction(_ sender: UIButton) {
         
-        
-        
         let (invalid, validityAlert) = self.fieldsAreValid()
         if(invalid){
             validityAlert.addAction(UIAlertAction(title: "Continue", style: .cancel, handler: nil))
