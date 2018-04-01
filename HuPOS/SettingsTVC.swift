@@ -16,7 +16,7 @@ class SettingsTVC: UITableViewController {
     }
     
     @IBAction func editModeSwitchAction(_ sender: Any) {
-        NotificationCenter.default.post(name: .editModeChanged, object: self)
+        NotificationCenter.default.post(name: .editModeChanged, object: self.EditModeSwitch.isOn)
         self.setEditMode(editModeOn: self.EditModeSwitch.isOn)
     }
     
@@ -27,7 +27,7 @@ class SettingsTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        tableView.allowsSelection = false
         let editModeOn = defaults.bool(forKey: "EditModeOn")
         self.setEditMode(editModeOn: editModeOn)
         

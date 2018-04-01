@@ -7,18 +7,13 @@
 
 import UIKit
 
-protocol EditItemsCell_SaleItemsTVC_Protocol{
-    func setEditModeOff()
-}
-
 
 class EditItemsCell: UITableViewCell {
-    var editItemsCells:EditItemsCell_SaleItemsTVC_Protocol?
-    
+    let defaults = UserDefaults.standard
 
     @IBAction func stopEditingAction(_ sender: Any) {
-        self.editItemsCells?.setEditModeOff()
-
+        defaults.set(false, forKey: "EditModeOn")
+        NotificationCenter.default.post(name: .editModeChanged, object: false)
     }
     
     

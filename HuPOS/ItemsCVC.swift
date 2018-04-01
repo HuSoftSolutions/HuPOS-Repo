@@ -55,9 +55,9 @@ class ItemCell:UICollectionViewCell{
         
         self.layer.borderWidth = 0.5
         
-        imageView_.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: nil, paddingTop: 10, paddingLeft: 10, paddingRight: 10, paddingBottom: 0, width: 0, height: 50)
+        imageView_.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.height)
         
-        titleLabel.anchor(top: imageView_.bottomAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+        titleLabel.anchor(top: nil, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
     }
     
@@ -98,13 +98,6 @@ class ItemCell:UICollectionViewCell{
 }
 
 
-protocol ItemsCVC_Home_Protocol{
-    func setEditModeOn()
-}
-protocol ItemsCVC_SaleItemsTVC_Protocol {
-    func displayEditModeCell()
-}
-
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     
@@ -120,8 +113,8 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
         
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
             
-            let settingsTVC = notification.object as! SettingsTVC
-            if (settingsTVC.EditModeSwitch.isOn){
+            let editModeOn = notification.object as! Bool
+            if (editModeOn){
                 // Edit mode was turned on
                 self.editModeOn = true
                 
@@ -131,8 +124,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
                 
             }
             self.collectionView?.reloadData()
+            
+            
         })
-        self.collectionView?.reloadData()   
+        self.collectionView?.reloadData()
     }
     
     // Prevent memory leak
@@ -148,7 +143,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     
     var itemCells = [Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
                      Item_(image: "", title: "Test", type: "addCell"),
                      Item_(image: "", title: "Test", type: "addCell"),
                      Item_(image: "", title: "Test", type: "addCell"),
@@ -160,16 +154,16 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
                      Item_(image: "", title: "Test", type: "addCell"),
                      Item_(image: "", title: "Test", type: "addCell"),
                      Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "itemCell")]
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell"),
+                     Item_(image: "", title: "Test", type: "addCell")]
     
     var cellId = "itemCell"
-    public var itemsToHome:ItemsCVC_Home_Protocol?
     
     @IBOutlet var itemCollectionView: UICollectionView!
     
@@ -180,7 +174,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
             case .began:
                 print("Began edit mode")
                 self.editModeOn = true
-                self.itemsToHome?.setEditModeOn()
                 guard let selectedIndexPath = self.collectionView?.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
                     break
                 }
@@ -261,8 +254,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
             cell?.titleLabel.text = ""
                         if(!self.editModeOn){
                             cell?.backgroundColor = .white
+                            cell?.imageView_.image = nil
+
                         }else{
-                            cell?.backgroundColor = .red
+                            cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
             
                         }
             

@@ -13,12 +13,6 @@ import UIKit
 import EmptyDataSet_Swift
 
 
-
-protocol SaleItemsTVC_Home_Protocol{
-    func setEditModeOff()
-}
-
-
 class SaleItemsTVC: UITableViewController {
     
     var editModeObserver:NSObjectProtocol?
@@ -28,7 +22,9 @@ class SaleItemsTVC: UITableViewController {
     var editModeOn = false
     
     var saleCells:[String] = []
+    let defaults = UserDefaults.standard
     
+ 
     
     func createCell(){
         
@@ -51,8 +47,8 @@ class SaleItemsTVC: UITableViewController {
         
         
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
-            let settingsTVC = notification.object as! SettingsTVC
-            if(settingsTVC.EditModeSwitch.isOn){
+            let editModeOn = notification.object as! Bool
+            if(editModeOn){
                 // Edit mode was turned on
                 self.editModeOn = true
             }else{
@@ -124,7 +120,7 @@ class SaleItemsTVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(editModeOn){
-            return 400
+            return 600
         }else if(self.saleCells.count == 0){
             return self.tableView.frame.height
         }else{
