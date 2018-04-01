@@ -12,6 +12,7 @@ import CoreBluetooth
 import SideMenu
 import FirebaseAuth
 import YNDropDownMenu
+import Firebase
 
 
 
@@ -311,6 +312,10 @@ override func viewDidLoad() {
             print("LISTED VIEW CONTROLLERS \(vc.description)")
         }
     }
+    
+    
+    let db = Firestore.firestore()
+    db.collection("Items").addDocument(data: ["":"", "":""])
     
     self.navigationController?.isToolbarHidden = false
     self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
