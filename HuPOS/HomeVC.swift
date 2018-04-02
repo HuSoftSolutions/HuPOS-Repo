@@ -314,9 +314,12 @@ override func viewDidLoad() {
     }
     
     
-    let db = Firestore.firestore()
-    db.collection("Items").addDocument(data: ["":"", "":""])
-    
+//    Prime database with add cells
+//    let db = Firestore.firestore()
+//    for var i in (0..<25){
+//        db.collection("Items").addDocument(data: ["Image":"", "Title":"", "Type":"addCell", "Index":0])
+//    }
+//
     self.navigationController?.isToolbarHidden = false
     self.navigationController?.toolbar.barTintColor = UIColor.black.withAlphaComponent(0.5)
     self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
@@ -335,8 +338,9 @@ override func viewDidLoad() {
     
 }
 
+
 override func viewWillAppear(_ animated: Bool) {
-    
+
 }
 
 @IBOutlet weak var saleView: UIView!

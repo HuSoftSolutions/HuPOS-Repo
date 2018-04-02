@@ -11,10 +11,17 @@ import Firebase
 
 //protocol
 
-struct Item_ {
-    let image:String?
-    let title:String?
-    let type:String?
+public class Item_ {
+    var id:String?
+    var image:String?
+    var title:String?
+    var type:String?
+    
+
+    init(id:String, dictionary: [String:Any]){
+        self.id = id
+        
+    }
 }
 
 class ItemCell:UICollectionViewCell{
@@ -100,14 +107,41 @@ class ItemCell:UICollectionViewCell{
 
 
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
+    
     
     var editModeOn = false
-    
     var editModeObserver:NSObjectProtocol?
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let group = DispatchGroup()
+        print("Starting item retrieval .....")
+        group.enter()
+        let db = Firestore.firestore()
+        _ = db.collection("Items").order(by: "Index", descending: false).getDocuments { (snapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            }else{
+                for document in snapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    
+                    
+                    
+                }
+            }
+            group.leave()
+        }
+
+        group.notify(queue: .main){
+            print("Finshed!")
+            self.collectionView?.reloadData()
+        }
+      
+        
+        
         
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
@@ -131,6 +165,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
         self.collectionView?.reloadData()
     }
     
+    
+    
+    
+    
     // Prevent memory leak
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -141,32 +179,15 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
+    var itemCells = [Item_]()
     
+    private func loadCells(){
+        
+        
+    }
     
-    var itemCells = [Item_(image: "", title: "Test", type: "itemCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell"),
-                     Item_(image: "", title: "Test", type: "addCell")]
     
     var cellId = "itemCell"
-    
-    @IBOutlet var itemCollectionView: UICollectionView!
     
     @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         if(self.editModeOn){
@@ -193,7 +214,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     
     
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -253,20 +274,20 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
         if(self.itemCells[indexPath.row].type == "addCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
             cell?.titleLabel.text = ""
-                        if(!self.editModeOn){
-                            cell?.backgroundColor = .white
-                            cell?.imageView_.image = nil
-
-                        }else{
-                            cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
-            
-                        }
+            if(!self.editModeOn){
+                cell?.backgroundColor = .white
+                cell?.imageView_.image = nil
+                
+            }else{
+                cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
+                
+            }
             
         }else if(self.itemCells[indexPath.row].type == "itemCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
             cell?.item = itemCells[indexPath.row]
         }
-
+        
         cell?.layoutIfNeeded()
         cell?.layer.cornerRadius = 5
         cell?.layer.masksToBounds = true
