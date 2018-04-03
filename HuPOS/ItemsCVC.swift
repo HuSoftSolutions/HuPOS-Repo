@@ -16,11 +16,35 @@ public class Item_ {
     var image:String?
     var title:String?
     var type:String?
+    var price:Double?
+    var cost:Double?
+    var tax:Bool?
+    
     
 
     init(id:String, dictionary: [String:Any]){
         self.id = id
+        self.image = dictionary["Image"] as? String
+        self.title = dictionary["Title"] as? String
+        self.type = dictionary["Type"] as? String
+        self.price = dictionary["Price"] as? Double
+        self.cost = dictionary["Cost"] as? Double
+        self.tax = dictionary["Tax"] as? Bool
         
+        
+    }
+    
+    public func dictionary() -> [String : Any]{
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Type":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
+        
+        data["Id"] = self.id
+        data["Image"] = self.image
+        data["Title"] = self.title
+        data["Type"] = self.type
+        data["Price"] = self.price
+        data["Cost"] = self.cost
+        data["Tax"] = self.tax
+        return data
     }
 }
 
@@ -128,7 +152,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
                 for document in snapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     
-                    
+                    // compare to sign in 
                     
                 }
             }
