@@ -258,6 +258,11 @@ class HomeVC:UIViewController {
     var pageIndex = 0
     var saleDropDownButton = dropDownButton()
     
+    @IBAction func pageBackAction(_ sender: Any) {
+        
+    }
+    
+    
     @IBAction func payTapped(_ sender: UIButton) {
         BTCommunication.openDrawer()
         BTCommunication.print()
