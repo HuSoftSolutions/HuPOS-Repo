@@ -15,6 +15,7 @@
 		35104213202CEE64002614AC /* UserTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35104212202CEE64002614AC /* UserTVC.swift */; };
 		3521579E20337AA3009D1CC5 /* AddUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579D20337AA3009D1CC5 /* AddUserVC.swift */; };
 		352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */; };
+		354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
@@ -70,6 +71,7 @@
 		35104212202CEE64002614AC /* UserTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTVC.swift; sourceTree = "<group>"; };
 		3521579D20337AA3009D1CC5 /* AddUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserVC.swift; sourceTree = "<group>"; };
 		3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
+		354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPopUpVC.swift; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				357678DB205DE0680009828C /* NoSaleCell.swift */,
 				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
 				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
+				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				35104213202CEE64002614AC /* UserTVC.swift in Sources */,
 				3507027D203B628900156854 /* HuView.swift in Sources */,
 				3521579E20337AA3009D1CC5 /* AddUserVC.swift in Sources */,
+				354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */,
 				350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */,
 				3507027B203B5EEB00156854 /* AddItemVC.swift in Sources */,
 				35A0DB212050B7E200DDA5F0 /* ItemsCVC.swift in Sources */,

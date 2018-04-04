@@ -612,6 +612,22 @@
             </objects>
             <point key="canvasLocation" x="47" y="517"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="L7j-CR-pKK">
+            <objects>
+                <viewController storyboardIdentifier="AddItemVC" modalTransitionStyle="crossDissolve" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MwQ-dE-FZB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4ZP-km-t6t">
+                        <rect key="frame" x="0.0" y="0.0" width="655" height="709"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="kzR-X7-BnX"/>
+                    </view>
+                    <size key="freeformSize" width="655" height="709"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cYS-wF-Hf3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1207.2841726618706" y="-772.30215827338134"/>
+        </scene>
         <!--ItemsCVC-->
         <scene sceneID="oyt-rc-biu">
             <objects>
@@ -635,11 +651,12 @@
                     <size key="freeformSize" width="644" height="698"/>
                     <connections>
                         <outlet property="collectionView" destination="lc5-xw-FjN" id="jJU-Ux-cU3"/>
+                        <segue destination="MwQ-dE-FZB" kind="presentation" identifier="to_AddItem" id="w2l-4V-9ax"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2mD-Vb-caE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="556" y="-755"/>
+            <point key="canvasLocation" x="-606" y="-828"/>
         </scene>
         <!--ItemsCV-->
         <scene sceneID="gcP-ju-2wN">
@@ -863,7 +880,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="723" y="4" width="31" height="31"/>
+                                    <rect key="frame" x="719" y="4" width="33" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>
@@ -1120,7 +1137,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxh-Ye-S8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="880.57553956834533" y="-755.75539568345334"/>
+            <point key="canvasLocation" x="540" y="-784"/>
         </scene>
     </scenes>
     <resources>

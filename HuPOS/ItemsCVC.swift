@@ -19,7 +19,7 @@ public class Item_ {
     var price:Double?
     var cost:Double?
     var tax:Bool?
-    
+    var index:Int?
     
 
     init(id:String, dictionary: [String:Any]){
@@ -30,6 +30,7 @@ public class Item_ {
         self.price = dictionary["Price"] as? Double
         self.cost = dictionary["Cost"] as? Double
         self.tax = dictionary["Tax"] as? Bool
+        self.index = dictionary["Index"] as? Int
         
         
     }
@@ -64,6 +65,8 @@ class ItemCell:UICollectionViewCell{
         }
     }
     
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -84,6 +87,8 @@ class ItemCell:UICollectionViewCell{
         
         self.addSubview(imageView_)
         self.addSubview(titleLabel)
+//        self.addSubview(button)
+//        self.bringSubview(toFront: button)
         
         self.layer.borderWidth = 0.5
         
@@ -91,12 +96,22 @@ class ItemCell:UICollectionViewCell{
         
         titleLabel.anchor(top: nil, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
+//        button.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.height)
+//
     }
     
     let imageView_: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         return iv
+    }()
+    
+    let button:UIButton = {
+        
+        let btn = UIButton()
+        btn.contentMode = .scaleAspectFit
+       // btn.backgroundColor = .green
+        return btn
     }()
     
     let titleLabel:UILabel = {
@@ -108,19 +123,15 @@ class ItemCell:UICollectionViewCell{
         return lbl
     }()
     
+    
+    
     override func prepareForReuse() {
         self.backgroundColor = .white
         self.titleLabel.text = "Test"
     }
+
     
-    @IBAction func editItemAction(_ sender: Any) {
-        
-    }
-    
-    @IBAction func addItemAction(_ sender: Any) {
-        
-    }
-    
+
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -136,8 +147,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
     
-    
-    
+    var itemCells = [Item_]()
+
+    // WARNING !! -- May be an issue to reload each time the view will appear (line 151) in poor internet connection environment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -145,15 +157,17 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
         print("Starting item retrieval .....")
         group.enter()
         let db = Firestore.firestore()
+        
         _ = db.collection("Items").order(by: "Index", descending: false).getDocuments { (snapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             }else{
+                self.itemCells.removeAll()
                 for document in snapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
-                    
-                    // compare to sign in 
-                    
+//                    db.collection("Items").document(document.documentID).setData(["Id":document.documentID, "Image":"",
+//                    "Title":"", "Category":"", "Type":"addCell", "Cost":0.0, "Price":0.0, "Tax":false, "Index":i])
+                    self.itemCells.append(Item_(id: document.documentID, dictionary: document.data()))
                 }
             }
             group.leave()
@@ -203,12 +217,13 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
-    var itemCells = [Item_]()
     
     private func loadCells(){
         
         
     }
+    
+
     
     
     var cellId = "itemCell"
@@ -244,7 +259,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
         super.viewDidLoad()
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(ItemsCVC.handleLongGesture(_:)))
-        self.collectionView?.addGestureRecognizer(longPressGesture)
+        longPressGesture.cancelsTouchesInView = false
+       // self.collectionView?.addGestureRecognizer(longPressGesture)
+        self.collectionView?.isUserInteractionEnabled = true
+        self.collectionView?.allowsSelection = true
         
         //self.collectionView?.addGestureRecognizer(self.longPressRecognizer)
         
@@ -287,23 +305,90 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
     }
     
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch self.itemCells[indexPath.row].type {
+        case "addCell":
+            
+            if(self.editModeOn){
+                // User is attempting to add a new item or collection
+                
+                let alertController = UIAlertController(title: "Add New Item/Collection", message: "Please choose a cell style below", preferredStyle: .alert)
+                let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
+                    print("User pressed add item!")
+                    
+                    var addItemPopUpVC = AddItemPopUpVC()
+                    self.addChildViewController(addItemPopUpVC)
+                    addItemPopUpVC.parent?.view.frame = self.view.frame
+                    self.view.addSubview(addItemPopUpVC.view)
+                    addItemPopUpVC.didMove(toParentViewController: self)
+                }
+                
+                let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
+                    print("User pressed add collection!")
+
+                }
+
+                alertController.addAction(addItemAction)
+                alertController.addAction(addCollectionAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+            }else{
+                
+            }
+            
+            break
+        case "itemCell":
+            
+            if(self.editModeOn){
+                
+            }else{
+                
+            }
+            
+            break
+        default:
+            
+            break
+        }
+        
+       // let addItem
+        
+        print("\(indexPath.row) - \(self.itemCells[indexPath.row].type?.description) - EditMode: \(self.editModeOn) ")
+        
+        
+        
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let temp = self.itemCells.remove(at: sourceIndexPath.item)
         self.itemCells.insert(temp, at: destinationIndexPath.item)
     }
     
     
+//    @objc func itemCellAction(_ sender: UIButton){
+//        // Display 'Add New Item' pop up
+//        if(self.editModeOn){
+//            print("Attempting to edit item ...")
+//        }else{
+//            print("Attempting to add item ...")
+//        }
+//    }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell:ItemCell?
+//        cell?.button.addTarget(self, action: #selector(self.itemCellAction(_:)), for: .touchUpInside)
+        cell?.isUserInteractionEnabled = true
+        cell?.isMultipleTouchEnabled = true
         if(self.itemCells[indexPath.row].type == "addCell"){
             cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
             cell?.titleLabel.text = ""
             if(!self.editModeOn){
                 cell?.backgroundColor = .white
                 cell?.imageView_.image = nil
-                
             }else{
                 cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
+
                 
             }
             

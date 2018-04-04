@@ -37,21 +37,10 @@ class NoSaleCell: UITableViewCell {
         self.backgroundColor = .lightGray
         self.addSubview(messageView)
 
-       // mainImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        //mainImageView.bottomAnchor.constraint(equalTo: self.messageView.topAnchor).isActive = true
-//
+
         mainImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         mainImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        
-       // mainImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        //mainImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         mainImageView.anchor(top: nil, left: nil, right: nil, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 300, height: 300)
-       // messageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-       // messageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-     //   messageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-     //   messageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        //messageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-       // messageView.topAnchor.constraint(equalTo: self.mainImageView.bottomAnchor).isActive = true
         messageView.anchor(top: nil, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
     }
     
