@@ -11,6 +11,7 @@
 import UIKit
 import CoreData
 import Firebase
+import IQKeyboardManagerSwift
 
 
 enum LanguageIndex: Int {
@@ -83,7 +84,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // let layout = UICollectionViewFlowLayout()
         // let mainVC = ViewController()
         // window?.rootViewController = UINavigationController(rootViewController: mainVC)
-        
+        IQKeyboardManager.sharedManager().enable = true
+
         return true
     }
     

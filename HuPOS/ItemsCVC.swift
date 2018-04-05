@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 
-//protocol
 
 public class Item_ {
     var id:String?
