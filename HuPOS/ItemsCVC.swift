@@ -106,6 +106,7 @@ class ItemCell:UICollectionViewCell{
         return iv
     }()
     
+
     let button:UIButton = {
         
         let btn = UIButton()
@@ -141,7 +142,7 @@ class ItemCell:UICollectionViewCell{
 }
 
 
-class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
     
     var editModeOn = false
@@ -317,11 +318,17 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout {
                 let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
                     print("User pressed add item!")
                     
-                    var addItemPopUpVC = AddItemPopUpVC()
-                    self.addChildViewController(addItemPopUpVC)
-                    addItemPopUpVC.parent?.view.frame = self.view.frame
-                    self.view.addSubview(addItemPopUpVC.view)
-                    addItemPopUpVC.didMove(toParentViewController: self)
+                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let addItemPopUpVC = AddItemPopUpVC()
+                    addItemPopUpVC.modalPresentationStyle = .overCurrentContext
+                    addItemPopUpVC.modalTransitionStyle = .crossDissolve
+                    let addItemController = addItemPopUpVC.presentationController
+                    addItemController?.delegate = self
+                    
+                    
+                    self.present(addItemPopUpVC, animated: true, completion: {
+                        print("Finished!")
+                    })
                 }
                 
                 let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
