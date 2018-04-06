@@ -10,7 +10,6 @@
 
 
 import UIKit
-import EmptyDataSet_Swift
 
 
 class SaleItemsTVC: UITableViewController {

@@ -308,7 +308,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         switch self.itemCells[indexPath.row].type {
-        case "addCell":
+        case "addCell"?:
             
             if(self.editModeOn){
                 // User is attempting to add a new item or collection
@@ -344,7 +344,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             }
             
             break
-        case "itemCell":
+        case "itemCell"?:
             
             if(self.editModeOn){
                 
