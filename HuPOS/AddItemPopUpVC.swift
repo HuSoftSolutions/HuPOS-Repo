@@ -8,21 +8,80 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
-
-class AddItemPopUpVC:UIViewController, UITextViewDelegate {
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-
-        self.showAnimate()
-
-    }
+class AddItemPopUpVC:UIViewController {
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var taxOn:Bool = true
+    
+    let mainView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.layer.masksToBounds = true
+        return view
+    }()
+    
+    let itemImage:UIImageView = {
+        let img = UIImageView()
+        img.image = #imageLiteral(resourceName: "default-profile")
+        img.contentMode = .scaleAspectFill
+        return img
+    }()
+    
+    let itemName:UITextField = {
+        let txt = UITextField()
+        txt.placeholder = "Item Name"
+        txt.adjustsFontSizeToFitWidth = true
+        txt.font = UIFont.systemFont(ofSize: 50)
+        txt.sizeToFit()
+        txt.backgroundColor = .lightGray
+        return txt
+    }()
+    
+    let itemCategory:UITextField = {
+        let txt = UITextField()
+        txt.font = UIFont.systemFont(ofSize: 50)
+        txt.minimumFontSize = 10
+
+        txt.placeholder = "Item Category"
+        txt.adjustsFontSizeToFitWidth = true
+        
+        return txt
+    }()
+    
+    let taxBtn:UIButton = {
+        let btn = UIButton()
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Tax ON", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = UIColor.green
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(taxChangedAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    let cancelBtn:UIButton = {
+        let btn = UIButton()
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Cancel", for: .normal)
+        btn.setTitleColor(.red, for: .normal)
+        btn.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    let addItemBtn:UIButton = {
+        let btn = UIButton()
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Add Item", for: .normal)
+        btn.setTitleColor(UIColor.blue, for: .normal)
+        btn.addTarget(self, action: #selector(addItemAction), for: .touchUpInside)
+        return btn
+    }()
     
     @objc func itemPriceChanged(_ textField: UITextField){
         if let amountString = textField.text?.currencyInputFormatting() {
@@ -35,142 +94,97 @@ class AddItemPopUpVC:UIViewController, UITextViewDelegate {
     }
     
     @objc func addItemAction(){
-    
+        
         let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
             // Add item
         }
-        
         confirmationAlert.addAction(yesAction)
         confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(confirmationAlert, animated: true, completion: nil)
     }
     
+    @objc func taxChangedAction(){
+        if(taxOn) {
+            taxOn = false
+            self.taxBtn.backgroundColor = UIColor.red
+            self.taxBtn.setTitle("Tax OFF", for: .normal)
+        }
+        else {
+            taxOn = true
+            self.taxBtn.backgroundColor = UIColor.green
+            self.taxBtn.setTitle("Tax ON", for: .normal)
+           
+        }
+    }
+    
+    func setupViews(screen:CGRect){
+        
+        let MAIN_VIEW_WIDTH = screen.width / 2
+        let IMG_WIDTH = screen.width / 6
+        
+        view.addSubview(mainView)
+        view.addSubview(itemImage)
+        view.addSubview(cancelBtn)
+        view.addSubview(addItemBtn)
+        view.addSubview(itemName)
+        view.addSubview(itemCategory)
+        view.addSubview(taxBtn)
+        
+        mainView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(MAIN_VIEW_WIDTH)
+            make.center.equalTo(view)
+        }
+        
+        itemImage.snp.makeConstraints { (make) in
+            make.top.left.equalTo(mainView).offset(15)
+            make.width.height.equalTo(IMG_WIDTH)
+        }
+        
+        itemName.snp.makeConstraints { (make) in
+            make.top.equalTo(mainView).offset(15)
+            make.left.equalTo(itemImage.snp.right).offset(15)
+            make.right.equalTo(mainView).offset(-15)
+            make.height.equalTo(IMG_WIDTH / 3)
+        }
+        
+        itemCategory.snp.makeConstraints { (make) in
+            make.top.equalTo(itemName.snp.bottom)
+            make.left.equalTo(itemImage.snp.right).offset(15)
+            make.right.equalTo(mainView).offset(-15)
+            make.height.equalTo(IMG_WIDTH / 3)
+        }
+        
+        taxBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(itemCategory.snp.bottom)
+            make.left.equalTo(itemImage.snp.right).offset(15)
+            make.right.equalTo(mainView).offset(-15)
+            make.height.equalTo(IMG_WIDTH / 3)
+        }
+        
+        cancelBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(mainView).offset(15)
+            make.bottom.equalTo(mainView).offset(-15)
+        }
+        
+        addItemBtn.snp.makeConstraints { (make) in
+            make.bottom.right.equalTo(mainView).offset(-15)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.title = "Add New Item"
         
-      
-        
+        self.showAnimate()
         let screenSize = UIScreen.main.bounds
-        
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(blurEffectView)
-        
-        let navView = UIView()
-        navView.frame = CGRect(x: 0, y: 0, width: screenSize.width/2, height: screenSize.height - 350)
-        navView.center.x = view.center.x
-        navView.center.y = view.center.y
-        navView.backgroundColor = UIColor.white
-        navView.layer.cornerRadius = 5
-        navView.layer.masksToBounds = true
-        view.addSubview(navView)
-        
-        let titleLbl = UILabel(frame: CGRect(x: 0, y: navView.frame.minY + 15, width: 0, height: 0))
-        titleLbl.textAlignment = .center
-        titleLbl.text = "Add New Item"
-        titleLbl.font = UIFont(name: titleLbl.font.fontName, size: 50)
-        titleLbl.sizeToFit()
-        titleLbl.center.x = navView.center.x
-        view.addSubview(titleLbl)
-        
-        let myImageView = UIImageView(frame: CGRect(x: navView.frame.minX + 50, y: titleLbl.frame.maxY, width: 120, height: 120))
-        myImageView.image = #imageLiteral(resourceName: "default-profile")
-        myImageView.contentMode = .scaleAspectFill
-         //myImageView.center.x = view.center.x
-        view.addSubview(myImageView)
-        
-        let taxLbl = UILabel(frame: CGRect(x: myImageView.frame.maxX + 20, y: myImageView.frame.midY - 10, width: 0, height: 0))
-        taxLbl.textAlignment = .center
-        taxLbl.text = "Tax"
-        taxLbl.font = UIFont(name: titleLbl.font.fontName, size: 40)
-        taxLbl.sizeToFit()
-        view.addSubview(taxLbl)
-        
-        let taxSwitch = UISwitch(frame: CGRect(x: taxLbl.frame.maxX + 20, y: taxLbl.frame.minY + 5, width: taxLbl.frame.width, height: taxLbl.frame.width))
-        taxSwitch.center.y = taxLbl.center.y
-        view.addSubview(taxSwitch)
-        
-        let itemName = UITextField(frame: CGRect(x:navView.frame.minX + 50, y: myImageView.frame.maxY + 20, width: screenSize.width/2 - 100, height: 60))
-        itemName.placeholder = "Enter Item Name"
-        itemName.font = UIFont(name: itemName.font!.fontName, size: 50)
-        itemName.adjustsFontSizeToFitWidth = true
-        //itemName.sizeToFit()
-        view.addSubview(itemName)
-        
-        let itemCategory = UITextField(frame: CGRect(x:navView.frame.minX + 50, y: itemName.frame.maxY + 15, width: screenSize.width/2 - 100, height: 60))
-        itemCategory.placeholder = "Enter Item Category"
-        itemCategory.font = UIFont(name: itemName.font!.fontName, size: 50)
-        itemCategory.adjustsFontSizeToFitWidth = true
-        //itemCategory.sizeToFit()
-        view.addSubview(itemCategory)
-        
-        let costLbl = UILabel(frame: CGRect(x:navView.frame.minX + 50, y: itemCategory.frame.maxY + 15, width: screenSize.width/3, height: 60))
-        costLbl.textAlignment = .center
-        costLbl.text = "Cost"
-        costLbl.font = UIFont(name: titleLbl.font.fontName, size: 50)
-        costLbl.sizeToFit()
-        view.addSubview(costLbl)
-        
-        let itemCost = UITextField(frame: CGRect(x:costLbl.frame.maxX + 10, y: itemCategory.frame.maxY + 15, width: 0, height: 0))
-        itemCost.placeholder = "$0.00"
-        //itemCost.center.y = costLbl.center.y
-        itemCost.font = UIFont(name: itemName.font!.fontName, size: 50)
-        itemCost.adjustsFontSizeToFitWidth = true
-        itemCost.sizeToFit()
-        
-        itemCost.addTarget(self, action: #selector(itemPriceChanged), for: .editingChanged)
-        
-        view.addSubview(itemCost)
-        
-        let priceLbl = UILabel(frame: CGRect(x:itemCost.frame.maxX + 10, y: itemCategory.frame.maxY + 15, width: screenSize.width/3, height: 60))
-        priceLbl.textAlignment = .center
-        priceLbl.text = "Price"
-        priceLbl.font = UIFont(name: titleLbl.font.fontName, size: 50)
-        priceLbl.sizeToFit()
-        
-        view.addSubview(priceLbl)
-        
-        let itemPrice = UITextField(frame: CGRect(x:priceLbl.frame.maxX + 10, y: itemCategory.frame.maxY + 15, width: 0, height: 0))
-        itemPrice.placeholder = "$0.00"
-        //itemPrice.center.y = priceLbl.center.y
-        itemPrice.font = UIFont(name: itemName.font!.fontName, size: 50)
-        itemPrice.adjustsFontSizeToFitWidth = true
-        itemPrice.sizeToFit()
-        
-        itemPrice.addTarget(self, action: #selector(itemPriceChanged), for: .editingChanged)
-        itemPrice.translatesAutoresizingMaskIntoConstraints = false 
-        itemPrice.anchor(top: nil, left: nil, right: nil, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
-        view.addSubview(itemPrice)
-        
-
-        
-        let itemDescription = UITextView(frame: CGRect(x: navView.frame.minX + 50, y: itemPrice.frame.maxY + 20, width: screenSize.width/2 - 100 , height: 150))
-        itemDescription.font = .systemFont(ofSize: 25)
-        itemDescription.layer.borderWidth = 1
-        itemDescription.layer.cornerRadius = 5
-        itemDescription.layer.masksToBounds = true
-        itemDescription.delegate = self
-        view.addSubview(itemDescription)
-        
-        let cancelBtn = UIButton(frame: CGRect(x:navView.frame.minX, y: navView.frame.maxY - 70, width: 100, height: 70))
-        cancelBtn.reversesTitleShadowWhenHighlighted = true
-        cancelBtn.setTitleShadowColor(.black, for: .highlighted)
-        cancelBtn.setTitle("Cancel", for: .normal)
-        cancelBtn.setTitleColor(.red, for: .normal)
-        cancelBtn.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
-        view.addSubview(cancelBtn)
-        
-        let addItemBtn = UIButton(frame: CGRect(x:navView.frame.maxX - 105, y: navView.frame.maxY - 70, width: 100, height: 70))
-        addItemBtn.reversesTitleShadowWhenHighlighted = true
-        addItemBtn.setTitleShadowColor(.black, for: .highlighted)
-        addItemBtn.setTitle("Add Item", for: .normal)
-        addItemBtn.setTitleColor( self.view.tintColor, for: .normal)
-        addItemBtn.addTarget(self, action: #selector(addItemAction), for: .touchUpInside)
-        view.addSubview(addItemBtn)
-
+        setupViews(screen: screenSize)
     }
     
     override func didReceiveMemoryWarning() {

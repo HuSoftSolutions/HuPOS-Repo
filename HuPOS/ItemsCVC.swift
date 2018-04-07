@@ -323,11 +323,17 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                     addItemPopUpVC.modalTransitionStyle = .crossDissolve
                     let addItemController = addItemPopUpVC.presentationController
                     addItemController?.delegate = self
-                    
-                    
                     self.present(addItemPopUpVC, animated: true, completion: {
                         print("Finished!")
                     })
+//
+//                    if let addItemPopUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddItem") as? AddItemPopUpVC {
+//
+//                        self.present(addItemPopUpVC, animated: true, completion: nil)
+//                    }
+//
+                    
+
                 }
                 
                 let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
