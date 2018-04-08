@@ -24,7 +24,7 @@ class AddItemPopUpVC:UIViewController {
     
     let itemImage:UIImageView = {
         let img = UIImageView()
-        img.image = #imageLiteral(resourceName: "default-profile")
+        img.image = #imageLiteral(resourceName: "noimg")
         img.contentMode = .scaleAspectFill
         return img
     }()
@@ -33,17 +33,15 @@ class AddItemPopUpVC:UIViewController {
         let txt = UITextField()
         txt.placeholder = "Item Name"
         txt.adjustsFontSizeToFitWidth = true
-        txt.font = UIFont.systemFont(ofSize: 50)
+        txt.font = UIFont.systemFont(ofSize: 30)
         txt.sizeToFit()
-        txt.backgroundColor = .lightGray
         return txt
     }()
     
     let itemCategory:UITextField = {
         let txt = UITextField()
-        txt.font = UIFont.systemFont(ofSize: 50)
+        txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
-
         txt.placeholder = "Item Category"
         txt.adjustsFontSizeToFitWidth = true
         
@@ -63,6 +61,42 @@ class AddItemPopUpVC:UIViewController {
         btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(taxChangedAction), for: .touchUpInside)
         return btn
+    }()
+    
+    let costLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.systemFont(ofSize: 20)
+        lbl.textColor = UIColor.lightGray
+        lbl.text = "Cost"
+        return lbl
+    }()
+    
+    let priceLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.systemFont(ofSize: 20)
+        lbl.textColor = UIColor.lightGray
+        lbl.text = "Price"
+        return lbl
+    }()
+    
+    let cost:UITextField = {
+       let txt = UITextField()
+        txt.font = UIFont.systemFont(ofSize: 30)
+        txt.minimumFontSize = 10
+        txt.placeholder = "Cost"
+        txt.adjustsFontSizeToFitWidth = true
+        txt.addTarget(self, action: #selector(itemPriceChanged), for: .valueChanged)
+        return txt
+    }()
+    
+    let price:UITextField = {
+        let txt = UITextField()
+        txt.font = UIFont.systemFont(ofSize: 30)
+        txt.minimumFontSize = 10
+        txt.placeholder = "Price"
+        txt.adjustsFontSizeToFitWidth = true
+        txt.addTarget(self, action: #selector(itemPriceChanged), for: .valueChanged)
+        return txt
     }()
     
     let cancelBtn:UIButton = {
@@ -130,6 +164,10 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(itemName)
         view.addSubview(itemCategory)
         view.addSubview(taxBtn)
+        view.addSubview(costLbl)
+        view.addSubview(priceLbl)
+        view.addSubview(cost)
+        view.addSubview(price)
         
         mainView.snp.makeConstraints { (make) in
             make.width.height.equalTo(MAIN_VIEW_WIDTH)
@@ -159,6 +197,31 @@ class AddItemPopUpVC:UIViewController {
             make.top.equalTo(itemCategory.snp.bottom)
             make.left.equalTo(itemImage.snp.right).offset(15)
             make.right.equalTo(mainView).offset(-15)
+            make.height.equalTo(IMG_WIDTH / 3)
+        }
+        
+        costLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(itemImage.snp.bottom).offset(15)
+            make.left.equalTo(mainView.snp.left).offset(15)
+            make.width.equalTo(MAIN_VIEW_WIDTH/2)
+        }
+        
+        priceLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(itemImage.snp.bottom).offset(15)
+            make.left.equalTo(costLbl.snp.right).offset(15)
+            make.width.equalTo(MAIN_VIEW_WIDTH/2)
+        }
+        
+        cost.snp.makeConstraints { (make) in
+            make.top.equalTo(costLbl.snp.bottom)
+            make.left.equalTo(mainView.snp.left).offset(15)
+            make.right.equalTo(mainView.snp.right).offset(-1*MAIN_VIEW_WIDTH / 2)
+            make.height.equalTo(IMG_WIDTH / 3)
+        }
+        price.snp.makeConstraints { (make) in
+            make.top.equalTo(priceLbl.snp.bottom)
+            make.left.equalTo(priceLbl.snp.left)
+            make.right.equalTo(mainView.snp.right).offset(-15)
             make.height.equalTo(IMG_WIDTH / 3)
         }
         
