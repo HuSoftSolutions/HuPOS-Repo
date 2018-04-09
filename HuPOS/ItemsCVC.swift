@@ -9,8 +9,15 @@
 import UIKit
 import Firebase
 
+public class BlankCell {
+    
+}
 
-public class InventoryItem {}
+// public class CollectionItem { }
+
+public class InventoryItem {
+    
+}
 
 public class Item_ {
     var id:String?
@@ -156,6 +163,7 @@ class ItemCell:UICollectionViewCell{
 
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
+    let CELL_COUNT = 25
     
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?

@@ -34,7 +34,6 @@ class NoSaleCell: UITableViewCell {
         self.mainImageView.image = self.mainImage
         self.messageView.text = self.message
         self.addSubview(mainImageView)
-        self.backgroundColor = .lightGray
         self.addSubview(messageView)
 
 
