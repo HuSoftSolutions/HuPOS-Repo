@@ -9,21 +9,14 @@
 import UIKit
 import Firebase
 
-public class BlankCell {
-    
-}
+
 
 // public class CollectionItem { }
 
 public class InventoryItem {
-    
-}
-
-public class Item_ {
     var id:String?
     var image:String?
     var title:String?
-    var type:String?
     var category:String?
     var desc:String?
     var price:Double?
@@ -35,7 +28,6 @@ public class Item_ {
         self.id = id
         self.image = dictionary["Image"] as? String
         self.title = dictionary["Title"] as? String
-        self.type = dictionary["Type"] as? String
         self.category = dictionary["Category"] as? String
         self.desc = dictionary["Desc"] as? String
         self.price = dictionary["Price"] as? Double
@@ -43,11 +35,10 @@ public class Item_ {
         self.tax = dictionary["Tax"] as? Bool
         self.index = dictionary["Index"] as? Int
     }
-
+    
     init(img:String, title:String, type:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int){
         self.image = img
         self.title = title
-        self.type = type
         self.category = category
         self.desc = description
         self.price = price
@@ -61,15 +52,27 @@ public class Item_ {
         
         data["Id"] = self.id
         data["Title"] = self.title
-        data["Type"] = self.type
         data["Category"] = self.category
         data["Price"] = self.price
         data["Cost"] = self.cost
         data["Tax"] = self.tax
         data["Image"] = self.image
-
+        
         return data
     }
+}
+
+public class Item_ {
+    
+    var image = #imageLiteral(resourceName: "plusicon")
+    var title:String?
+    var index:Int?
+    var inventoryItemCell:InventoryItem?
+    
+    init(index:Int){
+        self.index = index
+    }
+    
 }
 
 class ItemCell:UICollectionViewCell{
@@ -77,12 +80,13 @@ class ItemCell:UICollectionViewCell{
     
     var item :Item_? {
         didSet{
-            guard let image_ = item?.image else { return }
-            guard let title_ = item?.title else { return }
-            guard let type_ = item?.type else { return }
+            // if inventoryItemCell is nil
             
-            imageView_.image = UIImage(named: image_)
-            titleLabel.text = title_
+            // else fill in blank cell traits
+            
+            // guard let title_ = item?.title else { return }
+            
+           // titleLabel.text = title_
             
             
         }
@@ -163,16 +167,25 @@ class ItemCell:UICollectionViewCell{
 
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
-    let CELL_COUNT = 25
+    let CELL_COUNT = 20
     
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
     
     var itemCells = [Item_]()
+    
+    func initItemCells(){
+        self.itemCells.removeAll()
+        for i in 0..<CELL_COUNT {
+            self.itemCells.append(Item_(index:i))
+        }
+        self.collectionView?.reloadData()
+    }
 
     // WARNING !! -- May be an issue to reload each time the view will appear (line 151) in poor internet connection environment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        initItemCells()
         
         let group = DispatchGroup()
         print("Starting item retrieval .....")
@@ -183,12 +196,14 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             if let err = err {
                 print("Error getting documents: \(err)")
             }else{
-                self.itemCells.removeAll()
+                //self.itemCells.removeAll()
                 for document in snapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
+                    
+                    
 //                    db.collection("Items").document(document.documentID).setData(["Id":document.documentID, "Image":"",
 //                    "Title":"", "Category":"", "Type":"addCell", "Cost":0.0, "Price":0.0, "Tax":false, "Index":i])
-                    self.itemCells.append(Item_(id: document.documentID, dictionary: document.data()))
+                    // self.itemCells.append(Item_(id: document.documentID, dictionary: document.data()))
                 }
             }
             group.leave()
@@ -281,19 +296,11 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(ItemsCVC.handleLongGesture(_:)))
         longPressGesture.cancelsTouchesInView = false
-       // self.collectionView?.addGestureRecognizer(longPressGesture)
         self.collectionView?.isUserInteractionEnabled = true
         self.collectionView?.allowsSelection = true
         
-        //self.collectionView?.addGestureRecognizer(self.longPressRecognizer)
-        
-        // self.longPressRecognizer.minimumPressDuration = 2.0
+
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
-        //  self.collectionView?.dragDelegate = self
-        //self.collectionView?.dragInteractionEnabled = true
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -328,62 +335,66 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        switch self.itemCells[indexPath.row].type {
-        case "addCell"?:
-            
-            if(self.editModeOn){
-                // User is attempting to add a new item or collection
-                
-                let alertController = UIAlertController(title: "Add New Item/Collection", message: "Please choose a cell style below", preferredStyle: .alert)
-                let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
-                    print("User pressed add item!")
-                    
-                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let addItemPopUpVC = AddItemPopUpVC()
-                    addItemPopUpVC.modalPresentationStyle = .overCurrentContext
-                    addItemPopUpVC.modalTransitionStyle = .crossDissolve
-                    let addItemController = addItemPopUpVC.presentationController
-                    addItemController?.delegate = self
-                    addItemPopUpVC.cellIndex = indexPath.row
-                    self.present(addItemPopUpVC, animated: true, completion: {
-                        print("Finished!")
-                    })
-
-                }
-                
-                let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
-                    print("User pressed add collection!")
-
-                }
-
-                alertController.addAction(addItemAction)
-                alertController.addAction(addCollectionAction)
-                self.present(alertController, animated: true, completion: nil)
-                
-            }else{
-                
-            }
-            
-            break
-        case "itemCell"?:
-            
-            if(self.editModeOn){
-                
-            }else{
-                
-            }
-            
-            break
-        default:
-            
-            break
-        }
         
-       // let addItem
-        
-        print("\(indexPath.row) - \(self.itemCells[indexPath.row].type?.description) - EditMode: \(self.editModeOn) ")
+      
         
         
+//        switch self.itemCells[indexPath.row].type {
+//        case "addCell"?:
+//
+//            if(self.editModeOn){
+//                // User is attempting to add a new item or collection
+//
+//                let alertController = UIAlertController(title: "Add New Item/Collection", message: "Please choose a cell style below", preferredStyle: .alert)
+//                let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
+//                    print("User pressed add item!")
+//
+//                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                    let addItemPopUpVC = AddItemPopUpVC()
+//                    addItemPopUpVC.modalPresentationStyle = .overCurrentContext
+//                    addItemPopUpVC.modalTransitionStyle = .crossDissolve
+//                    let addItemController = addItemPopUpVC.presentationController
+//                    addItemController?.delegate = self
+//                    addItemPopUpVC.cellIndex = indexPath.row
+//                    self.present(addItemPopUpVC, animated: true, completion: {
+//                        print("Finished!")
+//                    })
+//
+//                }
+//
+//                let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
+//                    print("User pressed add collection!")
+//
+//                }
+//
+//                alertController.addAction(addItemAction)
+//                alertController.addAction(addCollectionAction)
+//                self.present(alertController, animated: true, completion: nil)
+//
+//            }else{
+//
+//            }
+//
+//            break
+//        case "itemCell"?:
+//
+//            if(self.editModeOn){
+//
+//            }else{
+//
+//            }
+//
+//            break
+//        default:
+//
+//            break
+//        }
+//
+//       // let addItem
+//
+//        print("\(indexPath.row) - \(self.itemCells[indexPath.row].type?.description) - EditMode: \(self.editModeOn) ")
+//
+//
         
     }
     
@@ -395,31 +406,33 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell:ItemCell?
+
+        cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ItemCell
         cell?.isUserInteractionEnabled = true
         cell?.isMultipleTouchEnabled = true
-        if(self.itemCells[indexPath.row].type == "addCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
-            cell?.titleLabel.text = ""
-            if(!self.editModeOn){
-                cell?.backgroundColor = .white
-                cell?.imageView_.image = nil
-            }else{
-                cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
-
-                
-            }
-            
-        }else if(self.itemCells[indexPath.row].type == "itemCell"){
-            cell = self.collectionView?.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ItemCell
-            cell?.item = itemCells[indexPath.row]
-        }
-        
-        cell?.layoutIfNeeded()
+        cell?.layer.borderWidth = 0.5
         cell?.layer.cornerRadius = 5
         cell?.layer.masksToBounds = true
         
-        return cell!
         
+        if(self.itemCells[indexPath.row].inventoryItemCell == nil){   // Inventory item not present, 'Blank Cell'
+            if(self.editModeOn){
+                cell?.titleLabel.text = ""
+                cell?.imageView_.image = #imageLiteral(resourceName: "plusicon")
+            }else{
+                cell?.imageView_.image = nil
+                cell?.backgroundColor = .white
+            }
+        }else{ // Iventory item present
+            if(self.editModeOn){ // Load inventory item as editable cell
+                
+            }else{
+                
+            }
+        }
+        
+        return cell!
+
     }
     
     
