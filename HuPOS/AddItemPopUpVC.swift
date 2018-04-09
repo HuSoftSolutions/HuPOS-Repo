@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 import SnapKit
+import Firebase
 
 class AddItemPopUpVC:UIViewController {
     
+    var cellIndex = 0
     var taxOn:Bool = true
     
     let mainView:UIView = {
@@ -26,6 +28,8 @@ class AddItemPopUpVC:UIViewController {
         let img = UIImageView()
         img.image = #imageLiteral(resourceName: "noimg")
         img.contentMode = .scaleAspectFill
+        img.layer.cornerRadius = 5
+        img.layer.masksToBounds = true
         return img
     }()
     
@@ -35,6 +39,7 @@ class AddItemPopUpVC:UIViewController {
         txt.adjustsFontSizeToFitWidth = true
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.sizeToFit()
+        txt.autocapitalizationType = .words
         return txt
     }()
     
@@ -44,7 +49,7 @@ class AddItemPopUpVC:UIViewController {
         txt.minimumFontSize = 10
         txt.placeholder = "Item Category"
         txt.adjustsFontSizeToFitWidth = true
-        
+        txt.autocapitalizationType = .words
         return txt
     }()
     
@@ -83,9 +88,10 @@ class AddItemPopUpVC:UIViewController {
        let txt = UITextField()
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
-        txt.placeholder = "Cost"
+        txt.placeholder = "$0.00"
         txt.adjustsFontSizeToFitWidth = true
-        txt.addTarget(self, action: #selector(itemPriceChanged), for: .valueChanged)
+        txt.addTarget(self, action: #selector(AddItemPopUpVC.itemPriceChanged), for: .editingChanged)
+        txt.keyboardType = .numberPad
         return txt
     }()
     
@@ -93,9 +99,20 @@ class AddItemPopUpVC:UIViewController {
         let txt = UITextField()
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
-        txt.placeholder = "Price"
+        txt.placeholder = "$0.00"
         txt.adjustsFontSizeToFitWidth = true
-        txt.addTarget(self, action: #selector(itemPriceChanged), for: .valueChanged)
+        txt.addTarget(self, action: #selector(AddItemPopUpVC.itemPriceChanged), for: .editingChanged)
+        txt.keyboardType = .numberPad
+        return txt
+    }()
+    
+    let desc:UITextView = {
+        let txt = UITextView()
+        txt.toolbarPlaceholder = "Description"
+        txt.font = UIFont.systemFont(ofSize: 20)
+        txt.layer.borderWidth = 0.5
+        txt.layer.cornerRadius = 5
+        txt.layer.masksToBounds = true
         return txt
     }()
     
@@ -132,6 +149,20 @@ class AddItemPopUpVC:UIViewController {
         let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
             // Add item
+            
+            let cost_ = self.cost.text!.dropFirst()
+            let price_ = self.price.text!.dropFirst()
+            
+            let cost_d = Double(cost_)
+            let price_d = Double(price_)
+            
+            let newItem = Item_(img: "", title: self.itemName.text!, type: "itemCell", category: self.itemCategory.text!, price: price_d!, cost: cost_d!, tax: self.taxOn, description: self.desc.text!, index: self.cellIndex)
+            
+            print(newItem.dictionary())
+            
+            let db = Firestore.firestore()
+            db.collection("Items").addDocument(data: newItem.dictionary())
+            db.collection("Items").document()
         }
         confirmationAlert.addAction(yesAction)
         confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -148,7 +179,6 @@ class AddItemPopUpVC:UIViewController {
             taxOn = true
             self.taxBtn.backgroundColor = UIColor.green
             self.taxBtn.setTitle("Tax ON", for: .normal)
-           
         }
     }
     
@@ -168,6 +198,9 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(priceLbl)
         view.addSubview(cost)
         view.addSubview(price)
+        view.addSubview(desc)
+
+        addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         
         mainView.snp.makeConstraints { (make) in
             make.width.height.equalTo(MAIN_VIEW_WIDTH)
@@ -223,6 +256,13 @@ class AddItemPopUpVC:UIViewController {
             make.left.equalTo(priceLbl.snp.left)
             make.right.equalTo(mainView.snp.right).offset(-15)
             make.height.equalTo(IMG_WIDTH / 3)
+        }
+        
+        desc.snp.makeConstraints { (make) in
+            make.top.equalTo(cost.snp.bottom).offset(15)
+            make.left.equalTo(mainView.snp.left).offset(15)
+            make.bottom.equalTo(cancelBtn.snp.top).offset(-15)
+            make.right.equalTo(mainView.snp.right).offset(-15)
         }
         
         cancelBtn.snp.makeConstraints { (make) in

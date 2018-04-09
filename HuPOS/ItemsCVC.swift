@@ -10,40 +10,57 @@ import UIKit
 import Firebase
 
 
+public class InventoryItem {}
+
 public class Item_ {
     var id:String?
     var image:String?
     var title:String?
     var type:String?
+    var category:String?
+    var desc:String?
     var price:Double?
     var cost:Double?
     var tax:Bool?
     var index:Int?
     
-
-    init(id:String, dictionary: [String:Any]){
+    init(id:String, dictionary:[String:Any]){
         self.id = id
         self.image = dictionary["Image"] as? String
         self.title = dictionary["Title"] as? String
         self.type = dictionary["Type"] as? String
+        self.category = dictionary["Category"] as? String
+        self.desc = dictionary["Desc"] as? String
         self.price = dictionary["Price"] as? Double
         self.cost = dictionary["Cost"] as? Double
         self.tax = dictionary["Tax"] as? Bool
         self.index = dictionary["Index"] as? Int
-        
-        
+    }
+
+    init(img:String, title:String, type:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int){
+        self.image = img
+        self.title = title
+        self.type = type
+        self.category = category
+        self.desc = description
+        self.price = price
+        self.cost = cost
+        self.tax = tax
+        self.index = index
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Type":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Type":String(), "Category":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
         
         data["Id"] = self.id
-        data["Image"] = self.image
         data["Title"] = self.title
         data["Type"] = self.type
+        data["Category"] = self.category
         data["Price"] = self.price
         data["Cost"] = self.cost
         data["Tax"] = self.tax
+        data["Image"] = self.image
+
         return data
     }
 }
@@ -86,17 +103,13 @@ class ItemCell:UICollectionViewCell{
         
         self.addSubview(imageView_)
         self.addSubview(titleLabel)
-//        self.addSubview(button)
-//        self.bringSubview(toFront: button)
-        
+
         self.layer.borderWidth = 0.5
         
         imageView_.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.height)
         
         titleLabel.anchor(top: nil, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
-//        button.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.height)
-//
     }
     
     let imageView_: UIImageView = {
@@ -323,16 +336,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                     addItemPopUpVC.modalTransitionStyle = .crossDissolve
                     let addItemController = addItemPopUpVC.presentationController
                     addItemController?.delegate = self
+                    addItemPopUpVC.cellIndex = indexPath.row
                     self.present(addItemPopUpVC, animated: true, completion: {
                         print("Finished!")
                     })
-//
-//                    if let addItemPopUpVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddItem") as? AddItemPopUpVC {
-//
-//                        self.present(addItemPopUpVC, animated: true, completion: nil)
-//                    }
-//
-                    
 
                 }
                 
@@ -378,18 +385,8 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     }
     
     
-//    @objc func itemCellAction(_ sender: UIButton){
-//        // Display 'Add New Item' pop up
-//        if(self.editModeOn){
-//            print("Attempting to edit item ...")
-//        }else{
-//            print("Attempting to add item ...")
-//        }
-//    }
-    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell:ItemCell?
-//        cell?.button.addTarget(self, action: #selector(self.itemCellAction(_:)), for: .touchUpInside)
         cell?.isUserInteractionEnabled = true
         cell?.isMultipleTouchEnabled = true
         if(self.itemCells[indexPath.row].type == "addCell"){
@@ -429,50 +426,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
-    //    override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-    //        print("Starting Index: \(sourceIndexPath.item)")
-    //
-    //        print("Ending Index: \(destinationIndexPath.item)")
-    //
-    //        let temp = self.itemCells[sourceIndexPath.row]
-    //        self.itemCells[sourceIndexPath.row] = self.itemCells[destinationIndexPath.row]
-    //        self.itemCells[destinationIndexPath.row] = temp
-    //    }
-    
-    
-    
-    
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
+  
 }
 
 extension UIView {
