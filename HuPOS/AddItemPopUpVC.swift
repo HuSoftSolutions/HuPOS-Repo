@@ -149,20 +149,22 @@ class AddItemPopUpVC:UIViewController {
 //        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
 //        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
 //            // Add item
-//            
+//
 //            let cost_ = self.cost.text!.dropFirst()
 //            let price_ = self.price.text!.dropFirst()
-//            
+//
 //            let cost_d = Double(cost_)
 //            let price_d = Double(price_)
-//            
-//            let newItem = Item_(title: self.itemName.text!, type: "itemCell", category: self.itemCategory.text!, price: price_d!, cost: cost_d!, tax: self.taxOn, description: self.desc.text!, index: self.cellIndex)
-//            
-//            print(newItem.dictionary())
-//            
-//            let db = Firestore.firestore()
-//            db.collection("Items").addDocument(data: newItem.dictionary())
-//            db.collection("Items").document()
+//
+//            let newItem = InventoryItem
+//
+////            let newItem = Item_(title: self.itemName.text!, type: "itemCell", category: self.itemCategory.text!, price: price_d!, cost: cost_d!, tax: self.taxOn, description: self.desc.text!, index: self.cellIndex)
+//
+////            print(newItem.dictionary())
+////
+////            let db = Firestore.firestore()
+////            db.collection("Items").addDocument(data: newItem.dictionary())
+////            db.collection("Items").document()
 //        }
 //        confirmationAlert.addAction(yesAction)
 //        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

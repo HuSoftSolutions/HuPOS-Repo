@@ -298,7 +298,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         longPressGesture.cancelsTouchesInView = false
         self.collectionView?.isUserInteractionEnabled = true
         self.collectionView?.allowsSelection = true
-        
+        self.collectionView?.addGestureRecognizer(longPressGesture)
 
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
     }
@@ -335,67 +335,47 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        
-      
-        
-        
-//        switch self.itemCells[indexPath.row].type {
-//        case "addCell"?:
-//
-//            if(self.editModeOn){
-//                // User is attempting to add a new item or collection
-//
-//                let alertController = UIAlertController(title: "Add New Item/Collection", message: "Please choose a cell style below", preferredStyle: .alert)
-//                let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
-//                    print("User pressed add item!")
-//
-//                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                    let addItemPopUpVC = AddItemPopUpVC()
-//                    addItemPopUpVC.modalPresentationStyle = .overCurrentContext
-//                    addItemPopUpVC.modalTransitionStyle = .crossDissolve
-//                    let addItemController = addItemPopUpVC.presentationController
-//                    addItemController?.delegate = self
-//                    addItemPopUpVC.cellIndex = indexPath.row
-//                    self.present(addItemPopUpVC, animated: true, completion: {
-//                        print("Finished!")
-//                    })
-//
-//                }
-//
-//                let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
-//                    print("User pressed add collection!")
-//
-//                }
-//
-//                alertController.addAction(addItemAction)
-//                alertController.addAction(addCollectionAction)
-//                self.present(alertController, animated: true, completion: nil)
-//
-//            }else{
-//
-//            }
-//
-//            break
-//        case "itemCell"?:
-//
-//            if(self.editModeOn){
-//
-//            }else{
-//
-//            }
-//
-//            break
-//        default:
-//
-//            break
-//        }
-//
-//       // let addItem
-//
-//        print("\(indexPath.row) - \(self.itemCells[indexPath.row].type?.description) - EditMode: \(self.editModeOn) ")
-//
-//
-        
+        if(self.itemCells[indexPath.row].inventoryItemCell == nil){   // Inventory item not present, 'Blank Cell'
+            if(self.editModeOn){
+                // Show add item view controller
+                let alertController = UIAlertController(title: "Add New Item/Collection", message: "Please choose a cell style below", preferredStyle: .alert)
+                let addItemAction = UIAlertAction(title: "New Item", style: .default) { (action) in
+                    print("User pressed add item!")
+                    
+                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let addItemPopUpVC = AddItemPopUpVC()
+                    addItemPopUpVC.modalPresentationStyle = .overCurrentContext
+                    addItemPopUpVC.modalTransitionStyle = .crossDissolve
+                    let addItemController = addItemPopUpVC.presentationController
+                    addItemController?.delegate = self
+                    addItemPopUpVC.cellIndex = indexPath.row
+                    self.present(addItemPopUpVC, animated: true, completion: {
+                        print("Finished!")
+                    })
+                    
+                }
+                
+                let addCollectionAction = UIAlertAction(title: "New Collection", style: .default) { (action) in
+                    print("User pressed add collection!")
+                    
+                }
+                
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alertController.addAction(addItemAction)
+                alertController.addAction(addCollectionAction)
+                alertController.addAction(cancelAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }else{
+                
+            }
+        }else{                                                       // Iventory item present
+            if(self.editModeOn){                                     // inventory item as editable cell
+                
+            }else{
+                
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -423,8 +403,8 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 cell?.imageView_.image = nil
                 cell?.backgroundColor = .white
             }
-        }else{ // Iventory item present
-            if(self.editModeOn){ // Load inventory item as editable cell
+        }else{                                                       // Iventory item present
+            if(self.editModeOn){                                     // Load inventory item as editable cell
                 
             }else{
                 
