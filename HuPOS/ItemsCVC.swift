@@ -86,7 +86,7 @@ class ItemCell:UICollectionViewCell{
             
             // guard let title_ = item?.title else { return }
             
-           // titleLabel.text = title_
+            titleLabel.text = ""
             
             
         }
@@ -140,7 +140,7 @@ class ItemCell:UICollectionViewCell{
     
     let titleLabel:UILabel = {
         let lbl = UILabel()
-        lbl.text = "Name"
+        lbl.text = ""
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 24)
         lbl.textAlignment = .center
@@ -151,7 +151,7 @@ class ItemCell:UICollectionViewCell{
     
     override func prepareForReuse() {
         self.backgroundColor = .white
-        self.titleLabel.text = "Test"
+        self.titleLabel.text = ""
     }
 
     
@@ -200,10 +200,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 for document in snapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
                     
-                    
-//                    db.collection("Items").document(document.documentID).setData(["Id":document.documentID, "Image":"",
-//                    "Title":"", "Category":"", "Type":"addCell", "Cost":0.0, "Price":0.0, "Tax":false, "Index":i])
-                    // self.itemCells.append(Item_(id: document.documentID, dictionary: document.data()))
                 }
             }
             group.leave()
@@ -275,7 +271,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                     break
                 }
                 self.collectionView?.beginInteractiveMovementForItem(at: selectedIndexPath)
-                // self.collectionView?.reloadData()
                 
             case .changed:
                 self.collectionView?.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
@@ -307,18 +302,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-    // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
