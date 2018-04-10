@@ -146,29 +146,43 @@ class AddItemPopUpVC:UIViewController {
     
     @objc func addItemAction(){
         
-//        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
-//        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
-//            // Add item
-//
-//            let cost_ = self.cost.text!.dropFirst()
-//            let price_ = self.price.text!.dropFirst()
-//
-//            let cost_d = Double(cost_)
-//            let price_d = Double(price_)
-//
-//            let newItem = InventoryItem
-//
-////            let newItem = Item_(title: self.itemName.text!, type: "itemCell", category: self.itemCategory.text!, price: price_d!, cost: cost_d!, tax: self.taxOn, description: self.desc.text!, index: self.cellIndex)
-//
-////            print(newItem.dictionary())
-////
-////            let db = Firestore.firestore()
-////            db.collection("Items").addDocument(data: newItem.dictionary())
-////            db.collection("Items").document()
-//        }
-//        confirmationAlert.addAction(yesAction)
-//        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        self.present(confirmationAlert, animated: true, completion: nil)
+        
+        
+        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
+
+            
+            let cost_ = self.cost.text!.dropFirst()
+            let price_ = self.price.text!.dropFirst()
+            
+            guard let cost_d = Double(cost_) else { return }
+            guard let price_d = Double(price_) else { return }
+            
+            let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex)
+            
+        
+            print(newItem.dictionary())
+
+            let db = Firestore.firestore()
+            db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
+                if err != nil {
+                    print(err.debugDescription)
+                    let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                    errorAlert.addAction(cancel)
+                    self.present(errorAlert, animated: true, completion: nil)
+                }else{
+                    let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                    successAlert.addAction(cancel)
+                    self.present(successAlert, animated: true, completion: nil)
+                }
+            })
+
+        }
+        confirmationAlert.addAction(yesAction)
+        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(confirmationAlert, animated: true, completion: nil)
     }
     
     @objc func taxChangedAction(){

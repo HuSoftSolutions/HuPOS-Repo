@@ -8,10 +8,7 @@
 
 import UIKit
 import Firebase
-
-
-
-// public class CollectionItem { }
+import SnapKit
 
 public class InventoryItem {
     var id:String?
@@ -36,7 +33,7 @@ public class InventoryItem {
         self.index = dictionary["Index"] as? Int
     }
     
-    init(img:String, title:String, type:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int){
+    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int){
         self.image = img
         self.title = title
         self.category = category
@@ -48,7 +45,7 @@ public class InventoryItem {
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Type":String(), "Category":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
         
         data["Id"] = self.id
         data["Title"] = self.title
@@ -57,6 +54,7 @@ public class InventoryItem {
         data["Cost"] = self.cost
         data["Tax"] = self.tax
         data["Image"] = self.image
+        data["Index"] = self.index
         
         return data
     }
@@ -88,17 +86,15 @@ class ItemCell:UICollectionViewCell{
             
             titleLabel.text = ""
             
-            
         }
     }
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
         setCellShadow()
     }
+    
     func setCellShadow(){
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width:0, height:1)
@@ -119,6 +115,10 @@ class ItemCell:UICollectionViewCell{
         
         imageView_.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: self.contentView.bounds.width, height: self.contentView.bounds.height)
         
+        titleLabel.snp.makeConstraints { (make) in
+            make.center.equalTo(self)
+        }
+        
         titleLabel.anchor(top: nil, left: leftAnchor, right: rightAnchor, bottom: bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
         
     }
@@ -129,12 +129,10 @@ class ItemCell:UICollectionViewCell{
         return iv
     }()
     
-
     let button:UIButton = {
         
         let btn = UIButton()
         btn.contentMode = .scaleAspectFit
-       // btn.backgroundColor = .green
         return btn
     }()
     
@@ -144,26 +142,24 @@ class ItemCell:UICollectionViewCell{
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 24)
         lbl.textAlignment = .center
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
         return lbl
     }()
-    
-    
     
     override func prepareForReuse() {
         self.backgroundColor = .white
         self.titleLabel.text = ""
+        self.imageView_.image = nil
+        
     }
 
-    
-
-    
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
 }
-
 
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
@@ -171,6 +167,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
+    var inventoryItemObserver:NSObjectProtocol?
     
     var itemCells = [Item_]()
     
@@ -179,27 +176,28 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         for i in 0..<CELL_COUNT {
             self.itemCells.append(Item_(index:i))
         }
-        self.collectionView?.reloadData()
+        // self.collectionView?.reloadData()
     }
 
     // WARNING !! -- May be an issue to reload each time the view will appear (line 151) in poor internet connection environment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        initItemCells()
         
         let group = DispatchGroup()
         print("Starting item retrieval .....")
         group.enter()
+        initItemCells()
         let db = Firestore.firestore()
         
         _ = db.collection("Items").order(by: "Index", descending: false).getDocuments { (snapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             }else{
-                //self.itemCells.removeAll()
+
                 for document in snapshot!.documents {
                     print("\(document.documentID) => \(document.data())")
-                    
+                    let inventoryItem = InventoryItem(id: document.documentID, dictionary: document.data())
+                    self.itemCells[inventoryItem.index!].inventoryItemCell = inventoryItem
                 }
             }
             group.leave()
@@ -210,11 +208,11 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             self.collectionView?.reloadData()
         }
       
-        
-        
-        
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
+        self.collectionView?.reloadData()
+
+        
         
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
             
@@ -229,10 +227,16 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 
             }
             self.collectionView?.reloadData()
-            
-            
         })
-        self.collectionView?.reloadData()
+        
+        
+        inventoryItemObserver =
+            NotificationCenter.default.addObserver(forName: .inventoryItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
+                
+                self.collectionView?.reloadData()
+
+                
+            })
     }
     
     
@@ -387,11 +391,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 cell?.backgroundColor = .white
             }
         }else{                                                       // Iventory item present
-            if(self.editModeOn){                                     // Load inventory item as editable cell
-                
-            }else{
-                
-            }
+            cell?.titleLabel.text = itemCells[indexPath.row].inventoryItemCell?.title
+            cell?.imageView_.image = nil
+            cell?.backgroundColor = UIColor.lightGray
         }
         
         return cell!
