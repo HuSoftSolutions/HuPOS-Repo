@@ -13,6 +13,7 @@ import Firebase
 
 class AddItemPopUpVC:UIViewController {
     
+    var inventoryItem:InventoryItem?
     var cellIndex = 0
     var taxOn:Bool = true
     
@@ -168,7 +169,7 @@ class AddItemPopUpVC:UIViewController {
                 if err != nil {
                     print(err.debugDescription)
                     let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                    let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
                     errorAlert.addAction(cancel)
                     self.present(errorAlert, animated: true, completion: nil)
                 }else{
@@ -198,6 +199,15 @@ class AddItemPopUpVC:UIViewController {
         }
     }
     
+    func addItemToEdit(){
+        if(self.inventoryItem != nil){
+            self.itemName.text = self.inventoryItem?.title
+            self.itemCategory.text = self.inventoryItem?.category
+            self.taxOn = (self.inventoryItem?.tax)!
+            self.taxChangedAction()
+        }
+    }
+    
     func setupViews(screen:CGRect){
         
         let MAIN_VIEW_WIDTH = screen.width / 2
@@ -215,6 +225,8 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(cost)
         view.addSubview(price)
         view.addSubview(desc)
+        
+        
 
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         

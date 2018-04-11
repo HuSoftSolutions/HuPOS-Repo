@@ -358,8 +358,20 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             }
         }else{                                                       // Iventory item present
             if(self.editModeOn){                                     // inventory item as editable cell
-                
+                // Send item to popup for editing
+                let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let addItemPopUpVC = AddItemPopUpVC()
+                addItemPopUpVC.modalPresentationStyle = .overCurrentContext
+                addItemPopUpVC.modalTransitionStyle = .crossDissolve
+                let addItemController = addItemPopUpVC.presentationController
+                addItemController?.delegate = self
+                addItemPopUpVC.cellIndex = indexPath.row
+                addItemPopUpVC.inventoryItem = self.itemCells[indexPath.row].inventoryItemCell
+                self.present(addItemPopUpVC, animated: true, completion: {
+                    print("Finished!")
+                })
             }else{
+                // Populate sale
                 
             }
         }
