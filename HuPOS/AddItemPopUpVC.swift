@@ -20,6 +20,7 @@ class AddItemPopUpVC:UIViewController {
     
     let mainView:UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.layer.cornerRadius = 5
         view.layer.masksToBounds = true
@@ -28,6 +29,7 @@ class AddItemPopUpVC:UIViewController {
     
     let itemImage:UIImageView = {
         let img = UIImageView()
+        img.translatesAutoresizingMaskIntoConstraints = false
         img.image = #imageLiteral(resourceName: "noimg")
         img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 5
@@ -37,6 +39,7 @@ class AddItemPopUpVC:UIViewController {
     
     let itemName:UITextField = {
         let txt = UITextField()
+        txt.translatesAutoresizingMaskIntoConstraints = false
         txt.placeholder = "Item Name"
         txt.adjustsFontSizeToFitWidth = true
         txt.font = UIFont.systemFont(ofSize: 30)
@@ -47,6 +50,7 @@ class AddItemPopUpVC:UIViewController {
     
     let itemCategory:UITextField = {
         let txt = UITextField()
+        txt.translatesAutoresizingMaskIntoConstraints = false
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "Item Category"
@@ -57,6 +61,7 @@ class AddItemPopUpVC:UIViewController {
     
     let taxBtn:UIButton = {
         let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
         btn.setTitle("Tax ON", for: .normal)
         btn.setTitleColor(.white, for: .normal)
@@ -72,6 +77,7 @@ class AddItemPopUpVC:UIViewController {
     
     let costLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 20)
         lbl.textColor = UIColor.lightGray
         lbl.text = "Cost"
@@ -80,6 +86,7 @@ class AddItemPopUpVC:UIViewController {
     
     let priceLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont.systemFont(ofSize: 20)
         lbl.textColor = UIColor.lightGray
         lbl.text = "Price"
@@ -88,6 +95,7 @@ class AddItemPopUpVC:UIViewController {
     
     let cost:UITextField = {
         let txt = UITextField()
+        txt.translatesAutoresizingMaskIntoConstraints = false
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "$0.00"
@@ -99,6 +107,7 @@ class AddItemPopUpVC:UIViewController {
     
     let price:UITextField = {
         let txt = UITextField()
+        txt.translatesAutoresizingMaskIntoConstraints = false
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "$0.00"
@@ -110,6 +119,7 @@ class AddItemPopUpVC:UIViewController {
     
     let desc:UITextView = {
         let txt = UITextView()
+        txt.translatesAutoresizingMaskIntoConstraints = false
         txt.toolbarPlaceholder = "Description"
         txt.font = UIFont.systemFont(ofSize: 20)
         txt.layer.borderWidth = 0.5
@@ -120,6 +130,7 @@ class AddItemPopUpVC:UIViewController {
     
     let cancelBtn:UIButton = {
         let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
         btn.setTitle("Cancel", for: .normal)
         btn.setTitleColor(.red, for: .normal)
@@ -129,6 +140,7 @@ class AddItemPopUpVC:UIViewController {
     
     let addItemBtn:UIButton = {
         let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
         btn.setTitle("Add Item", for: .normal)
         btn.setTitleColor(UIColor.blue, for: .normal)
@@ -148,21 +160,28 @@ class AddItemPopUpVC:UIViewController {
     
     @objc func addItemAction(){
         
-        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
-            
+//        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
+//        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
+        
             let cost_ = self.cost.text!.dropFirst()
             let price_ = self.price.text!.dropFirst()
             
             guard let cost_d = Double(cost_) else { return }
             guard let price_d = Double(price_) else { return }
-            let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex, id:"")
+        
+        var id = ""
+        
+        if(self.inventoryItem != nil){
+            id = (inventoryItem?.id!)!
+        }
+        
+        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex, id:id)
             
             print(newItem.dictionary())
             let db = Firestore.firestore()
             
             if(self.inventoryItem != nil){
-                
+                print("Inventory Item To Edit Present.\n Old: \(String(describing: self.inventoryItem?.dictionary())) \nNew: \(newItem.dictionary())")
                 db.collection("Items").document((self.inventoryItem?.id)!).updateData([
                     "Category":newItem.category!,
                     "Title":newItem.title!,
@@ -173,15 +192,16 @@ class AddItemPopUpVC:UIViewController {
                     "Description":newItem.desc!]) { err in
                         if let err = err {
                             print(err)
-                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
-                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-                            errorAlert.addAction(cancel)
-                            self.present(errorAlert, animated: true, completion: nil)
+//                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
+//                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+//                            errorAlert.addAction(cancel)
+//                            self.present(errorAlert, animated: true, completion: nil)
                         }else{
-                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
-                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-                            successAlert.addAction(cancel)
-                            self.present(successAlert, animated: true, completion: nil)
+//                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
+//                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+//                            successAlert.addAction(cancel)
+//                            self.present(successAlert, animated: true, completion: nil)
+                            
                         }
                 }
                 
@@ -190,17 +210,17 @@ class AddItemPopUpVC:UIViewController {
                 let ref = db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
                     if err != nil {
                         print(err.debugDescription)
-                        let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
-                        let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-                        errorAlert.addAction(cancel)
-                        self.present(errorAlert, animated: true, completion: nil)
-                        return
+//                        let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
+//                        let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+//                        errorAlert.addAction(cancel)
+//                        self.present(errorAlert, animated: true, completion: nil)
+//                        return
                     }else{
-                        let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
-                        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-                        successAlert.addAction(cancel)
-                        
-                        self.present(successAlert, animated: true, completion: nil)
+//                        let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
+//                        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+//                        successAlert.addAction(cancel)
+//
+//                        self.present(successAlert, animated: true, completion: nil)
                     }
                     
                 })
@@ -208,15 +228,16 @@ class AddItemPopUpVC:UIViewController {
                 db.collection("Items").document(ref.documentID).updateData(["Id":ref.documentID])
 
             }
+        
             self.dismiss(animated: true, completion: {
                 //broadcast
                 NotificationCenter.default.post(name: .inventoryItemAdded, object: newItem )
             })
         }
-        confirmationAlert.addAction(yesAction)
-        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(confirmationAlert, animated: true, completion: nil)
-    }
+//        confirmationAlert.addAction(yesAction)
+//        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        self.present(confirmationAlert, animated: true, completion: nil)
+   // }
     
     @objc func taxChangedAction(){
         if(taxOn) {
@@ -237,7 +258,7 @@ class AddItemPopUpVC:UIViewController {
             self.itemCategory.text = self.inventoryItem?.category
             self.price.text = String(format: "%.02f", (self.inventoryItem?.price)!).currencyInputFormatting()
             self.cost.text = String(format: "%.02f", (self.inventoryItem?.cost)!).currencyInputFormatting()
-            self.taxOn = (self.inventoryItem?.tax)!
+            self.taxOn = !(self.inventoryItem?.tax)!
             self.taxChangedAction()
         }
     }
