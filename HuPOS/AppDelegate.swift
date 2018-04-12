@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         super.init()
         FirebaseApp.configure()
         
+        
         let db = Firestore.firestore()
         let settings = FirestoreSettings()
         settings.isPersistenceEnabled = true

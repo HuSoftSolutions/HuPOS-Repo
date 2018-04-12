@@ -33,7 +33,7 @@ public class InventoryItem {
         self.index = dictionary["Index"] as? Int
     }
     
-    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int){
+    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int, id:String){
         self.image = img
         self.title = title
         self.category = category
@@ -42,10 +42,11 @@ public class InventoryItem {
         self.cost = cost
         self.tax = tax
         self.index = index
+        self.id = id
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Price":Double(), "Cost":Double(), "Tax":Bool()]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool() ]
         
         data["Id"] = self.id
         data["Title"] = self.title
@@ -55,10 +56,11 @@ public class InventoryItem {
         data["Tax"] = self.tax
         data["Image"] = self.image
         data["Index"] = self.index
+        data["Description"] = self.desc
         
         return data
     }
-}
+} 
 
 public class Item_ {
     
@@ -232,9 +234,10 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         
         inventoryItemObserver =
             NotificationCenter.default.addObserver(forName: .inventoryItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
-                
+                let item = notification.object as! InventoryItem
+                self.itemCells[item.index!].inventoryItemCell = item
                 self.collectionView?.reloadData()
-
+                
                 
             })
     }

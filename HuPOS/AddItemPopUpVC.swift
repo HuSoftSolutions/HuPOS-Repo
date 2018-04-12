@@ -11,6 +11,7 @@ import UIKit
 import SnapKit
 import Firebase
 
+
 class AddItemPopUpVC:UIViewController {
     
     var inventoryItem:InventoryItem?
@@ -86,7 +87,7 @@ class AddItemPopUpVC:UIViewController {
     }()
     
     let cost:UITextField = {
-       let txt = UITextField()
+        let txt = UITextField()
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "$0.00"
@@ -147,39 +148,70 @@ class AddItemPopUpVC:UIViewController {
     
     @objc func addItemAction(){
         
-        
-        
         let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
-
             
             let cost_ = self.cost.text!.dropFirst()
             let price_ = self.price.text!.dropFirst()
             
             guard let cost_d = Double(cost_) else { return }
             guard let price_d = Double(price_) else { return }
+            let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex, id:"")
             
-            let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex)
-            
-        
             print(newItem.dictionary())
-
             let db = Firestore.firestore()
-            db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
-                if err != nil {
-                    print(err.debugDescription)
-                    let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-                    errorAlert.addAction(cancel)
-                    self.present(errorAlert, animated: true, completion: nil)
-                }else{
-                    let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-                    successAlert.addAction(cancel)
-                    self.present(successAlert, animated: true, completion: nil)
+            
+            if(self.inventoryItem != nil){
+                
+                db.collection("Items").document((self.inventoryItem?.id)!).updateData([
+                    "Category":newItem.category!,
+                    "Title":newItem.title!,
+                    "Image":newItem.image!,
+                    "Price":newItem.price!,
+                    "Cost":newItem.cost!,
+                    "Tax":newItem.tax!,
+                    "Description":newItem.desc!]) { err in
+                        if let err = err {
+                            print(err)
+                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
+                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+                            errorAlert.addAction(cancel)
+                            self.present(errorAlert, animated: true, completion: nil)
+                        }else{
+                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
+                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                            successAlert.addAction(cancel)
+                            self.present(successAlert, animated: true, completion: nil)
+                        }
                 }
-            })
+                
+            }else{
+                
+                let ref = db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
+                    if err != nil {
+                        print(err.debugDescription)
+                        let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
+                        let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+                        errorAlert.addAction(cancel)
+                        self.present(errorAlert, animated: true, completion: nil)
+                        return
+                    }else{
+                        let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
+                        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                        successAlert.addAction(cancel)
+                        
+                        self.present(successAlert, animated: true, completion: nil)
+                    }
+                    
+                })
+                newItem.id = ref.documentID
+                db.collection("Items").document(ref.documentID).updateData(["Id":ref.documentID])
 
+            }
+            self.dismiss(animated: true, completion: {
+                //broadcast
+                NotificationCenter.default.post(name: .inventoryItemAdded, object: newItem )
+            })
         }
         confirmationAlert.addAction(yesAction)
         confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -203,6 +235,8 @@ class AddItemPopUpVC:UIViewController {
         if(self.inventoryItem != nil){
             self.itemName.text = self.inventoryItem?.title
             self.itemCategory.text = self.inventoryItem?.category
+            self.price.text = String(format: "%.02f", (self.inventoryItem?.price)!).currencyInputFormatting()
+            self.cost.text = String(format: "%.02f", (self.inventoryItem?.cost)!).currencyInputFormatting()
             self.taxOn = (self.inventoryItem?.tax)!
             self.taxChangedAction()
         }
@@ -227,7 +261,7 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(desc)
         
         
-
+        
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         
         mainView.snp.makeConstraints { (make) in
@@ -308,6 +342,8 @@ class AddItemPopUpVC:UIViewController {
         super.viewDidLoad()
         self.navigationController?.title = "Add New Item"
         
+        self.addItemToEdit()
+        
         self.showAnimate()
         let screenSize = UIScreen.main.bounds
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
@@ -374,10 +410,10 @@ extension String {
         let double = (amountWithPrefix as NSString).doubleValue
         number = NSNumber(value: (double / 100))
         
-        // if first number is 0 or all numbers were deleted
-        guard number != 0 as NSNumber else {
-            return ""
-        }
+//        // if first number is 0 or all numbers were deleted
+//        guard number != 0 as NSNumber else {
+//            return ""
+//        }
         
         return formatter.string(from: number)!
     }
