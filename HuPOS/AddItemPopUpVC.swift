@@ -170,19 +170,29 @@ class AddItemPopUpVC:UIViewController {
     
     @objc func deleteItemAction(){
         
-        
+        let alertController = UIAlertController(title: "Alert", message: "Are you sure you want to permanently delete this item?", preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
+            let db = Firestore.firestore()
+            db.collection("Items").document((self.inventoryItem?.id)!).delete()
+           
+        }
+        let cancelAction = UIAlertAction(title: "No", style: .cancel) { (alert) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(yesAction)
     }
     
     @objc func addItemAction(){
         
-//        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
-//        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
+        //        let confirmationAlert = UIAlertController(title: "Alert", message: "Are you sure you want to add this item?", preferredStyle: .alert)
+        //        let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
         
-            let cost_ = self.cost.text!.dropFirst()
-            let price_ = self.price.text!.dropFirst()
-            
-            guard let cost_d = Double(cost_) else { return }
-            guard let price_d = Double(price_) else { return }
+        let cost_ = self.cost.text!.dropFirst()
+        let price_ = self.price.text!.dropFirst()
+        
+        guard let cost_d = Double(cost_) else { return }
+        guard let price_d = Double(price_) else { return }
         
         var id = ""
         
@@ -191,68 +201,68 @@ class AddItemPopUpVC:UIViewController {
         }
         
         let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex, id:id)
+        
+        print(newItem.dictionary())
+        let db = Firestore.firestore()
+        
+        if(self.inventoryItem != nil){
+            print("Inventory Item To Edit Present.\n Old: \(String(describing: self.inventoryItem?.dictionary())) \nNew: \(newItem.dictionary())")
+            db.collection("Items").document((self.inventoryItem?.id)!).updateData([
+                "Category":newItem.category!,
+                "Title":newItem.title!,
+                "Image":newItem.image!,
+                "Price":newItem.price!,
+                "Cost":newItem.cost!,
+                "Tax":newItem.tax!,
+                "Description":newItem.desc!]) { err in
+                    if let err = err {
+                        print(err)
+                        //                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
+                        //                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+                        //                            errorAlert.addAction(cancel)
+                        //                            self.present(errorAlert, animated: true, completion: nil)
+                    }else{
+                        //                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
+                        //                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                        //                            successAlert.addAction(cancel)
+                        //                            self.present(successAlert, animated: true, completion: nil)
+                        
+                    }
+            }
             
-            print(newItem.dictionary())
-            let db = Firestore.firestore()
+        }else{
             
-            if(self.inventoryItem != nil){
-                print("Inventory Item To Edit Present.\n Old: \(String(describing: self.inventoryItem?.dictionary())) \nNew: \(newItem.dictionary())")
-                db.collection("Items").document((self.inventoryItem?.id)!).updateData([
-                    "Category":newItem.category!,
-                    "Title":newItem.title!,
-                    "Image":newItem.image!,
-                    "Price":newItem.price!,
-                    "Cost":newItem.cost!,
-                    "Tax":newItem.tax!,
-                    "Description":newItem.desc!]) { err in
-                        if let err = err {
-                            print(err)
-//                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
-//                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-//                            errorAlert.addAction(cancel)
-//                            self.present(errorAlert, animated: true, completion: nil)
-                        }else{
-//                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
-//                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-//                            successAlert.addAction(cancel)
-//                            self.present(successAlert, animated: true, completion: nil)
-                            
-                        }
+            let ref = db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
+                if err != nil {
+                    print(err.debugDescription)
+                    //                        let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
+                    //                        let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+                    //                        errorAlert.addAction(cancel)
+                    //                        self.present(errorAlert, animated: true, completion: nil)
+                    //                        return
+                }else{
+                    //                        let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
+                    //                        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                    //                        successAlert.addAction(cancel)
+                    //
+                    //                        self.present(successAlert, animated: true, completion: nil)
                 }
                 
-            }else{
-                
-                let ref = db.collection("Items").addDocument(data: newItem.dictionary(), completion: { (err) in
-                    if err != nil {
-                        print(err.debugDescription)
-//                        let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not added.", preferredStyle: .alert)
-//                        let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-//                        errorAlert.addAction(cancel)
-//                        self.present(errorAlert, animated: true, completion: nil)
-//                        return
-                    }else{
-//                        let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was added successfully.", preferredStyle: .alert)
-//                        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-//                        successAlert.addAction(cancel)
-//
-//                        self.present(successAlert, animated: true, completion: nil)
-                    }
-                    
-                })
-                newItem.id = ref.documentID
-                db.collection("Items").document(ref.documentID).updateData(["Id":ref.documentID])
-
-            }
-        
-            self.dismiss(animated: true, completion: {
-                //broadcast
-                NotificationCenter.default.post(name: .inventoryItemAdded, object: newItem )
             })
+            newItem.id = ref.documentID
+            db.collection("Items").document(ref.documentID).updateData(["Id":ref.documentID])
+            
         }
-//        confirmationAlert.addAction(yesAction)
-//        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//        self.present(confirmationAlert, animated: true, completion: nil)
-   // }
+        
+        self.dismiss(animated: true, completion: {
+            //broadcast
+            NotificationCenter.default.post(name: .inventoryItemAdded, object: newItem )
+        })
+    }
+    //        confirmationAlert.addAction(yesAction)
+    //        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    //        self.present(confirmationAlert, animated: true, completion: nil)
+    // }
     
     @objc func taxChangedAction(){
         if(taxOn) {
@@ -296,7 +306,7 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(price)
         view.addSubview(desc)
         
-
+        
         
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         
@@ -454,10 +464,10 @@ extension String {
         let double = (amountWithPrefix as NSString).doubleValue
         number = NSNumber(value: (double / 100))
         
-//        // if first number is 0 or all numbers were deleted
-//        guard number != 0 as NSNumber else {
-//            return ""
-//        }
+        //        // if first number is 0 or all numbers were deleted
+        //        guard number != 0 as NSNumber else {
+        //            return ""
+        //        }
         
         return formatter.string(from: number)!
     }

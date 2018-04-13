@@ -22,18 +22,21 @@ class SaleItemCell: UITableViewCell {
     
     let title:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 40)
         lbl.textAlignment = .left
         lbl.adjustsFontSizeToFitWidth = true
         lbl.lineBreakMode = .byWordWrapping
-        lbl.numberOfLines = 3
+        lbl.numberOfLines = 1
+        lbl.sizeToFit()
         return lbl
     }()
     
     let qtyLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Quantity: "
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 18)
@@ -46,6 +49,7 @@ class SaleItemCell: UITableViewCell {
     
     let qty:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 20)
@@ -65,6 +69,7 @@ class SaleItemCell: UITableViewCell {
     
     let unitPriceLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Unit Price: "
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 18)
@@ -77,6 +82,7 @@ class SaleItemCell: UITableViewCell {
     
     let unitPrice:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 20)
@@ -89,6 +95,7 @@ class SaleItemCell: UITableViewCell {
     
     let subtotalLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Subtotal: "
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 18)
@@ -101,6 +108,7 @@ class SaleItemCell: UITableViewCell {
     
     let subtotal:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 36)
@@ -113,6 +121,7 @@ class SaleItemCell: UITableViewCell {
     
     let voidLbl:UILabel = {
         let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "VOID"
         lbl.textColor = UIColor.red
         lbl.font = UIFont.systemFont(ofSize: 26)
@@ -151,6 +160,7 @@ class SaleItemCell: UITableViewCell {
         
         title.snp.makeConstraints { (make) in
             make.top.left.equalTo(self).offset(15)
+            make.width.equalTo(self.bounds.width/2)
         }
         qtyLbl.snp.makeConstraints { (make) in
             make.top.equalTo(title.snp.bottom).offset(15)
@@ -184,7 +194,7 @@ class SaleItemCell: UITableViewCell {
         }
         
         voidLbl.snp.makeConstraints { (make) in
-            make.left.equalTo(qtyStepper.snp.right).offset(20)
+            make.left.equalTo(qtyStepper.snp.right).offset(10)
             make.bottom.equalTo(qtyStepper.snp.bottom)
         }
         voidLbl.alpha = 0
@@ -222,6 +232,7 @@ class SaleItemsTVC: UITableViewController {
         createCell()
         tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         tableView.separatorStyle = .singleLine
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -340,8 +351,9 @@ class SaleItemsTVC: UITableViewController {
             return cell_
             
         }else{
+            
             saleItemCell = self.tableView.dequeueReusableCell(withIdentifier: cellId) as? SaleItemCell
-            // saleItemCell?.selectionStyle = .none
+            saleItemCell?.selectionStyle = .none
             saleItemCell?.qtyStepper.tag = indexPath.row
             saleItemCell?.qtyStepper.addTarget(self, action: #selector(qtyStprAction(sender:)), for: .valueChanged)
             saleItemCell?.isUserInteractionEnabled = true
