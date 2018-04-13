@@ -8,6 +8,9 @@
 
 import UIKit
 
+let VOID_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 10/255, blue: 10/255, alpha: 0.5)
+let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/255, alpha: 0.5)
+
 public class SaleItem {
     var inventoryItem:InventoryItem?
     var quantity = 1.0
@@ -55,7 +58,7 @@ class SaleItemCell: UITableViewCell {
     
     let qtyStepper:UIStepper = {
         let stpr = UIStepper(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        stpr.minimumValue = 1
+        stpr.minimumValue = -1000
         stpr.maximumValue = 1000
         return stpr
     }()
@@ -108,6 +111,18 @@ class SaleItemCell: UITableViewCell {
         return lbl
     }()
     
+    let voidLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "VOID"
+        lbl.textColor = UIColor.red
+        lbl.font = UIFont.systemFont(ofSize: 26)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 1
+        return lbl
+    }()
+    
     var saleItem:SaleItem? {
         didSet {
             title.text = saleItem?.inventoryItem?.title
@@ -119,6 +134,8 @@ class SaleItemCell: UITableViewCell {
     }
     override func prepareForReuse() {
         self.isUserInteractionEnabled = true
+        self.backgroundColor = .white
+        self.voidLbl.alpha = 0
     }
     
     func setup(){
@@ -130,6 +147,7 @@ class SaleItemCell: UITableViewCell {
         self.addSubview(unitPrice)
         self.addSubview(subtotalLbl)
         self.addSubview(subtotal)
+        self.addSubview(voidLbl)
         
         title.snp.makeConstraints { (make) in
             make.top.left.equalTo(self).offset(15)
@@ -165,6 +183,11 @@ class SaleItemCell: UITableViewCell {
             make.bottom.equalTo(self).offset(-15)
         }
         
+        voidLbl.snp.makeConstraints { (make) in
+            make.left.equalTo(qtyStepper.snp.right).offset(20)
+            make.bottom.equalTo(qtyStepper.snp.bottom)
+        }
+        voidLbl.alpha = 0
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -176,7 +199,7 @@ class SaleItemCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-  
+    
 }
 
 class SaleItemsTVC: UITableViewController {
@@ -221,9 +244,20 @@ class SaleItemsTVC: UITableViewController {
         
         saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
             let inventoryItem = notification.object as! Item_
-            var saleItem = SaleItem()
-            saleItem.inventoryItem = inventoryItem.inventoryItemCell
-            self.saleCells.append(saleItem)
+            var exists = false
+            for (i, item) in self.saleCells.enumerated() {
+                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
+                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
+                    exists = true
+                    self.saleCells[i].quantity += 1
+                    break
+                }
+            }
+            if(!exists){
+                var saleItem = SaleItem()
+                saleItem.inventoryItem = inventoryItem.inventoryItemCell
+                self.saleCells.append(saleItem)
+            }
             self.tableView.reloadData()
         })
         
@@ -257,15 +291,15 @@ class SaleItemsTVC: UITableViewController {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     @objc func qtyStprAction(sender:UIStepper){
         self.saleCells[sender.tag].quantity = sender.value
-       // self.saleItem?.quantity =
-           // sender.value
+        // self.saleItem?.quantity =
+        // sender.value
         //self.saleItem?.subtotal = (self.saleItem?.quantity)! * sender.value
         //NotificationCenter.default.post(name: .reloadTableView, object: nil)
         self.tableView.reloadData()
-        print("VALUE CHANGED")
+        print("VALUE CHANGED: \(self.saleCells[sender.tag].quantity)")
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -307,11 +341,25 @@ class SaleItemsTVC: UITableViewController {
             
         }else{
             saleItemCell = self.tableView.dequeueReusableCell(withIdentifier: cellId) as? SaleItemCell
-           // saleItemCell?.selectionStyle = .none
+            // saleItemCell?.selectionStyle = .none
             saleItemCell?.qtyStepper.tag = indexPath.row
             saleItemCell?.qtyStepper.addTarget(self, action: #selector(qtyStprAction(sender:)), for: .valueChanged)
             saleItemCell?.isUserInteractionEnabled = true
             saleItemCell?.saleItem = self.saleCells[indexPath.row]
+            saleItemCell?.voidLbl.alpha = 0
+            saleItemCell?.backgroundColor = .white
+            
+            if(saleItemCell?.saleItem?.quantity == 0.0){
+                saleItemCell?.backgroundColor = ZERO_CELL_BACKGROUND_COLOR
+                //self.saleCells[indexPath]
+                
+                saleItemCell?.saleItem?.subtotal = 0
+            }else if(Int((saleItemCell?.saleItem?.quantity)!) < 0){
+                saleItemCell?.backgroundColor = VOID_CELL_BACKGROUND_COLOR
+                saleItemCell?.voidLbl.alpha = 1.0
+                
+            }
+            print("Price: \((saleItemCell?.saleItem?.quantity)! * (saleItemCell?.saleItem?.inventoryItem?.price)!)")
             return saleItemCell!
         }
     }

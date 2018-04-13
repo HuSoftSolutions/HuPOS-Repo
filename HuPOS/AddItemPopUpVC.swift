@@ -132,8 +132,8 @@ class AddItemPopUpVC:UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("Cancel", for: .normal)
-        btn.setTitleColor(.red, for: .normal)
+        btn.setTitle("Back", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
         btn.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         return btn
     }()
@@ -148,6 +148,16 @@ class AddItemPopUpVC:UIViewController {
         return btn
     }()
     
+    let removeItemBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Delete", for: .normal)
+        btn.setTitleColor(UIColor.red, for: .normal)
+        btn.addTarget(self, action: #selector(deleteItemAction), for: .touchUpInside)
+        return btn
+    }()
+    
     @objc func itemPriceChanged(_ textField: UITextField){
         if let amountString = textField.text?.currencyInputFormatting() {
             textField.text = amountString
@@ -156,6 +166,11 @@ class AddItemPopUpVC:UIViewController {
     
     @objc func cancelAction(){
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func deleteItemAction(){
+        
+        
     }
     
     @objc func addItemAction(){
@@ -281,7 +296,7 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(price)
         view.addSubview(desc)
         
-        
+
         
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         
@@ -355,6 +370,14 @@ class AddItemPopUpVC:UIViewController {
         
         addItemBtn.snp.makeConstraints { (make) in
             make.bottom.right.equalTo(mainView).offset(-15)
+        }
+        
+        if(self.inventoryItem != nil){
+            view.addSubview(removeItemBtn)
+            removeItemBtn.snp.makeConstraints { (make) in
+                make.bottom.equalTo(mainView).offset(-15)
+                make.centerX.equalTo(mainView.snp.centerX)
+            }
         }
     }
     
