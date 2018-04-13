@@ -10,6 +10,10 @@ import UIKit
 import Firebase
 import SnapKit
 
+let CELL_COUNT = 20
+let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+
+
 public class InventoryItem {
     var id:String?
     var image:String?
@@ -76,18 +80,9 @@ public class Item_ {
 }
 
 class ItemCell:UICollectionViewCell{
-    
-    
     var item :Item_? {
         didSet{
-            // if inventoryItemCell is nil
-            
-            // else fill in blank cell traits
-            
-            // guard let title_ = item?.title else { return }
-            
             titleLabel.text = ""
-            
         }
     }
     
@@ -98,9 +93,9 @@ class ItemCell:UICollectionViewCell{
     }
     
     func setCellShadow(){
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width:0, height:1)
-        self.layer.shadowOpacity = 1
+        //self.layer.shadowColor = UIColor.black.cgColor
+//        self.layer.shadowOffset = CGSize(width:0, height:1)
+//        self.layer.shadowOpacity = 1
         self.layer.shadowRadius = 1.0
         self.layer.masksToBounds = false
         self.clipsToBounds = false
@@ -108,7 +103,7 @@ class ItemCell:UICollectionViewCell{
     }
     
     func setup(){
-        self.backgroundColor = .white
+        //self.backgroundColor = .white
         
         self.addSubview(imageView_)
         self.addSubview(titleLabel)
@@ -163,10 +158,61 @@ class ItemCell:UICollectionViewCell{
     
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
-    let CELL_COUNT = 20
-    
+
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
     var inventoryItemObserver:NSObjectProtocol?
@@ -184,7 +230,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     // WARNING !! -- May be an issue to reload each time the view will appear (line 151) in poor internet connection environment
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         let group = DispatchGroup()
         print("Starting item retrieval .....")
         group.enter()
@@ -212,8 +258,6 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
       
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
-        self.collectionView?.reloadData()
-
         
         
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
@@ -251,6 +295,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         super.viewWillDisappear(animated)
         if let editModeObserver = editModeObserver {
             NotificationCenter.default.removeObserver(editModeObserver)
+        }
+        if let inventoryItemObserver = inventoryItemObserver {
+            NotificationCenter.default.removeObserver(inventoryItemObserver)
         }
     }
     
@@ -376,6 +423,8 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             }else{
                 // Populate sale
                 
+                NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
+                
             }
         }
     }
@@ -383,6 +432,26 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let temp = self.itemCells.remove(at: sourceIndexPath.item)
         self.itemCells.insert(temp, at: destinationIndexPath.item)
+        let group = DispatchGroup()
+        
+        for (i, item) in self.itemCells.enumerated() {
+            group.enter()
+            if item.inventoryItemCell != nil{
+                item.inventoryItemCell?.index = i
+                let db = Firestore.firestore()
+                let itemRef = db.collection("Items").document((item.inventoryItemCell?.id!)!)
+                itemRef.updateData(["Index": item.inventoryItemCell?.index]) { (err) in
+                    if(err != nil){
+                        print(err)
+                        return
+                    }else{
+                        group.leave()
+                    }
+                }
+            }
+        }
+        group.notify(queue: .main){
+        }
     }
     
     
@@ -408,7 +477,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         }else{                                                       // Iventory item present
             cell?.titleLabel.text = itemCells[indexPath.row].inventoryItemCell?.title
             cell?.imageView_.image = nil
-            cell?.backgroundColor = UIColor.lightGray
+            cell?.backgroundColor = CELL_BACKGROUND_COLOR
         }
         
         return cell!

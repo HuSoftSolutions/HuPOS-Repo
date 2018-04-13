@@ -11,4 +11,6 @@ import Foundation
 extension Notification.Name {
     static let editModeChanged = Notification.Name(rawValue: "editModeChanged")
     static let inventoryItemAdded = Notification.Name(rawValue: "inventoryItemAdded")
+    static let saleItemAdded = Notification.Name(rawValue: "saleItemAdded")
+    static let reloadTableView = Notification.Name(rawValue: "reloadTableView")
 }

@@ -85,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // let layout = UICollectionViewFlowLayout()
         // let mainVC = ViewController()
         // window?.rootViewController = UINavigationController(rootViewController: mainVC)
-        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.shared.enable = true
 
         return true
     }

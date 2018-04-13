@@ -202,7 +202,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         cell.userName.text = self.users[indexPath.row].firstName
         print("INSIDE: \(user)")
         let selectedView = UIView()
-        selectedView.backgroundColor = UIColor.darkGray /* #00b5bf */
+        selectedView.backgroundColor = UIColor.lightGray /* #00b5bf */
         
         cell.selectedBackgroundView = selectedView
         //cell.selectionStyle = UITableViewCellSelectionStyle.none

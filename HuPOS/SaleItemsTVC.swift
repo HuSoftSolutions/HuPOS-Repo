@@ -6,36 +6,199 @@
 //  Copyright © 2018 HuSoft Solutions. All rights reserved.
 //
 
-
-
-
 import UIKit
 
+public class SaleItem {
+    var inventoryItem:InventoryItem?
+    var quantity = 1.0
+    var subtotal = 0.0
+    var void = false
+}
 
-class SaleItemsTVC: UITableViewController {
+class SaleItemCell: UITableViewCell {
     
-    var editModeObserver:NSObjectProtocol?
-
-    var noSaleCell:UITableViewCell?
+    let title:UILabel = {
+        let lbl = UILabel()
+        lbl.text = ""
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 40)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
     
-    var editModeOn = false
+    let qtyLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Quantity: "
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
     
-    var saleCells:[String] = []
-    let defaults = UserDefaults.standard
+    let qty:UILabel = {
+        let lbl = UILabel()
+        lbl.text = ""
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 20)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
     
- 
+    let qtyStepper:UIStepper = {
+        let stpr = UIStepper(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        stpr.minimumValue = 1
+        stpr.maximumValue = 1000
+        return stpr
+    }()
     
-    func createCell(){
+    let unitPriceLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Unit Price: "
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
+    
+    let unitPrice:UILabel = {
+        let lbl = UILabel()
+        lbl.text = ""
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 20)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
+    
+    let subtotalLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Subtotal: "
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
+    
+    let subtotal:UILabel = {
+        let lbl = UILabel()
+        lbl.text = ""
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 36)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 3
+        return lbl
+    }()
+    
+    var saleItem:SaleItem? {
+        didSet {
+            title.text = saleItem?.inventoryItem?.title
+            qty.text = String(Int((saleItem?.quantity)!))
+            qtyStepper.value = Double((saleItem?.quantity)!)
+            unitPrice.text = String(format: "%.02f", (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
+            subtotal.text = String(format: "%.02f", (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
+        }
+    }
+    override func prepareForReuse() {
+        self.isUserInteractionEnabled = true
+    }
+    
+    func setup(){
+        self.addSubview(title)
+        self.addSubview(qtyLbl)
+        self.addSubview(qty)
+        self.addSubview(qtyStepper)
+        self.addSubview(unitPriceLbl)
+        self.addSubview(unitPrice)
+        self.addSubview(subtotalLbl)
+        self.addSubview(subtotal)
         
-        self.noSaleCell = UITableViewCell(style: .default, reuseIdentifier: "NoSaleCell")
+        title.snp.makeConstraints { (make) in
+            make.top.left.equalTo(self).offset(15)
+        }
+        qtyLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(title.snp.bottom).offset(15)
+            make.left.equalTo(self).offset(15)
+        }
+        qty.snp.makeConstraints { (make) in
+            make.centerY.equalTo(qtyLbl.snp.centerY)
+            make.left.equalTo(qtyLbl.snp.right).offset(5)
+        }
+        qtyStepper.snp.makeConstraints { (make) in
+            make.top.equalTo(qty.snp.bottom).offset(5)
+            make.bottom.equalTo(self).offset(-15)
+            make.left.equalTo(self).offset(15)
+        }
+        
+        unitPrice.snp.makeConstraints { (make) in
+            make.right.equalTo(self).offset(-15)
+            make.top.equalTo(self).offset(15)
+        }
+        unitPriceLbl.snp.makeConstraints { (make) in
+            make.right.equalTo(unitPrice.snp.left).offset(-5)
+            make.bottom.equalTo(unitPrice.snp.bottom)
+        }
+        subtotal.snp.makeConstraints { (make) in
+            make.right.equalTo(self).offset(-15)
+            make.bottom.equalTo(self).offset(-15)
+        }
+        subtotalLbl.snp.makeConstraints { (make) in
+            make.right.equalTo(subtotal.snp.left).offset(-5)
+            make.bottom.equalTo(self).offset(-15)
+        }
         
     }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
   
+}
+
+class SaleItemsTVC: UITableViewController {
+    var cellId = "saleItemCell"
+    var editModeObserver:NSObjectProtocol?
+    var saleItemAddedObserver:NSObjectProtocol?
+    var reloadTableViewObserver:NSObjectProtocol?
+    var noSaleCell:UITableViewCell?
+    var editModeOn = false
+    var saleCells:[SaleItem] = []
+    let defaults = UserDefaults.standard
+    
+    func createCell(){
+        self.noSaleCell = UITableViewCell(style: .default, reuseIdentifier: "NoSaleCell")
+        tableView?.register(SaleItemCell.self, forCellReuseIdentifier: cellId)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         createCell()
         tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
-        
+        tableView.separatorStyle = .singleLine
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +206,6 @@ class SaleItemsTVC: UITableViewController {
         
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
-        
         
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
             let editModeOn = notification.object as! Bool
@@ -56,14 +218,34 @@ class SaleItemsTVC: UITableViewController {
             }
             self.tableView.reloadData()
         })
+        
+        saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
+            let inventoryItem = notification.object as! Item_
+            var saleItem = SaleItem()
+            saleItem.inventoryItem = inventoryItem.inventoryItemCell
+            self.saleCells.append(saleItem)
+            self.tableView.reloadData()
+        })
+        
+        reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
+            self.tableView.reloadData()
+        })
+        
         self.tableView.reloadData()
     }
     
     // Prevent memory leak
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(editModeObserver)
-
+        if let editModeObserver = editModeObserver {
+            NotificationCenter.default.removeObserver(editModeObserver)
+        }
+        if let saleItemAddedObserver = saleItemAddedObserver {
+            NotificationCenter.default.removeObserver(saleItemAddedObserver)
+        }
+        if let reloadTableViewObserver = reloadTableViewObserver {
+            NotificationCenter.default.removeObserver(reloadTableViewObserver)
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,15 +253,31 @@ class SaleItemsTVC: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    
-
-    
-    // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+    }
+
+    @objc func qtyStprAction(sender:UIStepper){
+        self.saleCells[sender.tag].quantity = sender.value
+       // self.saleItem?.quantity =
+           // sender.value
+        //self.saleItem?.subtotal = (self.saleItem?.quantity)! * sender.value
+        //NotificationCenter.default.post(name: .reloadTableView, object: nil)
+        self.tableView.reloadData()
+        print("VALUE CHANGED")
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            self.saleCells.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,32 +288,33 @@ class SaleItemsTVC: UITableViewController {
         }
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell?
+        var saleItemCell:SaleItemCell?
         
         if(self.editModeOn){
             let cell_ = self.tableView.dequeueReusableCell(withIdentifier: "editModeCell") as! EditItemsCell
-        
+            
             cell_.selectionStyle = .none
-
+            
             return cell_
             
         }else if(self.saleCells.count == 0){
             let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
             cell_.selectionStyle = .none
-
+            
             return cell_
             
         }else{
-            cell = self.tableView.dequeueReusableCell(withIdentifier: "saleCell") as! SaleItemCell
-            cell?.selectionStyle = .none
-
-            return cell!
+            saleItemCell = self.tableView.dequeueReusableCell(withIdentifier: cellId) as? SaleItemCell
+           // saleItemCell?.selectionStyle = .none
+            saleItemCell?.qtyStepper.tag = indexPath.row
+            saleItemCell?.qtyStepper.addTarget(self, action: #selector(qtyStprAction(sender:)), for: .valueChanged)
+            saleItemCell?.isUserInteractionEnabled = true
+            saleItemCell?.saleItem = self.saleCells[indexPath.row]
+            return saleItemCell!
         }
     }
-    
-    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(editModeOn){
@@ -127,50 +326,4 @@ class SaleItemsTVC: UITableViewController {
         }
         
     }
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
