@@ -215,6 +215,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
     var inventoryItemObserver:NSObjectProtocol?
+    var reloadCollectionView:NSObjectProtocol?
     
     var itemCells = [Item_]()
     
@@ -283,6 +284,12 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 
                 
             })
+        
+        reloadCollectionView = NotificationCenter.default.addObserver(forName: .reloadCollectionView, object: nil, queue: OperationQueue.main, using: { (notification) in
+            let itemToDelete = notification.object as! InventoryItem
+            self.itemCells[itemToDelete.index!].inventoryItemCell = nil
+            self.collectionView?.reloadData()
+        })
     }
     
     
@@ -297,6 +304,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         }
         if let inventoryItemObserver = inventoryItemObserver {
             NotificationCenter.default.removeObserver(inventoryItemObserver)
+        }
+        if let reloadCollectionView = reloadCollectionView {
+            NotificationCenter.default.removeObserver(reloadCollectionView)
         }
     }
     
@@ -473,7 +483,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 cell?.imageView_.image = nil
                 cell?.backgroundColor = .white
             }
-        }else{                                                       // Iventory item present
+        }else{                                                        // Iventory item present
             cell?.titleLabel.text = itemCells[indexPath.row].inventoryItemCell?.title
             cell?.imageView_.image = nil
             cell?.backgroundColor = CELL_BACKGROUND_COLOR

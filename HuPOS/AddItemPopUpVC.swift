@@ -174,13 +174,15 @@ class AddItemPopUpVC:UIViewController {
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (alert) in
             let db = Firestore.firestore()
             db.collection("Items").document((self.inventoryItem?.id)!).delete()
-           
+            NotificationCenter.default.post(name: .reloadCollectionView, object: self.inventoryItem)
+            self.dismiss(animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "No", style: .cancel) { (alert) in
-            self.dismiss(animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
         alertController.addAction(yesAction)
+        present(alertController, animated: true)
     }
     
     @objc func addItemAction(){

@@ -25,12 +25,14 @@ class SaleItemCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
-        lbl.font = UIFont.systemFont(ofSize: 40)
+        lbl.font = UIFont.systemFont(ofSize: 36)
         lbl.textAlignment = .left
         lbl.adjustsFontSizeToFitWidth = true
         lbl.lineBreakMode = .byWordWrapping
         lbl.numberOfLines = 1
         lbl.sizeToFit()
+        lbl.lineBreakMode = .byCharWrapping
+        lbl.baselineAdjustment = .alignCenters
         return lbl
     }()
     
@@ -142,6 +144,9 @@ class SaleItemCell: UITableViewCell {
         }
     }
     override func prepareForReuse() {
+        //self.qty.text = "1"
+        self.qtyStepper.value = 1
+        //self.saleItem?.quantity = 1
         self.isUserInteractionEnabled = true
         self.backgroundColor = .white
         self.voidLbl.alpha = 0
@@ -161,6 +166,7 @@ class SaleItemCell: UITableViewCell {
         title.snp.makeConstraints { (make) in
             make.top.left.equalTo(self).offset(15)
             make.width.equalTo(self.bounds.width/2)
+           // make.height.equalTo(self.bounds.height/2)
         }
         qtyLbl.snp.makeConstraints { (make) in
             make.top.equalTo(title.snp.bottom).offset(15)
@@ -253,17 +259,18 @@ class SaleItemsTVC: UITableViewController {
             self.tableView.reloadData()
         })
         
+        print("SALE ITEM ADDED OBSERVER ADDED! +++++++++++++++")
         saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
             let inventoryItem = notification.object as! Item_
             var exists = false
-            for (i, item) in self.saleCells.enumerated() {
-                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
-                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
-                    exists = true
-                    self.saleCells[i].quantity += 1
-                    break
-                }
-            }
+//            for (i, item) in self.saleCells.enumerated() {
+//                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
+//                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
+//                    exists = true
+//                    self.saleCells[i].quantity += 1
+//                    break
+//                }
+//            }
             if(!exists){
                 var saleItem = SaleItem()
                 saleItem.inventoryItem = inventoryItem.inventoryItemCell
@@ -275,17 +282,20 @@ class SaleItemsTVC: UITableViewController {
         reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
             self.tableView.reloadData()
         })
-        
+        print(NotificationCenter.default.observationInfo)
         self.tableView.reloadData()
     }
     
     // Prevent memory leak
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let editModeObserver = editModeObserver {
             NotificationCenter.default.removeObserver(editModeObserver)
         }
         if let saleItemAddedObserver = saleItemAddedObserver {
+            print("SALE ITEM ADDED OBSERVER REMOVED! -------------")
+
             NotificationCenter.default.removeObserver(saleItemAddedObserver)
         }
         if let reloadTableViewObserver = reloadTableViewObserver {
