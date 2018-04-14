@@ -260,17 +260,18 @@ class SaleItemsTVC: UITableViewController {
         })
         
         print("SALE ITEM ADDED OBSERVER ADDED! +++++++++++++++")
+        if(saleItemAddedObserver == nil){
         saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
             let inventoryItem = notification.object as! Item_
             var exists = false
-//            for (i, item) in self.saleCells.enumerated() {
-//                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
-//                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
-//                    exists = true
-//                    self.saleCells[i].quantity += 1
-//                    break
-//                }
-//            }
+            for (i, item) in self.saleCells.enumerated() {
+                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
+                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
+                    exists = true
+                    self.saleCells[i].quantity += 1
+                    break
+                }
+            }
             if(!exists){
                 var saleItem = SaleItem()
                 saleItem.inventoryItem = inventoryItem.inventoryItemCell
@@ -278,6 +279,7 @@ class SaleItemsTVC: UITableViewController {
             }
             self.tableView.reloadData()
         })
+        }
         
         reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
             self.tableView.reloadData()
@@ -295,8 +297,9 @@ class SaleItemsTVC: UITableViewController {
         }
         if let saleItemAddedObserver = saleItemAddedObserver {
             print("SALE ITEM ADDED OBSERVER REMOVED! -------------")
-
-            NotificationCenter.default.removeObserver(saleItemAddedObserver)
+            
+            NotificationCenter.default.removeObserver(self.saleItemAddedObserver)
+            self.saleItemAddedObserver = nil
         }
         if let reloadTableViewObserver = reloadTableViewObserver {
             NotificationCenter.default.removeObserver(reloadTableViewObserver)
