@@ -340,7 +340,7 @@ class SaleItemsTVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
+        if (editingStyle == UITableViewCellEditingStyle.delete && !self.saleCells.isEmpty) {
             // handle delete (by removing the data from your array and updating the tableview)
             self.saleCells.remove(at: indexPath.row)
             tableView.reloadData()
@@ -369,7 +369,7 @@ class SaleItemsTVC: UITableViewController {
         }else if(self.saleCells.count == 0){
             let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
             cell_.selectionStyle = .none
-            
+            cell_.isUserInteractionEnabled = false
             return cell_
             
         }else{

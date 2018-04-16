@@ -22,7 +22,7 @@ public class InventoryItem {
     var price:Double?
     var cost:Double?
     var tax:Bool?
-    var miscPrice:Bool
+    var miscPrice:Bool?
     var index:Int?
     
     init(id:String, dictionary:[String:Any]){
@@ -52,7 +52,7 @@ public class InventoryItem {
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool(), "MiscPrice":Bool ]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool(), "MiscPrice":Bool() ]
         
         data["Id"] = self.id
         data["Title"] = self.title
@@ -431,14 +431,24 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 addItemPopUpVC.cellIndex = indexPath.row
                 addItemPopUpVC.inventoryItem = self.itemCells[indexPath.row].inventoryItemCell
                 self.present(addItemPopUpVC, animated: true, completion: {
-                    print("Finished!")
+                    print("Finished presenting Edit View for Inventory Item !")
                 })
             }else{
                 // Populate sale
-                if(self.itemCells[indexPath.row].inventoryItemCell?.price){
-                    
+                if(self.itemCells[indexPath.row].inventoryItemCell?.miscPrice)!{
+                    let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let numberPadPopUp = NumberPadPopUpVC()
+                    numberPadPopUp.modalPresentationStyle = .overCurrentContext
+                    numberPadPopUp.modalTransitionStyle = .crossDissolve
+                    let numberPadPopUpController = numberPadPopUp.presentationController
+                    numberPadPopUpController?.delegate = self
+//                    numberPadPopUp.cellIndex = indexPath.row
+//                    numberPadPopUp.inventoryItem = self.itemCells[indexPath.row].inventoryItemCell
+                    self.present(numberPadPopUp, animated: true, completion: {
+                        print("Finished presenting Misc Item Number Pad View!")
+                    })
                 }
-                NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
+           //     NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
                 
             }
         }

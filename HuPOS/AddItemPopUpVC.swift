@@ -67,7 +67,7 @@ class AddItemPopUpVC:UIViewController {
         btn.setTitle("Tax ON", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = UIColor.green
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 40)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -83,7 +83,7 @@ class AddItemPopUpVC:UIViewController {
         btn.setTitle("Misc Price OFF", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = UIColor.red
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 40)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -210,8 +210,12 @@ class AddItemPopUpVC:UIViewController {
         let cost_ = self.cost.text!.dropFirst()
         let price_ = self.price.text!.dropFirst()
         
-        guard let cost_d = Double(cost_) else { return }
-        guard let price_d = Double(price_) else { return }
+        var cost_d:Double = 0.0
+        var price_d:Double = 0.0
+        if(!self.miscPriceOn){
+            cost_d = Double(cost_)!
+            price_d = Double(price_)!
+        }
         
         var id = ""
         
@@ -219,7 +223,7 @@ class AddItemPopUpVC:UIViewController {
             id = (inventoryItem?.id!)!
         }
         
-        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, description: self.desc.text, index: self.cellIndex, id:id)
+        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id)
         
         print(newItem.dictionary())
         let db = Firestore.firestore()
@@ -285,13 +289,13 @@ class AddItemPopUpVC:UIViewController {
     @objc func miscPriceChangedAction(){
         if(miscPriceOn) {
             miscPriceOn = false
-            self.miscPriceOn.backgroundColor = UIColor.red
-            self.miscPriceOn.setTitle("Misc Price OFF", for: .normal)
+            self.miscPriceBtn.backgroundColor = UIColor.red
+            self.miscPriceBtn.setTitle("Misc Price OFF", for: .normal)
         }
         else {
             miscPriceOn = true
-            self.miscPriceOn.backgroundColor = UIColor.green
-            self.miscPriceOn.setTitle("Misc Price ON", for: .normal)
+            self.miscPriceBtn.backgroundColor = UIColor.green
+            self.miscPriceBtn.setTitle("Misc Price ON", for: .normal)
         }
     }
     @objc func taxChangedAction(){
@@ -316,6 +320,7 @@ class AddItemPopUpVC:UIViewController {
             self.taxOn = !(self.inventoryItem?.tax)!
             self.miscPriceOn = !(self.inventoryItem?.miscPrice)!
             self.taxChangedAction()
+            self.miscPriceChangedAction()
         }
     }
     
@@ -324,6 +329,7 @@ class AddItemPopUpVC:UIViewController {
         let MAIN_VIEW_WIDTH = screen.width / 2
         let IMG_WIDTH = screen.width / 6
         
+        
         view.addSubview(mainView)
         view.addSubview(itemImage)
         view.addSubview(cancelBtn)
@@ -331,6 +337,7 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(itemName)
         view.addSubview(itemCategory)
         view.addSubview(taxBtn)
+        view.addSubview(miscPriceBtn)
         view.addSubview(costLbl)
         view.addSubview(priceLbl)
         view.addSubview(cost)
@@ -364,14 +371,22 @@ class AddItemPopUpVC:UIViewController {
             make.right.equalTo(mainView).offset(-15)
             make.height.equalTo(IMG_WIDTH / 3)
         }
-        
+
         taxBtn.snp.makeConstraints { (make) in
             make.top.equalTo(itemCategory.snp.bottom)
             make.left.equalTo(itemImage.snp.right).offset(15)
-            make.right.equalTo(mainView).offset(-15)
+            //make.right.equalTo(mainView).offset(-15)
             make.height.equalTo(IMG_WIDTH / 3)
+            make.width.equalTo(IMG_WIDTH * 0.75)
         }
         
+        miscPriceBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(itemCategory.snp.bottom)
+            make.left.equalTo(taxBtn.snp.right).offset(15)
+            make.right.equalTo(mainView).offset(-15)
+            make.height.equalTo(IMG_WIDTH / 3)
+            
+        }
         costLbl.snp.makeConstraints { (make) in
             make.top.equalTo(itemImage.snp.bottom).offset(15)
             make.left.equalTo(mainView.snp.left).offset(15)
@@ -407,7 +422,7 @@ class AddItemPopUpVC:UIViewController {
         cancelBtn.snp.makeConstraints { (make) in
             make.left.equalTo(mainView).offset(15)
             make.bottom.equalTo(mainView).offset(-15)
-        }
+        } 
         
         addItemBtn.snp.makeConstraints { (make) in
             make.bottom.right.equalTo(mainView).offset(-15)
