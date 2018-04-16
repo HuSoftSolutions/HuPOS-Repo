@@ -11,6 +11,14 @@ import UIKit
 let VOID_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 10/255, blue: 10/255, alpha: 0.5)
 let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/255, alpha: 0.5)
 
+public class Sale {
+    var id:String?
+    var timestamp:Date?
+    var saleItems:[SaleItem]?
+    var employeeId:String?
+    
+}
+
 public class SaleItem {
     var inventoryItem:InventoryItem?
     var quantity = 1.0
@@ -143,6 +151,7 @@ class SaleItemCell: UITableViewCell {
             subtotal.text = String(format: "%.02f", (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
         }
     }
+    
     override func prepareForReuse() {
         //self.qty.text = "1"
         self.qtyStepper.value = 1

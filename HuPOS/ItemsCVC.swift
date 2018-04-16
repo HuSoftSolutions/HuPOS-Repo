@@ -22,6 +22,7 @@ public class InventoryItem {
     var price:Double?
     var cost:Double?
     var tax:Bool?
+    var miscPrice:Bool
     var index:Int?
     
     init(id:String, dictionary:[String:Any]){
@@ -33,10 +34,11 @@ public class InventoryItem {
         self.price = dictionary["Price"] as? Double
         self.cost = dictionary["Cost"] as? Double
         self.tax = dictionary["Tax"] as? Bool
+        self.miscPrice = dictionary["MiscPrice"] as? Bool
         self.index = dictionary["Index"] as? Int
     }
     
-    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, description:String, index:Int, id:String){
+    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, miscPrice:Bool, description:String, index:Int, id:String){
         self.image = img
         self.title = title
         self.category = category
@@ -44,12 +46,13 @@ public class InventoryItem {
         self.price = price
         self.cost = cost
         self.tax = tax
+        self.miscPrice = miscPrice
         self.index = index
         self.id = id
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool() ]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool(), "MiscPrice":Bool ]
         
         data["Id"] = self.id
         data["Title"] = self.title
@@ -57,6 +60,7 @@ public class InventoryItem {
         data["Price"] = self.price
         data["Cost"] = self.cost
         data["Tax"] = self.tax
+        data["MiscPrice"] = self.miscPrice
         data["Image"] = self.image
         data["Index"] = self.index
         data["Description"] = self.desc
@@ -431,7 +435,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 })
             }else{
                 // Populate sale
-                
+                if(self.itemCells[indexPath.row].inventoryItemCell?.price){
+                    
+                }
                 NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
                 
             }

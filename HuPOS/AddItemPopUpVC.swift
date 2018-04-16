@@ -17,6 +17,7 @@ class AddItemPopUpVC:UIViewController {
     var inventoryItem:InventoryItem?
     var cellIndex = 0
     var taxOn:Bool = true
+    var miscPriceOn:Bool = false
     
     let mainView:UIView = {
         let view = UIView()
@@ -66,12 +67,28 @@ class AddItemPopUpVC:UIViewController {
         btn.setTitle("Tax ON", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = UIColor.green
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 40)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
         btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(taxChangedAction), for: .touchUpInside)
+        return btn
+    }()
+    
+    let miscPriceBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Misc Price OFF", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.backgroundColor = UIColor.red
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 40)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(miscPriceChangedAction), for: .touchUpInside)
         return btn
     }()
     
@@ -265,7 +282,18 @@ class AddItemPopUpVC:UIViewController {
     //        confirmationAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
     //        self.present(confirmationAlert, animated: true, completion: nil)
     // }
-    
+    @objc func miscPriceChangedAction(){
+        if(miscPriceOn) {
+            miscPriceOn = false
+            self.miscPriceOn.backgroundColor = UIColor.red
+            self.miscPriceOn.setTitle("Misc Price OFF", for: .normal)
+        }
+        else {
+            miscPriceOn = true
+            self.miscPriceOn.backgroundColor = UIColor.green
+            self.miscPriceOn.setTitle("Misc Price ON", for: .normal)
+        }
+    }
     @objc func taxChangedAction(){
         if(taxOn) {
             taxOn = false
@@ -286,6 +314,7 @@ class AddItemPopUpVC:UIViewController {
             self.price.text = String(format: "%.02f", (self.inventoryItem?.price)!).currencyInputFormatting()
             self.cost.text = String(format: "%.02f", (self.inventoryItem?.cost)!).currencyInputFormatting()
             self.taxOn = !(self.inventoryItem?.tax)!
+            self.miscPriceOn = !(self.inventoryItem?.miscPrice)!
             self.taxChangedAction()
         }
     }
