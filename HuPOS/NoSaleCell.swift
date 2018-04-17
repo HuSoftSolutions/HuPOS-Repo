@@ -34,12 +34,12 @@ class NoSaleCell: UITableViewCell {
         self.mainImageView.image = self.mainImage
         self.messageView.text = self.message
         self.addSubview(mainImageView)
-        self.addSubview(messageView)
+        //self.addSubview(messageView)
 
         mainImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         mainImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        mainImageView.anchor(top: nil, left: nil, right: nil, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 300, height: 300)
-        messageView.anchor(top: nil, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
+//        mainImageView.anchor(top: nil, left: nil, right: nil, bottom: nil, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0, width: 300, height: 300)
+//        messageView.anchor(top: nil, left: self.leftAnchor, right: self.rightAnchor, bottom: self.bottomAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, paddingBottom: 0)
     }
     
     override func layoutSubviews() {

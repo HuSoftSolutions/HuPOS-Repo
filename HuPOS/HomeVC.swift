@@ -257,6 +257,7 @@ class HomeVC:UIViewController {
     var pages:[Page]?
     var pageIndex = 0
     var saleDropDownButton = dropDownButton()
+    var saleItemChanged:NSObjectProtocol?
     
     @IBAction func pageBackAction(_ sender: Any) {
         
@@ -309,7 +310,6 @@ class HomeVC:UIViewController {
 
 
 
-
 override func viewDidLoad() {
     let app = UIApplication.shared.delegate! as! AppDelegate
     if let viewControllers = app.window?.rootViewController?.childViewControllers {
@@ -330,6 +330,7 @@ override func viewDidLoad() {
     self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.5)
     self.payButton.layer.cornerRadius = 5
     self.payButton.layer.masksToBounds = true
+    self.payButton.titleLabel?.adjustsFontSizeToFitWidth = true
     
     SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
 
@@ -345,8 +346,21 @@ override func viewDidLoad() {
 
 
 override func viewWillAppear(_ animated: Bool) {
-
+    self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
+        guard let sale:Sale = notification.object as! Sale else {
+            self.payButton.titleLabel?.text = "No Sale"
+            return
+        }
+        let formattedPrice = String(format: "%.02f", sale.saleTotal!).currencyInputFormatting()
+        self.payButton.titleLabel?.text = "Pay \(formattedPrice)"
+    })
 }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let saleItemChanged = self.saleItemChanged {
+            NotificationCenter.default.removeObserver(self.saleItemChanged)
+        }
+    }
 
 @IBOutlet weak var saleView: UIView!
 }

@@ -212,9 +212,24 @@ class AddItemPopUpVC:UIViewController {
         
         var cost_d:Double = 0.0
         var price_d:Double = 0.0
+        
+        
         if(!self.miscPriceOn){
-            cost_d = Double(cost_)!
-            price_d = Double(price_)!
+            
+            let blankFieldAlert = UIAlertController(title: "Blank Field", message: "Please fill in each required field", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+            blankFieldAlert.addAction(cancelAction)
+            
+            guard let cost__:Double = Double(cost_) else {
+                present(blankFieldAlert, animated: true, completion: nil)
+                return
+            }
+            guard let price__:Double = Double(price_) else {
+                present(blankFieldAlert, animated: true, completion: nil)
+                return
+            }
+            cost_d = cost__
+            price_d = price__
         }
         
         var id = ""
@@ -422,7 +437,7 @@ class AddItemPopUpVC:UIViewController {
         cancelBtn.snp.makeConstraints { (make) in
             make.left.equalTo(mainView).offset(15)
             make.bottom.equalTo(mainView).offset(-15)
-        } 
+        }
         
         addItemBtn.snp.makeConstraints { (make) in
             make.bottom.right.equalTo(mainView).offset(-15)

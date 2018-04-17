@@ -442,13 +442,15 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                     numberPadPopUp.modalTransitionStyle = .crossDissolve
                     let numberPadPopUpController = numberPadPopUp.presentationController
                     numberPadPopUpController?.delegate = self
-//                    numberPadPopUp.cellIndex = indexPath.row
-//                    numberPadPopUp.inventoryItem = self.itemCells[indexPath.row].inventoryItemCell
+                    numberPadPopUp.cellIndex = indexPath.row
+                    numberPadPopUp.item = self.itemCells[indexPath.row]
                     self.present(numberPadPopUp, animated: true, completion: {
                         print("Finished presenting Misc Item Number Pad View!")
                     })
+                }else{
+                    NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
+                    
                 }
-           //     NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
                 
             }
         }

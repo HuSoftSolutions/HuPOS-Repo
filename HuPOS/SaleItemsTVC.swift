@@ -7,15 +7,22 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 let VOID_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 10/255, blue: 10/255, alpha: 0.5)
 let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/255, alpha: 0.5)
 
+let STATE_TAX = 0.08
+
 public class Sale {
+
+    
     var id:String?
     var timestamp:Date?
     var saleItems:[SaleItem]?
     var employeeId:String?
+    var taxTotal:Double?
+    var saleTotal:Double?
     
 }
 
@@ -24,6 +31,7 @@ public class SaleItem {
     var quantity = 1.0
     var subtotal = 0.0
     var void = false
+    var taxTotal:Double = 0.0
 }
 
 class SaleItemCell: UITableViewCell {
@@ -33,7 +41,7 @@ class SaleItemCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = ""
         lbl.textColor = UIColor.black
-        lbl.font = UIFont.systemFont(ofSize: 36)
+        lbl.font = UIFont.systemFont(ofSize: 28)
         lbl.textAlignment = .left
         lbl.adjustsFontSizeToFitWidth = true
         lbl.lineBreakMode = .byWordWrapping
@@ -148,7 +156,23 @@ class SaleItemCell: UITableViewCell {
             qty.text = String(Int((saleItem?.quantity)!))
             qtyStepper.value = Double((saleItem?.quantity)!)
             unitPrice.text = String(format: "%.02f", (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
-            subtotal.text = String(format: "%.02f", (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
+            let itemPriceTotal = (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!
+            var tax:Double = 0.0
+            var itemRawCost = 0.0
+            if(saleItem?.inventoryItem?.tax)!{
+                
+                tax = STATE_TAX * itemPriceTotal
+                saleItem?.taxTotal = tax
+                print("TAX ADDED: \(itemPriceTotal) + \(tax) = \(itemPriceTotal + tax)")
+            }else{
+                itemRawCost = (itemPriceTotal)/(1.0 + STATE_TAX)
+                tax = (itemPriceTotal) - itemRawCost
+                saleItem?.taxTotal = tax
+                print("TAX INCLUDED: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
+                tax = 0.0
+            }
+            subtotal.text = String(format: "%.02f", ((saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!) + tax).currencyInputFormatting()
+            
         }
     }
     
@@ -160,6 +184,8 @@ class SaleItemCell: UITableViewCell {
         self.backgroundColor = .white
         self.voidLbl.alpha = 0
     }
+    
+
     
     func setup(){
         self.addSubview(title)
@@ -250,6 +276,22 @@ class SaleItemsTVC: UITableViewController {
         
     }
     
+    func generateSaleTotal() -> Sale{
+        var taxTotal = 0.0
+        var saleTotal = 0.0
+        for sale in self.saleCells {
+            saleTotal += sale.subtotal
+            taxTotal += sale.taxTotal
+        }
+        let sale = Sale()
+        sale.employeeId = Auth.auth().currentUser?.displayName
+        sale.timestamp = Date()
+        sale.taxTotal = taxTotal
+        sale.saleTotal = saleTotal
+        
+        return sale
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -275,7 +317,7 @@ class SaleItemsTVC: UITableViewController {
             var exists = false
             for (i, item) in self.saleCells.enumerated() {
                 print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
-                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title){
+                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
                     exists = true
                     self.saleCells[i].quantity += 1
                     break
@@ -394,6 +436,8 @@ class SaleItemsTVC: UITableViewController {
                 
             }
             print("Price: \((saleItemCell?.saleItem?.quantity)! * (saleItemCell?.saleItem?.inventoryItem?.price)!)")
+            let sale = self.generateSaleTotal()
+            NotificationCenter.default.post(name: .saleItemChanged, object: sale)
             return saleItemCell!
         }
     }
