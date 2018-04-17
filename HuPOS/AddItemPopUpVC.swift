@@ -116,6 +116,7 @@ class AddItemPopUpVC:UIViewController {
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "$0.00"
+        txt.text = "$0.00"
         txt.adjustsFontSizeToFitWidth = true
         txt.addTarget(self, action: #selector(AddItemPopUpVC.itemPriceChanged), for: .editingChanged)
         txt.keyboardType = .numberPad
@@ -128,6 +129,7 @@ class AddItemPopUpVC:UIViewController {
         txt.font = UIFont.systemFont(ofSize: 30)
         txt.minimumFontSize = 10
         txt.placeholder = "$0.00"
+        txt.text = "$0.00"
         txt.adjustsFontSizeToFitWidth = true
         txt.addTarget(self, action: #selector(AddItemPopUpVC.itemPriceChanged), for: .editingChanged)
         txt.keyboardType = .numberPad
@@ -220,16 +222,17 @@ class AddItemPopUpVC:UIViewController {
             let cancelAction = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
             blankFieldAlert.addAction(cancelAction)
             
-            guard let cost__:Double = Double(cost_) else {
-                present(blankFieldAlert, animated: true, completion: nil)
-                return
+            
+            if(cost_ != nil){
+                if let cost__:Double = Double(cost_)! {
+                    cost_d = cost__
+                }
             }
-            guard let price__:Double = Double(price_) else {
-                present(blankFieldAlert, animated: true, completion: nil)
-                return
+            if(price_ != nil){
+                if let price__:Double = Double(price_)! {
+                    price_d = price__
+                }
             }
-            cost_d = cost__
-            price_d = price__
         }
         
         var id = ""

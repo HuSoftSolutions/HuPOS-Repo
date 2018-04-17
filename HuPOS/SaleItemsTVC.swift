@@ -24,6 +24,25 @@ public class Sale {
     var taxTotal:Double?
     var saleTotal:Double?
     
+    func getSaleTotal() -> [String] {
+        var saleTotalTemp = 0.0
+        var taxTotalTemp = 0.0
+        for sale in saleItems! {
+            if(sale.inventoryItem?.tax)!{
+                saleTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
+                taxTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) * (STATE_TAX)
+            }else{
+                saleTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity)
+                taxTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
+            }
+        }
+        var totals = [String]()
+        totals.append(String(saleTotalTemp).currencyInputFormatting())
+        totals.append(String(taxTotalTemp).currencyInputFormatting())
+        
+        return totals
+    }
+    
 }
 
 public class SaleItem {
@@ -436,7 +455,10 @@ class SaleItemsTVC: UITableViewController {
                 
             }
             print("Price: \((saleItemCell?.saleItem?.quantity)! * (saleItemCell?.saleItem?.inventoryItem?.price)!)")
-            let sale = self.generateSaleTotal()
+            var sale = Sale()
+            sale.employeeId = Auth.auth().currentUser?.displayName
+            sale.timestamp = Date()
+            sale.saleItems = self.saleCells
             NotificationCenter.default.post(name: .saleItemChanged, object: sale)
             return saleItemCell!
         }

@@ -347,11 +347,13 @@ override func viewDidLoad() {
 
 override func viewWillAppear(_ animated: Bool) {
     self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
-        guard let sale:Sale = notification.object as! Sale else {
-            self.payButton.titleLabel?.text = "No Sale"
-            return
-        }
-        let formattedPrice = String(format: "%.02f", sale.saleTotal!).currencyInputFormatting()
+        let sale:Sale = notification.object as! Sale
+    
+        let totals = sale.getSaleTotal()
+    
+    
+        
+        let formattedPrice = totals[0]//.currencyInputFormatting()
         self.payButton.titleLabel?.text = "Pay \(formattedPrice)"
     })
 }
