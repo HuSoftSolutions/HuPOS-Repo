@@ -15,6 +15,7 @@
 		35104213202CEE64002614AC /* UserTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35104212202CEE64002614AC /* UserTVC.swift */; };
 		3521579E20337AA3009D1CC5 /* AddUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579D20337AA3009D1CC5 /* AddUserVC.swift */; };
 		352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */; };
+		352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */; };
 		354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
@@ -72,6 +73,7 @@
 		35104212202CEE64002614AC /* UserTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTVC.swift; sourceTree = "<group>"; };
 		3521579D20337AA3009D1CC5 /* AddUserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUserVC.swift; sourceTree = "<group>"; };
 		3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
+		352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPopUpVC.swift; sourceTree = "<group>"; };
 		354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPopUpVC.swift; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
 				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
 				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
+				352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
 				359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */,
 				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,
+				352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */,
 				357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,

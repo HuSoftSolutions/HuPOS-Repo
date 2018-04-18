@@ -1,47 +1,39 @@
 //
-//  NumberPadPopUpVC.swift
-//  BoringSSL
+//  PaymentPopUpVC.swift
+//  HuPOS
 //
-//  Created by Cody Husek on 4/14/18.
+//  Created by Cody Husek on 4/17/18.
+//  Copyright © 2018 HuSoft Solutions. All rights reserved.
 //
 
 import Foundation
-import SnapKit
 import Firebase
+import SnapKit
 import UIKit
 
-class NumberPadPopUpVC:UIViewController {
+class PaymentPopUpVC:UIViewController {
     
-    var cellIndex:Int?
-    var item:Item_?
+    var sale:Sale?
     
     @objc func digitPressed(sender:UIButton){
         let digit = sender.titleLabel?.text!
         miscPriceTotal.text?.append(digit!)
         miscPriceTotal.text = miscPriceTotal.text?.currencyInputFormatting()
         
-
+        
     }
     @objc func enterAction(sender:UIButton){
-        
-        
-        
-        print("Captured misc price of: \(self.miscPriceTotal.text?.currencyInputFormatting())")
-        
-        var miscPrice_ = self.miscPriceTotal.text!.dropFirst()
-        let m = miscPrice_.replacingOccurrences(of: ",", with: "")
-        
-        self.item?.inventoryItemCell?.price = Double(m)
-        NotificationCenter.default.post(name: .saleItemAdded, object: self.item)
-
-        self.dismiss(animated: true, completion: nil)
+    
     }
     
     @objc func clearAction(sender:UIButton){
         self.miscPriceTotal.text?.removeAll()
         
     }
-    
+    @objc func cancelAction(){
+        self.dismiss(animated: true, completion: nil)
+    }
+
     let mainView:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +42,6 @@ class NumberPadPopUpVC:UIViewController {
         view.layer.masksToBounds = true
         return view
     }()
-    
     let miscPriceTotal:UITextField = {
         let txt = UITextField()
         txt.translatesAutoresizingMaskIntoConstraints = false
@@ -209,7 +200,7 @@ class NumberPadPopUpVC:UIViewController {
         btn.addTarget(self, action: #selector(digitPressed), for: .touchUpInside)
         return btn
     }()
-
+    
     let enterBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -256,10 +247,6 @@ class NumberPadPopUpVC:UIViewController {
         return btn
     }()
     
-    @objc func cancelAction(){
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     func setupViews(screen:CGRect){
         
         let MAIN_VIEW_WIDTH = screen.width / 2
@@ -280,16 +267,17 @@ class NumberPadPopUpVC:UIViewController {
         view.addSubview(zeroBtn)
         view.addSubview(clearBtn)
         view.addSubview(enterBtn)
-
-
-
+        
+        
+        
         mainView.snp.makeConstraints { (make) in
+            make.width.equalTo(MAIN_VIEW_WIDTH)
             make.width.height.equalTo(MAIN_VIEW_WIDTH)
             make.center.equalTo(view)
         }
         
         miscPriceTotal.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 2)
             make.height.equalTo(MAIN_VIEW_WIDTH / 6)
             make.top.equalTo(mainView)
             make.left.equalTo(mainView)
@@ -297,100 +285,99 @@ class NumberPadPopUpVC:UIViewController {
         }
         
         oneBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(mainView)
         }
         twoBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(oneBtn.snp.right)
         }
         
         threeBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(twoBtn.snp.right)
         }
         
         fourBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(oneBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         
         fiveBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(twoBtn.snp.bottom)
             make.left.equalTo(fourBtn.snp.right)
         }
         
         sixBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(threeBtn.snp.bottom)
             make.left.equalTo(fiveBtn.snp.right)
         }
         
         sevenBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(fourBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         eightBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(fiveBtn.snp.bottom)
             make.left.equalTo(sevenBtn.snp.right)
         }
         nineBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(sixBtn.snp.bottom)
             make.left.equalTo(eightBtn.snp.right)
         }
         
         clearBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(sevenBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         zeroBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(eightBtn.snp.bottom)
             make.left.equalTo(clearBtn.snp.right)
         }
         enterBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(nineBtn.snp.bottom)
             make.left.equalTo(zeroBtn.snp.right)
         }
         cancelBtn.snp.makeConstraints { (make) in
             make.height.equalTo(MAIN_VIEW_WIDTH / 6)
-            make.width.equalTo(MAIN_VIEW_WIDTH)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 2)
             make.bottom.equalTo(mainView)
             make.left.equalTo(mainView)
             make.right.equalTo(mainView)
         }
-        
     }
     
-    override func viewDidLoad() {
-        let screenSize = UIScreen.main.bounds
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
-        setupViews(screen: screenSize)
-    }
+        override func viewDidLoad() {
+            let screenSize = UIScreen.main.bounds
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = view.bounds
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.addSubview(blurEffectView)
+            setupViews(screen: screenSize)
+        }
 }

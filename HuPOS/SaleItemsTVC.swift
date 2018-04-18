@@ -14,8 +14,8 @@ let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/
 
 let STATE_TAX = 0.08
 
-public class Sale {
 
+public class Sale {
     
     var id:String?
     var timestamp:Date?
@@ -27,20 +27,35 @@ public class Sale {
     func getSaleTotal() -> [String] {
         var saleTotalTemp = 0.0
         var taxTotalTemp = 0.0
-        for sale in saleItems! {
-            if(sale.inventoryItem?.tax)!{
-                saleTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
-                taxTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) * (STATE_TAX)
-            }else{
-                saleTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity)
-                taxTotalTemp += ((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
+        if(self.saleItems?.isEmpty)!{
+            return ["No Sale","0"]
+        }else{
+            for sale in saleItems! {
+                if(sale.inventoryItem?.tax)!{
+                    
+                    let sale_ = ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
+                    let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) * (STATE_TAX)
+                    saleTotalTemp += sale_
+                    print("+ Sale Total | \(sale_)")
+                    taxTotalTemp += tax_
+                    print("+ Tax Total | \(tax_)")
+                }else{
+                    let sale_ = ((sale.inventoryItem?.price)! * sale.quantity)
+                    let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
+                    saleTotalTemp += sale_
+                    print("+ Sale Total | \(sale_)")
+                    taxTotalTemp += tax_
+                    print("+ Tax Total | \(tax_)")
+                }
             }
+            var totals = [String]()
+            
+            let s_total = NumberFormatter.localizedString(from: NSNumber(value: saleTotalTemp), number: .currency)
+            let t_total = NumberFormatter.localizedString(from: NSNumber(value: taxTotalTemp), number: .currency)
+            totals.append(s_total)
+            totals.append(t_total)
+            return totals
         }
-        var totals = [String]()
-        totals.append(String(saleTotalTemp).currencyInputFormatting())
-        totals.append(String(taxTotalTemp).currencyInputFormatting())
-        
-        return totals
     }
     
 }
@@ -174,12 +189,11 @@ class SaleItemCell: UITableViewCell {
             title.text = saleItem?.inventoryItem?.title
             qty.text = String(Int((saleItem?.quantity)!))
             qtyStepper.value = Double((saleItem?.quantity)!)
-            unitPrice.text = String(format: "%.02f", (saleItem?.inventoryItem?.price)!).currencyInputFormatting()
+            unitPrice.text = NumberFormatter.localizedString(from: NSNumber(value: (saleItem?.inventoryItem?.price)!), number: .currency)
             let itemPriceTotal = (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!
             var tax:Double = 0.0
             var itemRawCost = 0.0
             if(saleItem?.inventoryItem?.tax)!{
-                
                 tax = STATE_TAX * itemPriceTotal
                 saleItem?.taxTotal = tax
                 print("TAX ADDED: \(itemPriceTotal) + \(tax) = \(itemPriceTotal + tax)")
@@ -190,8 +204,8 @@ class SaleItemCell: UITableViewCell {
                 print("TAX INCLUDED: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
                 tax = 0.0
             }
-            subtotal.text = String(format: "%.02f", ((saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!) + tax).currencyInputFormatting()
-            
+            let s_total = ((saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!) + tax
+            subtotal.text = NumberFormatter.localizedString(from: NSNumber(value: s_total), number: .currency)
         }
     }
     
@@ -204,7 +218,7 @@ class SaleItemCell: UITableViewCell {
         self.voidLbl.alpha = 0
     }
     
-
+    
     
     func setup(){
         self.addSubview(title)
@@ -220,7 +234,7 @@ class SaleItemCell: UITableViewCell {
         title.snp.makeConstraints { (make) in
             make.top.left.equalTo(self).offset(15)
             make.width.equalTo(self.bounds.width/2)
-           // make.height.equalTo(self.bounds.height/2)
+            // make.height.equalTo(self.bounds.height/2)
         }
         qtyLbl.snp.makeConstraints { (make) in
             make.top.equalTo(title.snp.bottom).offset(15)
@@ -277,10 +291,13 @@ class SaleItemsTVC: UITableViewController {
     var editModeObserver:NSObjectProtocol?
     var saleItemAddedObserver:NSObjectProtocol?
     var reloadTableViewObserver:NSObjectProtocol?
+    var finalizeSaleObserver: NSObjectProtocol?
     var noSaleCell:UITableViewCell?
     var editModeOn = false
     var saleCells:[SaleItem] = []
     let defaults = UserDefaults.standard
+    
+    var currentSale:Sale?
     
     func createCell(){
         self.noSaleCell = UITableViewCell(style: .default, reuseIdentifier: "NoSaleCell")
@@ -289,6 +306,8 @@ class SaleItemsTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         createCell()
         tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         tableView.separatorStyle = .singleLine
@@ -331,29 +350,47 @@ class SaleItemsTVC: UITableViewController {
         
         print("SALE ITEM ADDED OBSERVER ADDED! +++++++++++++++")
         if(saleItemAddedObserver == nil){
-        saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
-            let inventoryItem = notification.object as! Item_
-            var exists = false
-            for (i, item) in self.saleCells.enumerated() {
-                print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
-                if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
-                    exists = true
-                    self.saleCells[i].quantity += 1
-                    break
+            saleItemAddedObserver = NotificationCenter.default.addObserver(forName: .saleItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
+                let inventoryItem = notification.object as! Item_
+                var exists = false
+                for (i, item) in self.saleCells.enumerated() {
+                    print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
+                    if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
+                        exists = true
+                        self.saleCells[i].quantity += 1
+                        break
+                    }
                 }
-            }
-            if(!exists){
-                var saleItem = SaleItem()
-                saleItem.inventoryItem = inventoryItem.inventoryItemCell
-                self.saleCells.append(saleItem)
-            }
-            self.tableView.reloadData()
-        })
+                if(!exists){
+                    var saleItem = SaleItem()
+                    saleItem.inventoryItem = inventoryItem.inventoryItemCell
+                    self.saleCells.append(saleItem)
+                }
+                self.tableView.reloadData()
+            })
         }
         
         reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
             self.tableView.reloadData()
         })
+        
+        finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
+            let sale = self.getCurrentSale()
+            if(!(sale.saleItems?.isEmpty)!){
+                let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let paymentPopUp = PaymentPopUpVC()
+                paymentPopUp.modalPresentationStyle = .overCurrentContext
+                paymentPopUp.modalTransitionStyle = .crossDissolve
+                let paymentPopUpController = paymentPopUp.presentationController
+               // paymentPopUp.delegate = self
+                paymentPopUp.sale = self.getCurrentSale()
+                
+                self.present(paymentPopUp, animated: true, completion: {
+                    print("Finished presenting Payment Pad View!")
+                })
+            }
+        })
+        
         print(NotificationCenter.default.observationInfo)
         self.tableView.reloadData()
     }
@@ -373,6 +410,9 @@ class SaleItemsTVC: UITableViewController {
         }
         if let reloadTableViewObserver = reloadTableViewObserver {
             NotificationCenter.default.removeObserver(reloadTableViewObserver)
+        }
+        if let finalizeSaleObserver = finalizeSaleObserver {
+            NotificationCenter.default.removeObserver(finalizeSaleObserver)
         }
     }
     
@@ -431,6 +471,9 @@ class SaleItemsTVC: UITableViewController {
             let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
             cell_.selectionStyle = .none
             cell_.isUserInteractionEnabled = false
+            NotificationCenter.default.post(name: .saleItemChanged, object: ["No Sale",""])
+            
+
             return cell_
             
         }else{
@@ -455,13 +498,27 @@ class SaleItemsTVC: UITableViewController {
                 
             }
             print("Price: \((saleItemCell?.saleItem?.quantity)! * (saleItemCell?.saleItem?.inventoryItem?.price)!)")
-            var sale = Sale()
-            sale.employeeId = Auth.auth().currentUser?.displayName
-            sale.timestamp = Date()
-            sale.saleItems = self.saleCells
-            NotificationCenter.default.post(name: .saleItemChanged, object: sale)
+            saleItemChanged_Notification()
+            //print("Sent: \(sale.)")
+            
             return saleItemCell!
         }
+    }
+    
+    func getCurrentSale() -> Sale {
+        var sale = Sale()
+        sale.employeeId = Auth.auth().currentUser?.displayName
+        sale.timestamp = Date()
+        sale.saleItems = self.saleCells
+        return sale
+    }
+    
+    func saleItemChanged_Notification(){
+        var sale = Sale()
+        sale.employeeId = Auth.auth().currentUser?.displayName
+        sale.timestamp = Date()
+        sale.saleItems = self.saleCells
+        NotificationCenter.default.post(name: .saleItemChanged, object: sale.getSaleTotal())
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -473,5 +530,12 @@ class SaleItemsTVC: UITableViewController {
             return 150
         }
         
+    }
+}
+
+extension Double {
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }

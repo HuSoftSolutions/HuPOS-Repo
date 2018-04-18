@@ -15,4 +15,5 @@ extension Notification.Name {
     static let reloadTableView = Notification.Name(rawValue: "reloadTableView")
     static let reloadCollectionView = Notification.Name(rawValue: "reloadCollectionView")
     static let saleItemChanged = Notification.Name(rawValue: "saleItemChanged")
+    static let finalizeSale = Notification.Name(rawValue: "finalizeSale")
 }

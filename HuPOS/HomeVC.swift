@@ -265,8 +265,13 @@ class HomeVC:UIViewController {
     
     
     @IBAction func payTapped(_ sender: UIButton) {
-        BTCommunication.openDrawer()
-        BTCommunication.print()
+        
+        NotificationCenter.default.post(name: .finalizeSale, object: nil)
+        
+//        BTCommunication.openDrawer()
+//        BTCommunication.print()
+//
+        
     }
     
     @IBAction func signOutTapped(_ sender: Any) {
@@ -331,7 +336,7 @@ override func viewDidLoad() {
     self.payButton.layer.cornerRadius = 5
     self.payButton.layer.masksToBounds = true
     self.payButton.titleLabel?.adjustsFontSizeToFitWidth = true
-    
+    self.payButton.titleLabel?.minimumScaleFactor = 0.5
     SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
 
     // Check BT Device Preference
@@ -347,15 +352,15 @@ override func viewDidLoad() {
 
 override func viewWillAppear(_ animated: Bool) {
     self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
-        let sale:Sale = notification.object as! Sale
+        let saleTotals:[String] = notification.object as! [String]
     
-        let totals = sale.getSaleTotal()
-    
-    
-        
-        let formattedPrice = totals[0]//.currencyInputFormatting()
-        self.payButton.titleLabel?.text = "Pay \(formattedPrice)"
-    })
+        print("Total sales: \(saleTotals[0])\nTotal tax: \(saleTotals[1])")
+        if(saleTotals[0] == "No Sale"){
+            self.payButton.setTitle("No Sale", for: .normal)
+        }else{
+            self.payButton.setTitle("Pay \(saleTotals[0])", for: .normal)
+        }
+     })
 }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -211,10 +211,10 @@ class AddItemPopUpVC:UIViewController {
         
         let cost_ = self.cost.text!.dropFirst()
         let price_ = self.price.text!.dropFirst()
-        
+        let cost__ = cost_.replacingOccurrences(of: ",", with: "")
+        let price__ = price_.replacingOccurrences(of: ",", with: "")
         var cost_d:Double = 0.0
         var price_d:Double = 0.0
-        
         
         if(!self.miscPriceOn){
             
@@ -224,13 +224,13 @@ class AddItemPopUpVC:UIViewController {
             
             
             if(cost_ != nil){
-                if let cost__:Double = Double(cost_)! {
-                    cost_d = cost__
+                if let cost__d:Double = Double(cost__)! {
+                    cost_d = cost__d
                 }
             }
             if(price_ != nil){
-                if let price__:Double = Double(price_)! {
-                    price_d = price__
+                if let price__d:Double = Double(price__)! {
+                    price_d = price__d
                 }
             }
         }
@@ -516,7 +516,7 @@ extension String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currencyAccounting
         formatter.currencySymbol = "$"
-        formatter.maximumFractionDigits = 2
+        formatter.maximumFractionDigits = 10
         formatter.minimumFractionDigits = 2
         
         var amountWithPrefix = self
