@@ -27,9 +27,11 @@ class PaymentPopUpVC:UIViewController {
     }
     
     @objc func clearAction(sender:UIButton){
-        self.miscPriceTotal.text?.removeAll()
+        
+        self.eventTotal.text?.removeAll()
         
     }
+    
     @objc func cancelAction(){
         self.dismiss(animated: true, completion: nil)
     }
@@ -38,16 +40,17 @@ class PaymentPopUpVC:UIViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
-        view.layer.cornerRadius = 5
-        view.layer.masksToBounds = true
+        //view.layer.cornerRadius = 5
+        //view.layer.masksToBounds = true
         return view
     }()
-    let miscPriceTotal:UITextField = {
+    
+    let eventTotal:UITextField = {
         let txt = UITextField()
         txt.translatesAutoresizingMaskIntoConstraints = false
         txt.font = UIFont.systemFont(ofSize: 80)
         txt.minimumFontSize = 10
-        txt.placeholder = "0.00".currencyInputFormatting()
+        txt.placeholder = "0.00".currencyInputFormatting() // -- ???
         txt.adjustsFontSizeToFitWidth = true
         txt.autocapitalizationType = .words
         txt.backgroundColor = UIColor.white
@@ -55,6 +58,7 @@ class PaymentPopUpVC:UIViewController {
         txt.textAlignment = .center
         txt.sizeToFit()
         txt.isUserInteractionEnabled = false
+        txt.keyboardType = .phonePad
         txt.layer.cornerRadius = 5
         txt.layer.masksToBounds = true
         return txt
@@ -249,8 +253,34 @@ class PaymentPopUpVC:UIViewController {
     
     func setupViews(screen:CGRect){
         
-        let MAIN_VIEW_WIDTH = screen.width / 2
-        let NUM_PAD_HEIGHT = MAIN_VIEW_WIDTH * (2/3)
+        let EVENT_BTN_SPACES = 5.0
+        
+        let PAD = 15.0
+        
+        let MAIN_VIEW_WIDTH = Double(screen.width)
+        let MAIN_VIEW_HEIGHT = Double(screen.height)
+        
+        let NUM_PAD_WIDTH = MAIN_VIEW_WIDTH * (2/5)
+        let NUM_PAD_HEIGHT = MAIN_VIEW_HEIGHT * (5/7)
+        
+        let DIGIT_WIDTH = NUM_PAD_WIDTH * (1/3)
+        let DIGIT_HEIGHT = NUM_PAD_HEIGHT * (1/5)
+        
+        let EVENT_BTN_WIDTH = MAIN_VIEW_WIDTH/EVENT_BTN_SPACES
+        let EVENT_BTN_HEIGHT = MAIN_VIEW_HEIGHT * (1/7)// - (2*PAD)
+        
+        let EVENT_AMT_WIDTH = NUM_PAD_WIDTH
+        let EVENT_AMT_HEIGHT = NUM_PAD_HEIGHT * (1/5)
+        
+        let CANCEL_BTN_WIDTH = NUM_PAD_WIDTH //- (2*PAD)
+        let CANCEL_BTN_HEIGHT = MAIN_VIEW_HEIGHT * (1/7)// - (2*PAD)
+        
+        let SALE_TOTAL_WIDTH = MAIN_VIEW_WIDTH - NUM_PAD_WIDTH
+        let SALE_TOTAL_HEIGHT = NUM_PAD_HEIGHT * (1/2)
+        
+        let ACCEPT_BTN_WIDTH = MAIN_VIEW_WIDTH - NUM_PAD_WIDTH
+        let ACCEPT_BTN_HEIGHT = MAIN_VIEW_HEIGHT * (1/7)
+
         
         view.addSubview(mainView)
         view.addSubview(cancelBtn)
@@ -272,98 +302,98 @@ class PaymentPopUpVC:UIViewController {
         
         mainView.snp.makeConstraints { (make) in
             make.width.equalTo(MAIN_VIEW_WIDTH)
-            make.width.height.equalTo(MAIN_VIEW_WIDTH)
+            make.height.equalTo(MAIN_VIEW_WIDTH)
             make.center.equalTo(view)
         }
         
         miscPriceTotal.snp.makeConstraints { (make) in
             make.width.equalTo(MAIN_VIEW_WIDTH / 2)
-            make.height.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.height.equalTo(MAIN_VIEW_WIDTH * (2/7))
             make.top.equalTo(mainView)
             make.left.equalTo(mainView)
             make.right.equalTo(mainView)
         }
         
         oneBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(mainView)
         }
         twoBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(oneBtn.snp.right)
         }
         
         threeBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(miscPriceTotal.snp.bottom)
             make.left.equalTo(twoBtn.snp.right)
         }
         
         fourBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(oneBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         
         fiveBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(twoBtn.snp.bottom)
             make.left.equalTo(fourBtn.snp.right)
         }
         
         sixBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(threeBtn.snp.bottom)
             make.left.equalTo(fiveBtn.snp.right)
         }
         
         sevenBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(fourBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         eightBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(fiveBtn.snp.bottom)
             make.left.equalTo(sevenBtn.snp.right)
         }
         nineBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(sixBtn.snp.bottom)
             make.left.equalTo(eightBtn.snp.right)
         }
         
         clearBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(sevenBtn.snp.bottom)
             make.left.equalTo(mainView)
         }
         zeroBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(eightBtn.snp.bottom)
             make.left.equalTo(clearBtn.snp.right)
         }
         enterBtn.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.width.equalTo(MAIN_VIEW_WIDTH / 3)
             make.height.equalTo(NUM_PAD_HEIGHT / 4)
             make.top.equalTo(nineBtn.snp.bottom)
             make.left.equalTo(zeroBtn.snp.right)
         }
         cancelBtn.snp.makeConstraints { (make) in
-            make.height.equalTo(MAIN_VIEW_WIDTH / 6)
+            make.height.equalTo(MAIN_VIEW_WIDTH * (1/7) )
             make.width.equalTo(MAIN_VIEW_WIDTH / 2)
             make.bottom.equalTo(mainView)
             make.left.equalTo(mainView)
