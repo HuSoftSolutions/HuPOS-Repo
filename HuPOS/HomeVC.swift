@@ -94,7 +94,6 @@ class dropDownButton: UIButton, dropDownProtocol {
         NSLayoutConstraint.activate([self.height])
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseInOut, animations: {
             self.dropView.center.y -= self.dropView.frame.height / 2
-            
             self.dropView.layoutIfNeeded()
             
         }, completion: nil)

@@ -15,6 +15,22 @@ let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/
 let STATE_TAX = 0.08
 
 
+public class Event {
+    var id:String?
+    var type:EventType
+    var amount:Double
+    var userID:Int8
+    var timestamp:Date
+    
+    init(_id:String, _type:EventType, _amount:Double, _userID:Int8, _time:Date){
+        self.id = _id
+        self.type = _type
+        self.amount = _amount
+        self.userID = _userID
+        self.timestamp = _time
+    }
+}
+
 public class Sale {
     
     var id:String?
@@ -23,6 +39,7 @@ public class Sale {
     var employeeId:String?
     var taxTotal:Double?
     var saleTotal:Double?
+    var events:[Event]?
     
     func getSaleTotal() -> [String] {
         var saleTotalTemp = 0.0
@@ -507,9 +524,11 @@ class SaleItemsTVC: UITableViewController {
     
     func getCurrentSale() -> Sale {
         var sale = Sale()
+        sale = self.generateSaleTotal()
         sale.employeeId = Auth.auth().currentUser?.displayName
         sale.timestamp = Date()
         sale.saleItems = self.saleCells
+
         return sale
     }
     

@@ -10,7 +10,7 @@ import Foundation
 
 // https://firebase.google.com/docs/firestore/query-data/queries
 
-enum EventType { case cash, discount, credit, gift, comp, refund }
+// enum EventType { case cash, discount, credit, gift, comp, refund }
 
 enum UserType { case superadmin, admin, manager, user }
 
@@ -29,7 +29,7 @@ private class Transaction {
     var memberID:Int8
     var userID:Int8
     var total:Double
-    var event:[Event]?
+    //var event:[Event]?
     
     init(_id:String, _memberID:Int8, _userID:Int8, _total:Double){
         self.id = _id
@@ -41,19 +41,6 @@ private class Transaction {
     }
 }
 
-private class Event {
-    var id:String
-    var type:EventType
-    var amount:Double
-    var userID:Int8
-    
-    init(_id:String, _type:EventType, _amount:Double, _userID:Int8){
-        self.id = _id
-        self.type = _type
-        self.amount = _amount
-        self.userID = _userID
-    }
-}
 
 private class SalesItem {
     var transactionID:String
