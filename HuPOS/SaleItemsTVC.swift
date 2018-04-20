@@ -400,7 +400,7 @@ class SaleItemsTVC: UITableViewController {
                 paymentPopUp.modalTransitionStyle = .crossDissolve
                 let paymentPopUpController = paymentPopUp.presentationController
                // paymentPopUp.delegate = self
-                paymentPopUp.sale = self.getCurrentSale()
+                paymentPopUp.sale = sale
                 
                 self.present(paymentPopUp, animated: true, completion: {
                     print("Finished presenting Payment Pad View!")
@@ -524,7 +524,7 @@ class SaleItemsTVC: UITableViewController {
     
     func getCurrentSale() -> Sale {
         var sale = Sale()
-        sale = self.generateSaleTotal()
+        //sale = self.generateSaleTotal()
         sale.employeeId = Auth.auth().currentUser?.displayName
         sale.timestamp = Date()
         sale.saleItems = self.saleCells
