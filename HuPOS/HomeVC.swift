@@ -242,6 +242,7 @@ class HomeVC:UIViewController {
     @IBOutlet weak var currentUserLabel: UILabel!
     @IBOutlet weak var payButton: UIButton!
     @IBOutlet weak var itemsCVC: UIView!
+    
     @IBOutlet weak var saleItemsTVC: UIView!
     
     // protocol delegates
