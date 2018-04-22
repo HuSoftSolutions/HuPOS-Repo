@@ -42,8 +42,10 @@ public class Sale {
     var remainingBalance:Double?
     var events:[Event]?
 
-    public var description: String { return "\n\nSale Total: \(saleTotal!)\n Tax Total: \(taxTotal!)\n Remaining Balance: \(remainingBalance!)" }
-
+    public var description: String { return "\n\nSale Total: \(saleTotal!)\n Tax Total: \(taxTotal!)\n Remaining Balance: \(remainingBalance!)\n Events: \(events!.description)" }
+//    public var eventsDescription: String {
+//        
+//    }
     
     func getSaleTotal() -> String {
         var saleTotalTemp = 0.0

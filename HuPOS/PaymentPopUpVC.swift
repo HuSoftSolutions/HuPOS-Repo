@@ -56,6 +56,9 @@ class PaymentPopUpVC:UIViewController {
     @objc func backspaceAction(sender:UIButton){
         if(self.amtPaid.count > 0){
             self.amtPaid.removeLast()
+            if(self.amtPaid.count == 0){
+                self.amtPaid = "0"
+            }
             self.acceptBtn.setTitle("Pay \(amtPaid.currencyInputFormatting()) \(self.eventType.description)", for: .normal)
         }
     }
@@ -89,6 +92,10 @@ class PaymentPopUpVC:UIViewController {
             self.amtPaid = "0"
         }
         
+        print(self.sale?.description)
+        for event in (self.sale?.events)! {
+            print("Event: \(event.type): \(event.amount)")
+        }
     }
     
     @objc func eventTypeChanged(sender:UIButton){
