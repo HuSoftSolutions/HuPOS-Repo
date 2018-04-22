@@ -297,16 +297,16 @@ class HomeVC:UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if(segue.identifier == "itemsCVC"){
-            if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
-//                itemsCVC.itemsToHome = self
-//                self.homeToItemsCVC = itemsCVC
-            }
+//            if let itemsCVC:ItemsCVC = segue.destination as! ItemsCVC {
+////                itemsCVC.itemsToHome = self
+////                self.homeToItemsCVC = itemsCVC
+//            }
             
         }else if(segue.identifier == "saleItemsTVC"){
-            if let saleItemsTVC:SaleItemsTVC = segue.destination as! SaleItemsTVC{
-//                saleItemsTVC.saleItemsToHome = self
-//                self.homeToSalesItemsTVC = saleItemsTVC
-            }
+//            if let saleItemsTVC:SaleItemsTVC = segue.destination as! SaleItemsTVC {
+////                saleItemsTVC.saleItemsToHome = self
+////                self.homeToSalesItemsTVC = saleItemsTVC
+//            }
             
             
             
@@ -338,7 +338,7 @@ override func viewDidLoad() {
     self.payButton.titleLabel?.adjustsFontSizeToFitWidth = true
     self.payButton.titleLabel?.minimumScaleFactor = 0.5
     SideMenuManager.defaultManager.menuPresentMode = .menuDissolveIn
-
+    
     // Check BT Device Preference
     if let pref = defaults.value(forKey: BTPref) as? Bool{
         bluetoothSwitch.isOn = pref
@@ -347,27 +347,27 @@ override func viewDidLoad() {
     self.currentUserLabel.text = self.currentUser?.firstName
     print("Welcome to Home View \(String(describing: self.currentUser?.firstName))")
     
-}
-
-
-override func viewWillAppear(_ animated: Bool) {
-    self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
-        let saleTotals:[String] = notification.object as! [String]
+    }
     
-        print("Total sales: \(saleTotals[0])\nTotal tax: \(saleTotals[1])")
-        if(saleTotals[0] == "No Sale"){
-            self.payButton.setTitle("No Sale", for: .normal)
-        }else{
-            self.payButton.setTitle("Pay \(saleTotals[0])", for: .normal)
-        }
-     })
-}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
+            let saleTotal:String = notification.object as! String
+            print("Changing button price to: \(saleTotal)")
+            if(saleTotal == "No Sale"){
+                self.payButton.setTitle(saleTotal, for: .normal)
+            }else{
+                self.payButton.setTitle("Pay \(saleTotal)", for: .normal)
+            }
+            
+        })
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         if let saleItemChanged = self.saleItemChanged {
             NotificationCenter.default.removeObserver(self.saleItemChanged)
         }
     }
-
-@IBOutlet weak var saleView: UIView!
+    
+    @IBOutlet weak var saleView: UIView!
 }

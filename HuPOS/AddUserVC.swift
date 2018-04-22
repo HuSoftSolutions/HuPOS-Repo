@@ -130,7 +130,7 @@ class AddUserVC: UITableViewController {
                     "AuthID":""
             ]
             
-            
+           // Auth.auth().currentUser?.setValue(userDictionary["First Name"], forKey: "DisplayName")
             Auth.auth().createUser(withEmail: userDictionary["Email"] as! String, password: userDictionary["Pin"] as! String) { (fbuser, error) in
                 if((error) != nil){
                     

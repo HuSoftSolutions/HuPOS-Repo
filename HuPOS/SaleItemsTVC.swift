@@ -19,10 +19,10 @@ public class Event {
     var id:String?
     var type:EventType
     var amount:Double
-    var userID:Int8
+    var userID:String
     var timestamp:Date
     
-    init(_id:String, _type:EventType, _amount:Double, _userID:Int8, _time:Date){
+    init(_id:String, _type:EventType, _amount:Double, _userID:String, _time:Date){
         self.id = _id
         self.type = _type
         self.amount = _amount
@@ -39,13 +39,17 @@ public class Sale {
     var employeeId:String?
     var taxTotal:Double?
     var saleTotal:Double?
+    var remainingBalance:Double?
     var events:[Event]?
+
+    public var description: String { return "\n\nSale Total: \(saleTotal!)\n Tax Total: \(taxTotal!)\n Remaining Balance: \(remainingBalance!)" }
+
     
-    func getSaleTotal() -> [String] {
+    func getSaleTotal() -> String {
         var saleTotalTemp = 0.0
         var taxTotalTemp = 0.0
         if(self.saleItems?.isEmpty)!{
-            return ["No Sale","0"]
+            return "No Sale"
         }else{
             for sale in saleItems! {
                 if(sale.inventoryItem?.tax)!{
@@ -71,7 +75,12 @@ public class Sale {
             let t_total = NumberFormatter.localizedString(from: NSNumber(value: taxTotalTemp), number: .currency)
             totals.append(s_total)
             totals.append(t_total)
-            return totals
+            
+            self.saleTotal = saleTotalTemp
+            self.taxTotal = taxTotalTemp
+            self.remainingBalance = saleTotalTemp
+            
+            return s_total
         }
     }
     
@@ -335,7 +344,7 @@ class SaleItemsTVC: UITableViewController {
         var taxTotal = 0.0
         var saleTotal = 0.0
         for sale in self.saleCells {
-            saleTotal += sale.subtotal
+            saleTotal += (sale.subtotal)
             taxTotal += sale.taxTotal
         }
         let sale = Sale()
@@ -343,6 +352,7 @@ class SaleItemsTVC: UITableViewController {
         sale.timestamp = Date()
         sale.taxTotal = taxTotal
         sale.saleTotal = saleTotal
+        sale.remainingBalance = saleTotal
         
         return sale
     }
@@ -374,13 +384,16 @@ class SaleItemsTVC: UITableViewController {
                     print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
                     if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
                         exists = true
+                        self.saleCells[i].subtotal += (inventoryItem.inventoryItemCell?.price)!
+                        
                         self.saleCells[i].quantity += 1
                         break
                     }
                 }
                 if(!exists){
-                    var saleItem = SaleItem()
+                    let saleItem = SaleItem()
                     saleItem.inventoryItem = inventoryItem.inventoryItemCell
+                    saleItem.subtotal = (inventoryItem.inventoryItemCell?.price!)!
                     self.saleCells.append(saleItem)
                 }
                 self.tableView.reloadData()
@@ -394,14 +407,14 @@ class SaleItemsTVC: UITableViewController {
         finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
             let sale = self.getCurrentSale()
             if(!(sale.saleItems?.isEmpty)!){
-                let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let paymentPopUp = PaymentPopUpVC()
                 paymentPopUp.modalPresentationStyle = .overCurrentContext
                 paymentPopUp.modalTransitionStyle = .crossDissolve
-                let paymentPopUpController = paymentPopUp.presentationController
+                _ = paymentPopUp.presentationController
                // paymentPopUp.delegate = self
                 paymentPopUp.sale = sale
-                
+                print(sale.description)
                 self.present(paymentPopUp, animated: true, completion: {
                     print("Finished presenting Payment Pad View!")
                 })
@@ -419,7 +432,7 @@ class SaleItemsTVC: UITableViewController {
         if let editModeObserver = editModeObserver {
             NotificationCenter.default.removeObserver(editModeObserver)
         }
-        if let saleItemAddedObserver = saleItemAddedObserver {
+        if saleItemAddedObserver != nil {
             print("SALE ITEM ADDED OBSERVER REMOVED! -------------")
             
             NotificationCenter.default.removeObserver(self.saleItemAddedObserver)
@@ -474,7 +487,7 @@ class SaleItemsTVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell:UITableViewCell?
+        var _:UITableViewCell?
         var saleItemCell:SaleItemCell?
         
         if(self.editModeOn){
@@ -488,7 +501,7 @@ class SaleItemsTVC: UITableViewController {
             let cell_ = NoSaleCell(style: .default, reuseIdentifier: "NoSaleCell")
             cell_.selectionStyle = .none
             cell_.isUserInteractionEnabled = false
-            NotificationCenter.default.post(name: .saleItemChanged, object: ["No Sale",""])
+            NotificationCenter.default.post(name: .saleItemChanged, object: "No Sale")
             
 
             return cell_
@@ -523,17 +536,22 @@ class SaleItemsTVC: UITableViewController {
     }
     
     func getCurrentSale() -> Sale {
+        print("Getting current sale...")
         var sale = Sale()
-        //sale = self.generateSaleTotal()
-        sale.employeeId = Auth.auth().currentUser?.displayName
-        sale.timestamp = Date()
+//        sale = self.generateSaleTotal()
+//        print("Sale total: \(sale.saleTotal)")
+//        print("Tax total: \(sale.taxTotal)")
+//
+//        sale.employeeId = Auth.auth().currentUser?.displayName
+//        sale.timestamp = Date()
+        sale.events = [Event]()
         sale.saleItems = self.saleCells
-
+        sale.getSaleTotal()
         return sale
     }
     
     func saleItemChanged_Notification(){
-        var sale = Sale()
+        let sale = Sale()
         sale.employeeId = Auth.auth().currentUser?.displayName
         sale.timestamp = Date()
         sale.saleItems = self.saleCells
