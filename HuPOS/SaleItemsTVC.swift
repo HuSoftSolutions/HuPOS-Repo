@@ -42,7 +42,7 @@ public class Sale {
     var remainingBalance:Double?
     var events:[Event]?
 
-    public var description: String { return "\n\nSale Total: \(saleTotal!)\n Tax Total: \(taxTotal!)\n Remaining Balance: \(remainingBalance!)\n Events: \(events!.description)" }
+    public var description: String { return "\n\n - Sale Total: \(saleTotal!)\n - Tax Total: \(taxTotal!)\n - Remaining Balance: \(remainingBalance!)\n - Events: \(events!.description)" }
 //    public var eventsDescription: String {
 //        
 //    }
@@ -59,16 +59,16 @@ public class Sale {
                     let sale_ = ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
                     let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) * (STATE_TAX)
                     saleTotalTemp += sale_
-                    print("+ Sale Total | \(sale_)")
+                   // print("+ Sale Total | \(sale_)")
                     taxTotalTemp += tax_
-                    print("+ Tax Total | \(tax_)")
+                   // print("+ Tax Total | \(tax_)")
                 }else{
                     let sale_ = ((sale.inventoryItem?.price)! * sale.quantity)
                     let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
                     saleTotalTemp += sale_
-                    print("+ Sale Total | \(sale_)")
+                 //   print("+ Sale Total | \(sale_)")
                     taxTotalTemp += tax_
-                    print("+ Tax Total | \(tax_)")
+                 //   print("+ Tax Total | \(tax_)")
                 }
             }
             var totals = [String]()

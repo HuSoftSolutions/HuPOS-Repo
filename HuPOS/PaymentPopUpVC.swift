@@ -41,12 +41,32 @@ extension String {
     }
 }
 
-class PaymentPopUpVC:UIViewController {
+class PaymentPopUpVC:UIViewController{ //, UITableViewDelegate, UITableViewDataSource {
+    
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return (self.sale?.events?.count)!
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        var cell:UITableViewCell = self.eventTableView.dequeueReusableCell(withIdentifier: "Cell")!
+//        return cell
+//    }
+    
     
     var sale:Sale?
     var eventType = EventType.cash
     var amtPaid = "0"
     var amtPaid_D = 0.0
+    
+    override func viewDidLoad() {
+        let screenSize = UIScreen.main.bounds
+
+        
+        print("\nInside payment view: \(self.sale!.description)")
+        
+        setupViews(screen: screenSize)
+    }
     
     @objc func digitPressed(sender:UIButton){
         let digit = sender.titleLabel?.text!
@@ -54,12 +74,13 @@ class PaymentPopUpVC:UIViewController {
         self.acceptBtn.setTitle("Pay \(amtPaid.currencyInputFormatting()) \(self.eventType.description)", for: .normal)
     }
     @objc func backspaceAction(sender:UIButton){
-        if(self.amtPaid.count > 0){
+        if(self.amtPaid.count > 1){
             self.amtPaid.removeLast()
-            if(self.amtPaid.count == 0){
+            if(self.amtPaid.count == 1){
                 self.amtPaid = "0"
+                self.acceptBtn.setTitle("Pay \(sale!.remainingBalance!.toCurrencyString()) \(self.eventType.description)", for: .normal)
+
             }
-            self.acceptBtn.setTitle("Pay \(amtPaid.currencyInputFormatting()) \(self.eventType.description)", for: .normal)
         }
     }
     
@@ -94,7 +115,7 @@ class PaymentPopUpVC:UIViewController {
         
         print(self.sale?.description)
         for event in (self.sale?.events)! {
-            print("Event: \(event.type): \(event.amount)")
+            print(" - Event: \(event.type): \(event.amount)")
         }
     }
     
@@ -136,7 +157,7 @@ class PaymentPopUpVC:UIViewController {
             self.cashEventBtn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
         }
         
-        self.acceptBtn.setTitle("Pay  \(self.saleTotal.text ?? "$0.00")  \(self.eventType.description)", for: .normal)
+        //self.acceptBtn.setTitle("Pay  \(self.saleTotal.text ?? "$0.00")  \(self.eventType.description)", for: .normal)
     }
     
     let mainView:UIView = {
@@ -151,18 +172,27 @@ class PaymentPopUpVC:UIViewController {
     let totalDueLbl:UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont.systemFont(ofSize: 60)
+        lbl.font = UIFont.systemFont(ofSize: 35)
         lbl.textColor = UIColor.white
-        lbl.text = "Total:"
+        lbl.text = "Sale Total:"
         lbl.adjustsFontSizeToFitWidth = true
 
         return lbl
     }()
-    
+    let subtotalDueLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.font = UIFont.systemFont(ofSize: 35)
+        lbl.textColor = UIColor.white
+        lbl.text = "Subtotal:"
+        lbl.adjustsFontSizeToFitWidth = true
+        
+        return lbl
+    }()
     let saleTotal:UILabel = {
         let txt = UILabel()
         txt.translatesAutoresizingMaskIntoConstraints = false
-        txt.font = UIFont.systemFont(ofSize: 500)
+        txt.font = UIFont.systemFont(ofSize: 75)
         //txt.minimumFontSize = 10
         //txt.placeholder = "0.00".currencyInputFormatting() // -- ???
         txt.adjustsFontSizeToFitWidth = true
@@ -171,11 +201,32 @@ class PaymentPopUpVC:UIViewController {
         txt.backgroundColor = UIColor.clear
         txt.textColor = UIColor.green.withAlphaComponent(0.5)
         txt.textAlignment = .right
+        txt.adjustsFontSizeToFitWidth = true
         txt.sizeToFit()
         txt.isUserInteractionEnabled = false
         //txt.keyboardType = .phonePad
 //        txt.layer.cornerRadius = 5
 //        txt.layer.masksToBounds = true
+        return txt
+    }()
+    let saleSubotal:UILabel = {
+        let txt = UILabel()
+        txt.translatesAutoresizingMaskIntoConstraints = false
+        txt.font = UIFont.systemFont(ofSize: 300)
+        //txt.minimumFontSize = 10
+        //txt.placeholder = "0.00".currencyInputFormatting() // -- ???
+        txt.adjustsFontSizeToFitWidth = true
+        
+        //txt.autocapitalizationType = .words
+        txt.backgroundColor = UIColor.clear
+        txt.textColor = UIColor.green.withAlphaComponent(0.5)
+        txt.textAlignment = .right
+        txt.adjustsFontSizeToFitWidth = true
+        txt.sizeToFit()
+        txt.isUserInteractionEnabled = false
+        //txt.keyboardType = .phonePad
+        //        txt.layer.cornerRadius = 5
+        //        txt.layer.masksToBounds = true
         return txt
     }()
     
@@ -188,7 +239,7 @@ class PaymentPopUpVC:UIViewController {
         btn.setTitle("Cash", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 90)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 75)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         //btn.layer.borderWidth = 0.25
@@ -202,7 +253,7 @@ class PaymentPopUpVC:UIViewController {
         btn.setTitle("Credit", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 90)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 75)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         //btn.layer.borderWidth = 0.25
@@ -216,7 +267,7 @@ class PaymentPopUpVC:UIViewController {
         btn.setTitle("Check", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 90)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 75)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         //btn.layer.borderWidth = 0.25
@@ -231,7 +282,7 @@ class PaymentPopUpVC:UIViewController {
         btn.setTitle("Gift", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 90)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 75)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         //btn.layer.borderWidth = 0.25
@@ -247,7 +298,7 @@ class PaymentPopUpVC:UIViewController {
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 150)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 100)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.addTarget(self, action: #selector(acceptSaleAction), for: .touchUpInside)
@@ -474,7 +525,13 @@ class PaymentPopUpVC:UIViewController {
     }()
     
     
-    
+    let eventTableView:UITableView = {
+        let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tbl.register(UITableViewCell.self, forCellReuseIdentifier: "EventCell")
+        tbl.backgroundColor = .clear
+        
+       return tbl
+    }()
     
     func setupViews(screen:CGRect){
         
@@ -515,6 +572,7 @@ class PaymentPopUpVC:UIViewController {
         view.addSubview(checkEventBtn)
         view.addSubview(giftEventBtn)
 
+        
         view.addSubview(oneBtn)
         view.addSubview(twoBtn)
         view.addSubview(threeBtn)
@@ -530,6 +588,8 @@ class PaymentPopUpVC:UIViewController {
 
         
         view.addSubview(totalDueLbl)
+        view.addSubview(subtotalDueLbl)
+        view.addSubview(saleSubotal)
         
         var remainingBalance = self.sale!.remainingBalance!
         
@@ -670,17 +730,27 @@ class PaymentPopUpVC:UIViewController {
         }
         
         totalDueLbl.snp.makeConstraints { (make) in
-//            make.width.equalTo(EVENT_BTN_WIDTH)
+            make.width.equalTo(EVENT_BTN_WIDTH)
 //            make.height.equalTo(SALE_TOTAL_HEIGHT/2)
             make.top.equalTo(mainView).offset(EVENT_BTN_HEIGHT)
             make.left.equalTo(mainView).offset(NUM_PAD_WIDTH + PAD)
         }
         
+        
         saleTotal.snp.makeConstraints { (make) in
-            make.width.equalTo(MAIN_VIEW_WIDTH - NUM_PAD_WIDTH)
+            make.width.equalTo(MAIN_VIEW_WIDTH - NUM_PAD_WIDTH - Double(totalDueLbl.frame.width))
            // make.height. //.equalTo(SALE_TOTAL_HEIGHT)
-            make.top.equalTo(totalDueLbl.snp.bottom)
+            make.top.equalTo(totalDueLbl)
 
+            //make.top.equalTo(totalDueLbl.snp.bottom)//.offset(PAD)
+            make.right.equalTo(mainView).offset(PAD*(-2))
+        }
+        
+        saleSubotal.snp.makeConstraints { (make) in
+            make.width.equalTo(MAIN_VIEW_WIDTH - NUM_PAD_WIDTH)
+            // make.height. //.equalTo(SALE_TOTAL_HEIGHT)
+            make.bottom.equalTo(acceptBtn.snp.top)
+            
             //make.top.equalTo(totalDueLbl.snp.bottom)//.offset(PAD)
             make.right.equalTo(mainView).offset(PAD*(-2))
         }
@@ -694,16 +764,5 @@ class PaymentPopUpVC:UIViewController {
         }
     }
     
-        override func viewDidLoad() {
-            let screenSize = UIScreen.main.bounds
-//            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-//            let blurEffectView = UIVisualEffectView(effect: blurEffect)
-//            blurEffectView.frame = view.bounds
-//            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//            view.addSubview(blurEffectView)
-//            saleTotal.text = self.sale?.getSaleTotal()
-            print("Inside payment view: \(self.sale!.description)")
-
-            setupViews(screen: screenSize)
-        }
+    
 }
