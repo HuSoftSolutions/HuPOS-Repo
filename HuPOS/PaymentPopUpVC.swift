@@ -70,18 +70,20 @@ class PaymentPopUpVC:UIViewController{ //, UITableViewDelegate, UITableViewDataS
     
     @objc func digitPressed(sender:UIButton){
         let digit = sender.titleLabel?.text!
-        amtPaid = (amtPaid*10 + (digit?.toDouble())!)/100
+        amtPaid = amtPaid*10 + (digit?.toDouble())!/100
         self.acceptBtn.setTitle("Pay \(amtPaid.toCurrencyString()) \(self.eventType.description)", for: .normal)
     }
     @objc func backspaceAction(sender:UIButton){
-        if(self.amtPaid == 0.0){
-            
+        if(self.amtPaid < 0.01){
+            amtPaid = 0.0
             self.acceptBtn.setTitle("Pay \(sale!.remainingBalance!.toCurrencyString()) \(self.eventType.description)", for: .normal)
             
         }else{
-            let bal = floor(sale!.remainingBalance!/10)
+            let bal = (self.amtPaid/10)
+            amtPaid = bal
             self.acceptBtn.setTitle("Pay \(bal.toCurrencyString()) \(self.eventType.description)", for: .normal)
 
+            
         }
     }
 
@@ -214,7 +216,7 @@ let saleTotal:UILabel = {
 let saleSubotal:UILabel = {
     let txt = UILabel()
     txt.translatesAutoresizingMaskIntoConstraints = false
-    txt.font = UIFont.systemFont(ofSize: 300)
+    txt.font = UIFont.systemFont(ofSize: 150)
     //txt.minimumFontSize = 10
     //txt.placeholder = "0.00".currencyInputFormatting() // -- ???
     txt.adjustsFontSizeToFitWidth = true
@@ -746,6 +748,10 @@ func setupViews(screen:CGRect){
         
         //make.top.equalTo(totalDueLbl.snp.bottom)//.offset(PAD)
         make.right.equalTo(mainView).offset(PAD*(-2))
+    }
+    
+    subtotalDueLbl.snp.makeConstraints { (make) in
+        
     }
     
     saleSubotal.snp.makeConstraints { (make) in
