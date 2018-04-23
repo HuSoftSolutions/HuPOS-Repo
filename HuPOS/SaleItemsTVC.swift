@@ -40,6 +40,7 @@ public class Sale {
     var taxTotal:Double?
     var saleTotal:Double?
     var remainingBalance:Double?
+    var changeGiven:Double?
     var events:[Event]?
 
     public var description: String { return "\n\n - Sale Total: \(saleTotal!)\n - Tax Total: \(taxTotal!)\n - Remaining Balance: \(remainingBalance!)\n - Events: \(events!.description)" }
@@ -90,10 +91,10 @@ public class Sale {
 
 public class SaleItem {
     var inventoryItem:InventoryItem?
-    var quantity = 1.0
-    var subtotal = 0.0
-    var void = false
+    var quantity:Double = 1.0
+    var subtotal:Double = 0.0
     var taxTotal:Double = 0.0
+    var void = false
 }
 
 class SaleItemCell: UITableViewCell {
@@ -217,6 +218,7 @@ class SaleItemCell: UITableViewCell {
             title.text = saleItem?.inventoryItem?.title
             qty.text = String(Int((saleItem?.quantity)!))
             qtyStepper.value = Double((saleItem?.quantity)!)
+            if(qtyStepper.value.isLess(than: 0.0)){saleItem?.void = true}
             unitPrice.text = NumberFormatter.localizedString(from: NSNumber(value: (saleItem?.inventoryItem?.price)!), number: .currency)
             let itemPriceTotal = (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!
             var tax:Double = 0.0
@@ -296,8 +298,8 @@ class SaleItemCell: UITableViewCell {
         }
         
         voidLbl.snp.makeConstraints { (make) in
-            make.left.equalTo(qtyStepper.snp.right).offset(10)
-            make.bottom.equalTo(qtyStepper.snp.bottom)
+            make.right.equalTo(self).offset(-10)
+            make.bottom.equalTo(subtotal.snp.top)
         }
         voidLbl.alpha = 0
     }
@@ -319,7 +321,8 @@ class SaleItemsTVC: UITableViewController {
     var editModeObserver:NSObjectProtocol?
     var saleItemAddedObserver:NSObjectProtocol?
     var reloadTableViewObserver:NSObjectProtocol?
-    var finalizeSaleObserver: NSObjectProtocol?
+    var finalizeSaleObserver:NSObjectProtocol?
+    var clearSaleItemsObserver:NSObjectProtocol?
     var noSaleCell:UITableViewCell?
     var editModeOn = false
     var saleCells:[SaleItem] = []
@@ -334,8 +337,7 @@ class SaleItemsTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         createCell()
         //tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         tableView.separatorStyle = .singleLine
@@ -361,6 +363,8 @@ class SaleItemsTVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+
         
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
@@ -424,6 +428,11 @@ class SaleItemsTVC: UITableViewController {
             }
         })
         
+        clearSaleItemsObserver = NotificationCenter.default.addObserver(forName: .clearSaleItems, object: nil, queue: OperationQueue.main, using: { (notification) in
+            self.saleCells.removeAll()
+            self.tableView.reloadData()
+        })
+        
         print(NotificationCenter.default.observationInfo)
         self.tableView.reloadData()
     }
@@ -446,6 +455,9 @@ class SaleItemsTVC: UITableViewController {
         }
         if let finalizeSaleObserver = finalizeSaleObserver {
             NotificationCenter.default.removeObserver(finalizeSaleObserver)
+        }
+        if let clearSaleItemsObserver = clearSaleItemsObserver {
+            NotificationCenter.default.removeObserver(clearSaleItemsObserver)
         }
     }
     

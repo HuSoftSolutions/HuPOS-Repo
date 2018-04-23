@@ -168,7 +168,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.eventTableView.frame.height * (1/3)
+        return 55
     }
     
     
@@ -196,6 +196,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         print("Raw Amt Paid Added: \(amtPaid)")
         self.acceptBtn.setTitle("Pay  \((amtPaid.toDouble()/100).toCurrencyString())  \(self.eventType.description)", for: .normal)
     }
+    
     @objc func backspaceAction(sender:UIButton){
         
         if(amtPaid.count > 1){
@@ -228,124 +229,154 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     @objc func acceptSaleAction(){
         var payment = self.amtPaid.toDouble()/100
-        let totalDue = (self.sale?.remainingBalance)!
+        let totalDue = (self.sale?.remainingBalance?.roundTo(places: 2))!
         let date = Date()
-        let db = Firestore.firestore()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd:MM:yyy hh:mm:ss"
-
+        
         if(totalDue == 0.0){return}
         if(payment == 0.0){ payment = totalDue.roundTo(places: 2)}
         
-    
-            print("PAYMENT ACTION")
+        
+        print("PAYMENT ACTION")
+        
+        if(payment < totalDue){
+            // partial payment -- deduct from remaining balance
+            print("Payment \(payment) is less than total due \(totalDue)")
             
-            if(payment < totalDue){
-                // partial payment -- deduct from remaining balance
-                print("Payment \(payment) is less than total due \(totalDue)")
-                
-                let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
-                self.sale!.remainingBalance = totalDue - payment
-                self.sale!.events!.append(event)
+            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
+            self.sale!.events!.append(event)
+            self.eventTableView.reloadData()
+            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
+            self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
+            self.amtPaid = "0"
+        }
+            
+        else if(payment == totalDue.roundTo(places: 2) || payment == 0.0){
+            // exact payment -- event marking the end of the sale
+            print("Payment \(payment) is equal to the total due \(totalDue)")
+            
+            // add payment event
+            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
+            self.sale!.events!.append(event)
+            self.sale!.changeGiven = 0.0
+            self.eventTableView.reloadData()
+            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
+            self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
+            self.amtPaid = "0"
+            
+            // open drawer if cash, gift, check
+            BTCommunication.openDrawer()
+            
+            // add sale to database
+            self.addSaleToDatabase() // Add completion handler that finished when both database calls are successful -- ???
+            NotificationCenter.default.post(name: .clearSaleItems, object: nil)
+            
+            self.dismiss(animated: true, completion: nil)
+            
+            // pause and dismiss
+            
+        }else if(payment > totalDue){
+            // payment exceeded remaining balance -- mark as tip or change to return
+            print("Payment \(payment) is more than the total due \(totalDue) by \((payment - totalDue)) ")
+            
+            // add payment event
+            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            self.sale!.remainingBalance = totalDue - payment
+            self.sale!.events!.append(event)
+            self.sale!.changeGiven = payment - totalDue
+            self.eventTableView.reloadData()
+            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
+            self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
+            self.amtPaid = "0"
+            
+            // open drawer if cash, gift, check
+            BTCommunication.openDrawer()
+            
+            // pause and dismiss
+            
+            let changeAlert = UIAlertController(title: "Change Due: \(self.sale!.changeGiven!.toCurrencyString())", message: "The amount above is owed to the customer!", preferredStyle: .alert)
+            let undo = UIAlertAction(title: "Undo", style: .default) { (alert) in
+                let removedSale = self.sale?.events?.removeLast()
+                self.sale!.remainingBalance! += (removedSale?.amount)!
                 self.eventTableView.reloadData()
-                self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
-                self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
-                self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
-                self.amtPaid = "0"
+                self.refreshSale()
             }
-                
-            else if(payment == totalDue.roundTo(places: 2) || payment == 0.0){
-                // exact payment -- event marking the end of the sale
-                print("Payment \(payment) is equal to the total due \(totalDue)")
-                
-                // add payment event
-                let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
-                self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
-                self.sale!.events!.append(event)
-                self.eventTableView.reloadData()
-                self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
-                self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
-                self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
-                self.amtPaid = "0"
-                
-                // open drawer if cash, gift, check
-                BTCommunication.openDrawer()
-                
-                // add sale to database
-                var ref: DocumentReference? = nil
-                ref = db.collection("Sales").addDocument(data: [
-                    "Timestamp":dateFormatter.string(from: (self.sale?.timestamp)!),
-                    "Employee":sale?.employeeId as Any,
-                    "Tax Total":sale?.taxTotal?.roundTo(places: 2) as Any,
-                    "Sale Total":sale?.saleTotal?.roundTo(places: 2) as Any,
-                    "Remaining Balance":sale?.remainingBalance?.roundTo(places: 2) as Any
-                ]) { err in
-                    if let err = err {
-                        print("Error writing doucment: \(err)")
-                    }else{
-                        for event in (self.sale?.events)!{
-                            
-                            db.collection("Sales/\(ref!.documentID)/Events").addDocument(data: [
-                                "Type":event.type.description,
-                                "Amount":event.amount.roundTo(places: 2),
-                                "Employee":event.userID,
-                                "Timestamp":dateFormatter.string(from: event.timestamp)
-                            ]) { err in
-                                if let err = err {
-                                    print("Error writing document: \(err)")
-                                }else{
-                                    for saleItem in (self.sale?.saleItems)!{
-                                        db.collection("Sales/\(ref!.documentID)/Sale Items").addDocument(data: [
-                                            "Quantity":saleItem.quantity,
-                                            "Subtotal":saleItem.subtotal.roundTo(places: 2),
-                                            "Tax Total":saleItem.taxTotal.roundTo(places: 2),
-                                            "Void":saleItem.void,
-                                            "Inventory Item Id": saleItem.inventoryItem?.id
-                                        ]) { err in
-                                            if let err = err {
-                                                print("Error writing document: \(err)")
-                                            }else{
-                                                self.dismiss(animated: true, completion: nil)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+            let dismiss = UIAlertAction(title: "Continue", style: .cancel) { (alert) in
+                NotificationCenter.default.post(name: .clearSaleItems, object: nil)
+                self.dismiss(animated: true, completion: nil)
+                self.addSaleToDatabase()
+            }
+            changeAlert.addAction(undo)
+            changeAlert.addAction(dismiss)
+            
+            self.present(changeAlert, animated: true)
+        }
+        
+    }
+    
+    
+    
+    func addSaleToDatabase(){
+        
+        var ref: DocumentReference? = nil
+        let db = Firestore.firestore()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "DD:mm:yyyy hh:mm:ss"
+        ref = db.collection("Sales").addDocument(data: [
+            "Timestamp":dateFormatter.string(from: (self.sale?.timestamp)!),
+            "Employee":sale?.employeeId as Any,
+            "Tax Total":sale?.taxTotal?.roundTo(places: 2) as Any,
+            "Sale Total":sale?.saleTotal?.roundTo(places: 2) as Any,
+            "Remaining Balance":sale?.remainingBalance?.roundTo(places: 2) as Any,
+            "Change":sale?.changeGiven?.roundTo(places: 2) as Any
+        ]) { err in
+            if let err = err {
+                print("Error writing doucment: \(err)")
+            }else{
+                for event in (self.sale?.events)!{
+                    
+                    db.collection("Sales/\(ref!.documentID)/Events").addDocument(data: [
+                        "Type":event.type.description,
+                        "Amount":event.amount.roundTo(places: 2),
+                        "Employee":event.userID,
+                        "Timestamp":dateFormatter.string(from: event.timestamp)
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        }else{
                             
                         }
-                        
-
-                        
                     }
                     
                 }
                 
+                for saleItem in (self.sale?.saleItems)!{
+                    db.collection("Sales/\(ref!.documentID)/Sale Items").addDocument(data: [
+                        "Quantity":saleItem.quantity,
+                        "Subtotal":saleItem.subtotal.roundTo(places: 2),
+                        "Tax Total":saleItem.taxTotal.roundTo(places: 2),
+                        "Void":saleItem.void,
+                        "Inventory Item Id": saleItem.inventoryItem?.id
+                    ]) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        }else{
+                            
+                        }
+                    }
+                }
                 
-                // pause and dismiss
-                
-            }else if(payment > totalDue){
-                // payment exceeded remaining balance -- mark as tip or change to return
-                print("Payment \(payment) is more than the total due \(totalDue) by \((payment - totalDue)) ")
-                
-                // add payment event
-                let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
-                self.sale!.remainingBalance = totalDue - payment
-                self.sale!.events!.append(event)
-                self.eventTableView.reloadData()
-                self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
-                self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
-                self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
-                self.amtPaid = "0"
-                
-                // open drawer if cash, gift, check
-                BTCommunication.openDrawer()
-                
-                // add sale to database
-                
-                // pause and dismiss
             }
-        
+            
+        }
     }
+    
+    
+    
     
     @objc func eventTypeChanged(sender:UIButton){
         
