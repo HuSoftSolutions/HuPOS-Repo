@@ -415,6 +415,7 @@ class SaleItemsTVC: UITableViewController {
                 paymentPopUp.modalTransitionStyle = .crossDissolve
                 _ = paymentPopUp.presentationController
                // paymentPopUp.delegate = self
+                sale.timestamp = Date()
                 paymentPopUp.sale = sale
                 print(sale.description)
                 self.present(paymentPopUp, animated: true, completion: {
