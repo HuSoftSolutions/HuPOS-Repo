@@ -337,7 +337,7 @@ class SaleItemsTVC: UITableViewController {
         
         
         createCell()
-        tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
+        //tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         tableView.separatorStyle = .singleLine
         
     }

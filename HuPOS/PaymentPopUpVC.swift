@@ -41,42 +41,150 @@ extension String {
     }
 }
 
+class EventTableViewCell : UITableViewCell {
+    
+    let typeLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = UIColor.white
+        lbl.backgroundColor = .clear
+        lbl.font = UIFont.systemFont(ofSize: 25)
+        lbl.textAlignment = .right
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 1
+        lbl.sizeToFit()
+        // lbl.lineBreakMode = .byCharWrapping
+        //lbl.baselineAdjustment = .alignCenters
+        return lbl
+    }()
+    
+    let amountLbl:UILabel = {
+        let lbl = UILabel()
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        lbl.textColor = UIColor.red
+        lbl.backgroundColor = .clear
+        lbl.font = UIFont.systemFont(ofSize: 40)
+        lbl.textAlignment = .left
+        lbl.adjustsFontSizeToFitWidth = true
+        lbl.lineBreakMode = .byWordWrapping
+        lbl.numberOfLines = 1
+        lbl.sizeToFit()
+        //lbl.lineBreakMode = .byCharWrapping
+        // lbl.baselineAdjustment = .alignCenters
+        return lbl
+    }()
+    
+    var event:Event?{
+        didSet{
+            amountLbl.text = "- \(event?.amount.toCurrencyString() ?? "$0.00")"
+            typeLbl.text = event?.type.description
+        }
+    }
+    
+    func setup(){
+        self.addSubview(amountLbl)
+        self.addSubview(typeLbl)
+        self.backgroundColor = .black
+        amountLbl.snp.makeConstraints { (make) in
+            //make.centerY.equalTo(self)
+            //            make.top.equalTo(self)
+            //            make.left.equalTo(self)
+            //            make.bottom.equalTo(self)
+            //            make.width.equalTo(self.bounds.width / 2)
+            //            make.height.equalTo(self.bounds.width)
+            
+            make.right.equalTo(self).offset(-2)
+            make.width.equalTo(self.bounds.width / 2)
+            make.height.equalTo(self.bounds.height)
+            make.bottom.equalTo(self)
+
+        }
+        
+        typeLbl.snp.makeConstraints { (make) in
+            //make.centerY.equalTo(self)
+            make.right.equalTo(amountLbl.snp.left).offset(-10)
+            make.bottom.equalTo(amountLbl.snp.bottom)
+//            make.width.equalTo(self.bounds.width / 2)
+//            make.height.equalTo(self.bounds.height)
+            
+            //            make.top.equalTo(self)
+            //            make.right.equalTo(self)
+            //            make.bottom.equalTo(self)
+        }
+        
+    
+        
+        
+
+    }
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        self.amountLbl.text = ""
+        self.typeLbl.text = ""
+        
+    }
+}
 class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return (self.sale?.events?.count)!
-        }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return (self.sale?.events?.count)!
+    }
     
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            var cell:UITableViewCell = self.eventTableView.dequeueReusableCell(withIdentifier: "Cell")!
-            let amt = self.sale!.events![indexPath.row].amount.description
-            let type = self.sale!.events![indexPath.row].type.description
-            cell.textLabel?.text = "- \(amt) : \(type)"
-            cell.textLabel?.textAlignment = .right
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 10)
-            cell.textLabel?.adjustsFontSizeToFitWidth = true
-            cell.backgroundColor = .clear
-            cell.textLabel?.textColor = .red
-            cell.selectionStyle = .none
-            cell.isUserInteractionEnabled = false
-            
-            return cell
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:EventTableViewCell = self.eventTableView.dequeueReusableCell(withIdentifier: "EventCell")! as! EventTableViewCell
+        let amt = self.sale!.events![indexPath.row].amount.toCurrencyString()
+        let type = self.sale!.events![indexPath.row].type.description
+        
+        cell.isUserInteractionEnabled = false
+        cell.event = self.sale?.events![indexPath.row]
+        cell.amountLbl.text = "- \(amt)"
+        cell.typeLbl.text = type
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete && !self.sale!.events!.isEmpty) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            let removedSale = self.sale!.events!.remove(at: indexPath.row)
+            self.sale!.remainingBalance! += removedSale.amount
+            eventTableView.reloadData()
+            self.refreshSale()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.eventTableView.frame.height * (1/3)
+    }
     
     
     var sale:Sale?
     var eventType = EventType.cash
     var amtPaid = "0"
     var amtPaid_D = 0.0
-
+    
     
     
     override func viewDidLoad() {
         let screenSize = UIScreen.main.bounds
-        eventTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         eventTableView.dataSource = self
         eventTableView.delegate = self
+        eventTableView.register(EventTableViewCell.self, forCellReuseIdentifier: "EventCell")
+        
         print("\nInside payment view: \(self.sale!.description)")
         
         setupViews(screen: screenSize)
@@ -111,6 +219,13 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.dismiss(animated: true, completion: nil)
     }
     
+    func refreshSale(){
+        self.saleTotal.text = self.sale!.saleTotal!.toCurrencyString()
+        self.saleSubtotal.text = self.sale!.remainingBalance!.toCurrencyString()
+        self.amtPaid = "0"
+        self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
+    }
+    
     @objc func acceptSaleAction(){
         let payment = self.amtPaid.toDouble()/100
         let totalDue = (self.sale?.remainingBalance)!
@@ -126,6 +241,8 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             self.sale!.remainingBalance = totalDue - payment
             self.sale!.events!.append(event)
             self.eventTableView.reloadData()
+            
+            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
             self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
             self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
             self.amtPaid = "0"
@@ -175,6 +292,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             self.cashEventBtn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
         }
         
+        self.amtPaid = "0"
         self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
     }
     
@@ -369,7 +487,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     }()
     
     
-
+    
     
     let oneBtn:UIButton = {
         let btn = UIButton()
@@ -544,7 +662,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     let eventTableView:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        tbl.register(UITableViewCell.self, forCellReuseIdentifier: "EventCell")
+        //tbl.register(UITableViewCell.self, forCellReuseIdentifier: "EventCell")
         tbl.backgroundColor = .clear
         
         return tbl
@@ -756,7 +874,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         
         
-
+        
         
         saleTotal.snp.makeConstraints { (make) in
             make.width.equalTo(MAIN_VIEW_WIDTH - NUM_PAD_WIDTH)
