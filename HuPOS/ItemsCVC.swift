@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SnapKit
 
-let CELL_COUNT = 20
+let CELL_COUNT = 100
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
 
 public class InventoryItem {

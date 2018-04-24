@@ -324,6 +324,11 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         var ref: DocumentReference? = nil
         let db = Firestore.firestore()
+        
+
+        
+        
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "DD:mm:yyyy hh:mm:ss"
         ref = db.collection("Sales").addDocument(data: [

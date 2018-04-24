@@ -58,6 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         super.init()
         FirebaseApp.configure()
         
+       
+        //var ref = Firestore.firestore(app: "https://HuSoftSolutions.FoxRun-HuPOS.firebaseio.com")
         
         let db = Firestore.firestore()
         let settings = FirestoreSettings()
