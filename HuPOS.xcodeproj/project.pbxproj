@@ -17,6 +17,7 @@
 		352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */; };
 		352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */; };
 		354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */; };
+		35533058208FAA220069BAB9 /* DatabaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35533057208FAA220069BAB9 /* DatabaseConnection.swift */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
@@ -75,6 +76,7 @@
 		3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
 		352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPopUpVC.swift; sourceTree = "<group>"; };
 		354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPopUpVC.swift; sourceTree = "<group>"; };
+		35533057208FAA220069BAB9 /* DatabaseConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConnection.swift; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
 				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
 				352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */,
+				35533057208FAA220069BAB9 /* DatabaseConnection.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */,
 				357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
+				35533058208FAA220069BAB9 /* DatabaseConnection.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,
 				358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */,
 				35A2C60A2050C8A3004B040B /* AddItemCVCell.swift in Sources */,
