@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BC1362F346FC2F1EAE07973 /* Pods_FoxRun_HuPOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3072F8D91A924A9B1AE1ED /* Pods_FoxRun_HuPOS.framework */; };
+		3555D0DA209102820039A2EA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3555D0D9209102820039A2EA /* GoogleService-Info.plist */; };
 		357144BD208E78A700EFDF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357144BC208E78A700EFDF9A /* AppDelegate.swift */; };
 		357144BF208E78A800EFDF9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357144BE208E78A800EFDF9A /* ViewController.swift */; };
 		357144C2208E78A800EFDF9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357144C0208E78A800EFDF9A /* Main.storyboard */; };
@@ -14,6 +16,8 @@
 		357144C7208E78A900EFDF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 357144C5208E78A900EFDF9A /* LaunchScreen.storyboard */; };
 		357144D2208E78AA00EFDF9A /* FoxRun_HuPOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357144D1208E78AA00EFDF9A /* FoxRun_HuPOSTests.swift */; };
 		357144DD208E78AA00EFDF9A /* FoxRun_HuPOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357144DC208E78AA00EFDF9A /* FoxRun_HuPOSUITests.swift */; };
+		9225440522B25045F43ACE8B /* Pods_FoxRun_HuPOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D2F7098C91E2470CD6D3F4 /* Pods_FoxRun_HuPOSUITests.framework */; };
+		EFD01BB181CC9F8968F99527 /* Pods_FoxRun_HuPOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0D8127B7948EE2F6CAA89E8 /* Pods_FoxRun_HuPOSTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A4125C1C12A4A28C6040415 /* Pods-FoxRun_HuPOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOSTests/Pods-FoxRun_HuPOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		3555D0D9209102820039A2EA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		357144B9208E78A700EFDF9A /* FoxRun_HuPOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoxRun_HuPOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357144BC208E78A700EFDF9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		357144BE208E78A800EFDF9A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +53,14 @@
 		357144D8208E78AA00EFDF9A /* FoxRun_HuPOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoxRun_HuPOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		357144DC208E78AA00EFDF9A /* FoxRun_HuPOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoxRun_HuPOSUITests.swift; sourceTree = "<group>"; };
 		357144DE208E78AA00EFDF9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5802D619A4BCBF9601E8102A /* Pods-FoxRun_HuPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOS/Pods-FoxRun_HuPOS.debug.xcconfig"; sourceTree = "<group>"; };
+		928ADE2C1EF7536384662879 /* Pods-FoxRun_HuPOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOSUITests/Pods-FoxRun_HuPOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9C3072F8D91A924A9B1AE1ED /* Pods_FoxRun_HuPOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoxRun_HuPOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0D2F7098C91E2470CD6D3F4 /* Pods_FoxRun_HuPOSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoxRun_HuPOSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0D8127B7948EE2F6CAA89E8 /* Pods_FoxRun_HuPOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoxRun_HuPOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF8E7B495802B1AE7B29D299 /* Pods-FoxRun_HuPOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOSUITests/Pods-FoxRun_HuPOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C3EB863A4CF8DB0D5D83B6E4 /* Pods-FoxRun_HuPOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOSTests/Pods-FoxRun_HuPOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EE9596C0087185CF11650FD4 /* Pods-FoxRun_HuPOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoxRun_HuPOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-FoxRun_HuPOS/Pods-FoxRun_HuPOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BC1362F346FC2F1EAE07973 /* Pods_FoxRun_HuPOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFD01BB181CC9F8968F99527 /* Pods_FoxRun_HuPOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9225440522B25045F43ACE8B /* Pods_FoxRun_HuPOSUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +98,8 @@
 				357144D0208E78AA00EFDF9A /* FoxRun_HuPOSTests */,
 				357144DB208E78AA00EFDF9A /* FoxRun_HuPOSUITests */,
 				357144BA208E78A700EFDF9A /* Products */,
+				E9FB44B3F81015D8143AD3D3 /* Pods */,
+				9A4B596BEC44BCA1821BD3F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +118,7 @@
 			children = (
 				357144BC208E78A700EFDF9A /* AppDelegate.swift */,
 				357144BE208E78A800EFDF9A /* ViewController.swift */,
+				3555D0D9209102820039A2EA /* GoogleService-Info.plist */,
 				357144C0208E78A800EFDF9A /* Main.storyboard */,
 				357144C3208E78A900EFDF9A /* Assets.xcassets */,
 				357144C5208E78A900EFDF9A /* LaunchScreen.storyboard */,
@@ -125,6 +145,29 @@
 			path = FoxRun_HuPOSUITests;
 			sourceTree = "<group>";
 		};
+		9A4B596BEC44BCA1821BD3F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C3072F8D91A924A9B1AE1ED /* Pods_FoxRun_HuPOS.framework */,
+				B0D8127B7948EE2F6CAA89E8 /* Pods_FoxRun_HuPOSTests.framework */,
+				B0D2F7098C91E2470CD6D3F4 /* Pods_FoxRun_HuPOSUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E9FB44B3F81015D8143AD3D3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5802D619A4BCBF9601E8102A /* Pods-FoxRun_HuPOS.debug.xcconfig */,
+				EE9596C0087185CF11650FD4 /* Pods-FoxRun_HuPOS.release.xcconfig */,
+				0A4125C1C12A4A28C6040415 /* Pods-FoxRun_HuPOSTests.debug.xcconfig */,
+				C3EB863A4CF8DB0D5D83B6E4 /* Pods-FoxRun_HuPOSTests.release.xcconfig */,
+				BF8E7B495802B1AE7B29D299 /* Pods-FoxRun_HuPOSUITests.debug.xcconfig */,
+				928ADE2C1EF7536384662879 /* Pods-FoxRun_HuPOSUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +175,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 357144E1208E78AA00EFDF9A /* Build configuration list for PBXNativeTarget "FoxRun_HuPOS" */;
 			buildPhases = (
+				4BDF4312A07D7E0AF17994ED /* [CP] Check Pods Manifest.lock */,
 				357144B5208E78A700EFDF9A /* Sources */,
 				357144B6208E78A700EFDF9A /* Frameworks */,
 				357144B7208E78A700EFDF9A /* Resources */,
+				8DD29E1EA089F0F5DC098397 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,6 +194,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 357144E4208E78AA00EFDF9A /* Build configuration list for PBXNativeTarget "FoxRun_HuPOSTests" */;
 			buildPhases = (
+				1B4A9585BA611530C3973224 /* [CP] Check Pods Manifest.lock */,
 				357144C9208E78AA00EFDF9A /* Sources */,
 				357144CA208E78AA00EFDF9A /* Frameworks */,
 				357144CB208E78AA00EFDF9A /* Resources */,
@@ -167,6 +213,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 357144E7208E78AA00EFDF9A /* Build configuration list for PBXNativeTarget "FoxRun_HuPOSUITests" */;
 			buildPhases = (
+				E6356745583978373171DCCE /* [CP] Check Pods Manifest.lock */,
 				357144D4208E78AA00EFDF9A /* Sources */,
 				357144D5208E78AA00EFDF9A /* Frameworks */,
 				357144D6208E78AA00EFDF9A /* Resources */,
@@ -229,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3555D0DA209102820039A2EA /* GoogleService-Info.plist in Resources */,
 				357144C7208E78A900EFDF9A /* LaunchScreen.storyboard in Resources */,
 				357144C4208E78A900EFDF9A /* Assets.xcassets in Resources */,
 				357144C2208E78A800EFDF9A /* Main.storyboard in Resources */,
@@ -250,6 +298,97 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B4A9585BA611530C3973224 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FoxRun_HuPOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4BDF4312A07D7E0AF17994ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FoxRun_HuPOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8DD29E1EA089F0F5DC098397 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FoxRun_HuPOS/Pods-FoxRun_HuPOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FoxRun_HuPOS/Pods-FoxRun_HuPOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6356745583978373171DCCE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FoxRun_HuPOSUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		357144B5208E78A700EFDF9A /* Sources */ = {
@@ -428,6 +567,7 @@
 		};
 		357144E2208E78AA00EFDF9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5802D619A4BCBF9601E8102A /* Pods-FoxRun_HuPOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -446,6 +586,7 @@
 		};
 		357144E3208E78AA00EFDF9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE9596C0087185CF11650FD4 /* Pods-FoxRun_HuPOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -464,6 +605,7 @@
 		};
 		357144E5208E78AA00EFDF9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A4125C1C12A4A28C6040415 /* Pods-FoxRun_HuPOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -485,6 +627,7 @@
 		};
 		357144E6208E78AA00EFDF9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C3EB863A4CF8DB0D5D83B6E4 /* Pods-FoxRun_HuPOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -506,6 +649,7 @@
 		};
 		357144E8208E78AA00EFDF9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF8E7B495802B1AE7B29D299 /* Pods-FoxRun_HuPOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -526,6 +670,7 @@
 		};
 		357144E9208E78AA00EFDF9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 928ADE2C1EF7536384662879 /* Pods-FoxRun_HuPOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

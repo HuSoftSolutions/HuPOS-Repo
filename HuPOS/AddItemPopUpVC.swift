@@ -12,11 +12,14 @@ import SnapKit
 import Firebase
 
 
+
 class AddItemPopUpVC:UIViewController {
     
     var inventoryItem:InventoryItem?
     var cellIndex = 0
-    var taxOn:Bool = true
+    var tax:Tax = .tax_added
+    var taxIndex:Int = 0
+    
     var miscPriceOn:Bool = false
     
     let mainView:UIView = {
@@ -64,7 +67,7 @@ class AddItemPopUpVC:UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("Tax ON", for: .normal)
+        btn.setTitle("Tax Added", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = UIColor.green
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
@@ -241,7 +244,7 @@ class AddItemPopUpVC:UIViewController {
             id = (inventoryItem?.id!)!
         }
         
-        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxOn, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id)
+        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxIndex, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id)
         
         print(newItem.dictionary())
         let db = Firestore.firestore()
@@ -254,15 +257,15 @@ class AddItemPopUpVC:UIViewController {
                 "Image":newItem.image!,
                 "Price":newItem.price!,
                 "Cost":newItem.cost!,
-                "Tax":newItem.tax!,
-                "Description":newItem.desc!]) { err in
-                    if let err = err {
-                        print(err)
-                        //                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
-                        //                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
-                        //                            errorAlert.addAction(cancel)
-                        //                            self.present(errorAlert, animated: true, completion: nil)
-                    }else{
+                "Tax":newItem.taxIndex,
+                "Description":newItem.desc!]){ err in
+                if let err = err {
+                    print(err)
+                    //                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
+                    //                            let cancel = UIAlertAction(title: "Continue", style: .cancel, handler: nil)
+                    //                            errorAlert.addAction(cancel)
+                    //                            self.present(errorAlert, animated: true, completion: nil)
+                }else{
                         //                            let successAlert = UIAlertController(title: "Success", message: "'\(newItem.title!)' was updated successfully.", preferredStyle: .alert)
                         //                            let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
                         //                            successAlert.addAction(cancel)
@@ -316,17 +319,32 @@ class AddItemPopUpVC:UIViewController {
             self.miscPriceBtn.setTitle("Misc Price ON", for: .normal)
         }
     }
-    @objc func taxChangedAction(){
-        if(taxOn) {
-            taxOn = false
+    
+    func updateTaxFields(){
+        switch self.taxIndex {
+        case 0:
             self.taxBtn.backgroundColor = UIColor.red
-            self.taxBtn.setTitle("Tax OFF", for: .normal)
-        }
-        else {
-            taxOn = true
+            
+        case 1:
+            self.taxBtn.backgroundColor = UIColor.blue
+            
+        case 2:
             self.taxBtn.backgroundColor = UIColor.green
-            self.taxBtn.setTitle("Tax ON", for: .normal)
+            
+        default:
+            self.taxBtn.backgroundColor = UIColor.red
+            
         }
+        
+        self.taxBtn.setTitle(self.tax.array[taxIndex].description, for: .normal)
+
+    }
+    
+    @objc func taxChangedAction(){
+        self.taxIndex = (self.tax.rawValue + 1)%3
+        self.tax = tax.array[self.taxIndex]
+        updateTaxFields()
+       
     }
     
     func addItemToEdit(){
@@ -335,9 +353,9 @@ class AddItemPopUpVC:UIViewController {
             self.itemCategory.text = self.inventoryItem?.category
             self.price.text = String(format: "%.02f", (self.inventoryItem?.price)!).currencyInputFormatting()
             self.cost.text = String(format: "%.02f", (self.inventoryItem?.cost)!).currencyInputFormatting()
-            self.taxOn = !(self.inventoryItem?.tax)!
+            self.taxIndex = (self.inventoryItem?.taxIndex)!
             self.miscPriceOn = !(self.inventoryItem?.miscPrice)!
-            self.taxChangedAction()
+            self.updateTaxFields()
             self.miscPriceChangedAction()
         }
     }

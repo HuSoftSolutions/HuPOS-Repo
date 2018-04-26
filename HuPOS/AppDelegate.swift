@@ -13,6 +13,8 @@ import CoreData
 import Firebase
 import IQKeyboardManagerSwift
 
+let LIVE_DB = "GoogleService-Info_Live"
+let TEST_DB = "GoogleService-Info_Test"
 
 enum LanguageIndex: Int {
     case english = 0
@@ -56,15 +58,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     override init(){
         super.init()
-        FirebaseApp.configure()
-        
+        print("BUNDLE PATH: \(Bundle.main.bundlePath)")
+        let filePath = Bundle.main.path(forResource: LIVE_DB, ofType: "plist")
+        guard let fileopts = FirebaseOptions(contentsOfFile: filePath!)
+            else { assert(false, "Couldn't load config file") }
+        FirebaseApp.configure(options: fileopts)
        
         //var ref = Firestore.firestore(app: "https://HuSoftSolutions.FoxRun-HuPOS.firebaseio.com")
         
-        let db = Firestore.firestore()
-        let settings = FirestoreSettings()
-        settings.isPersistenceEnabled = true
-        db.settings = settings
+//        let db = Firestore.firestore()
+//        let settings = FirestoreSettings()
+//        settings.isPersistenceEnabled = true
+//        db.settings = settings
+//        liveDb.settings = settings
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

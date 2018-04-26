@@ -10,7 +10,29 @@ import UIKit
 import Firebase
 import SnapKit
 
-let CELL_COUNT = 100
+enum Tax:Int {
+    case no_tax = 0, tax_inc = 1, tax_added = 2
+    
+    var description : String {
+        switch self {
+        case .no_tax: return "No Tax"
+        case .tax_inc: return "Tax Included"
+        case .tax_added: return "Tax Added"
+        }
+    }
+    
+    var array:[Tax] {
+        var array:[Tax] = []
+        switch Tax.no_tax {
+        case .no_tax: array.append(.no_tax); fallthrough
+        case .tax_inc: array.append(.tax_inc); fallthrough
+        case .tax_added: array.append(.tax_added);
+        }
+        return array
+    }
+}
+
+let CELL_COUNT = 40
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
 
 public class InventoryItem {
@@ -21,7 +43,7 @@ public class InventoryItem {
     var desc:String?
     var price:Double?
     var cost:Double?
-    var tax:Bool?
+    var taxIndex = 0
     var miscPrice:Bool?
     var index:Int?
     
@@ -33,33 +55,33 @@ public class InventoryItem {
         self.desc = dictionary["Desc"] as? String
         self.price = dictionary["Price"] as? Double
         self.cost = dictionary["Cost"] as? Double
-        self.tax = dictionary["Tax"] as? Bool
+        self.taxIndex = (dictionary["Tax"] as? Int)!
         self.miscPrice = dictionary["MiscPrice"] as? Bool
         self.index = dictionary["Index"] as? Int
     }
     
-    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Bool, miscPrice:Bool, description:String, index:Int, id:String){
+    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Int, miscPrice:Bool, description:String, index:Int, id:String){
         self.image = img
         self.title = title
         self.category = category
         self.desc = description
         self.price = price
         self.cost = cost
-        self.tax = tax
+        self.taxIndex = tax
         self.miscPrice = miscPrice
         self.index = index
         self.id = id
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Bool(), "MiscPrice":Bool() ]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Int(), "MiscPrice":Bool() ]
         
         data["Id"] = self.id
         data["Title"] = self.title
         data["Category"] = self.category
         data["Price"] = self.price
         data["Cost"] = self.cost
-        data["Tax"] = self.tax
+        data["Tax"] = self.taxIndex
         data["MiscPrice"] = self.miscPrice
         data["Image"] = self.image
         data["Index"] = self.index
@@ -203,7 +225,15 @@ class ItemCell:UICollectionViewCell{
 
 
 
-
+extension ItemsCVC:UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+          //  if let _ = loadingOper
+        }
+    }
+    
+    
+}
 
 
 
@@ -241,6 +271,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         initItemCells()
         let db = Firestore.firestore()
         
+        //db.collection("Items").addDocument(data: ["Test":Tax.no_tax])
         _ = db.collection("Items").order(by: "Index", descending: false).getDocuments { (snapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -257,7 +288,11 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
 
         group.notify(queue: .main){
             print("Finshed!")
-            self.collectionView?.reloadData()
+            DispatchQueue.main.async(execute: {
+                self.collectionView?.reloadData()
+            })
+
+        
         }
       
         let defaults = UserDefaults.standard
@@ -276,7 +311,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 self.editModeOn = false
                 
             }
-            self.collectionView?.reloadData()
+            DispatchQueue.main.async(execute: {
+                self.collectionView?.reloadData()
+            })
         })
         
         
@@ -284,16 +321,18 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             NotificationCenter.default.addObserver(forName: .inventoryItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
                 let item = notification.object as! InventoryItem
                 self.itemCells[item.index!].inventoryItemCell = item
-                self.collectionView?.reloadData()
-                
+                DispatchQueue.main.async(execute: {
+                    self.collectionView?.reloadData()
+                })
                 
             })
         
         reloadCollectionView = NotificationCenter.default.addObserver(forName: .reloadCollectionView, object: nil, queue: OperationQueue.main, using: { (notification) in
             let itemToDelete = notification.object as! InventoryItem
             self.itemCells[itemToDelete.index!].inventoryItemCell = nil
-            self.collectionView?.reloadData()
-        })
+            DispatchQueue.main.async(execute: {
+                self.collectionView?.reloadData()
+            })        })
     }
     
     
@@ -355,7 +394,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        collectionView?.prefetchDataSource = self
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(ItemsCVC.handleLongGesture(_:)))
         longPressGesture.cancelsTouchesInView = false
         self.collectionView?.isUserInteractionEnabled = true

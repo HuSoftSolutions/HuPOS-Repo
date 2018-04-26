@@ -83,12 +83,12 @@ class AddUserVC: UITableViewController {
         let alert = UIAlertController(title: "There was a problem!", message: "", preferredStyle: .alert)
         
         var error = false
-        
-        if !isValid(email!) {
-            error = true
-            alert.message?.append("Invalid email: \(email!)")
-            self.emailField.text = ""
-        }
+//        print(self.emailField.text!)
+//        if !isValid(email!) {
+//            error = true
+//            alert.message?.append("Invalid email: \(email!)")
+//            self.emailField.text = ""
+//        }
         if pin1 != pin2 {
             error = true
             alert.message?.append("\nPins do not match")
@@ -118,9 +118,11 @@ class AddUserVC: UITableViewController {
             self.present(validityAlert, animated: true)
             
         }else{
+            
+            let trimmedEmail = self.emailField.text!.trimmingCharacters(in: .whitespaces)
             var userDictionary:[String:Any] =
                 [
-                    "Email":self.emailField.text!,
+                    "Email":trimmedEmail,
                     "FirstName":self.firstNameField.text!,
                     "LastName":self.lastNameField.text!,
                     "Photo":"gs://hupos-bb538.appspot.com/usericon_id76rb.png",
@@ -129,7 +131,7 @@ class AddUserVC: UITableViewController {
                     "UserType":"User",
                     "AuthID":""
             ]
-            
+            print(userDictionary.description)
            // Auth.auth().currentUser?.setValue(userDictionary["First Name"], forKey: "DisplayName")
             Auth.auth().createUser(withEmail: userDictionary["Email"] as! String, password: userDictionary["Pin"] as! String) { (fbuser, error) in
                 if((error) != nil){

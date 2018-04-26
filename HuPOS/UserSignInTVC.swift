@@ -56,7 +56,6 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var enterButton: UIButton!
     
-    let db = Firestore.firestore()
     public var currentUser:User?
     
     
@@ -160,7 +159,10 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func refreshUserList(_ completion: @escaping () -> ()){
-        db.collection("Users").getDocuments() { (querySnapshot, err) in
+        let db = Firestore.firestore()
+
+        let docRef = db.collection("Users")
+      docRef.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

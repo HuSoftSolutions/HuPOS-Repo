@@ -330,7 +330,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DD:mm:yyyy hh:mm:ss"
+        dateFormatter.dateFormat = "dd:mm:yyyy hh:mm:ss"
         ref = db.collection("Sales").addDocument(data: [
             "Timestamp":dateFormatter.string(from: (self.sale?.timestamp)!),
             "Employee":sale?.employeeId as Any,

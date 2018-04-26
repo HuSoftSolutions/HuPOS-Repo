@@ -323,6 +323,32 @@ override func viewDidLoad() {
         }
     }
     
+    let db = Firestore.firestore()
+           // db.collection("Test").addDocument(data: ["Test":Tax.no_tax.])
+    
+//    let secondaryOptions = FirebaseOptions(googleAppID: "1:674033348952:ios:9a8e773604672caf", gcmSenderID: "674033348952")
+//    secondaryOptions.bundleID = "HuSoftSolutions.FoxRun-HuPOS"
+//    secondaryOptions.apiKey = "AIzaSyDfE77Lk3K5FuZ4odMBc82EKkNUEubozWg"
+//    secondaryOptions.clientID = "674033348952-i3gunjbeuopqfc55t7jqiug1it1dhlrv.apps.googleusercontent.com"
+//    secondaryOptions.databaseURL = "https://fox-run-point-of-sale.firebaseio.com"
+//    secondaryOptions.storageBucket = "myproject.appspot.com"
+//    secondaryOptions.projectID = "fox-run-point-of-sale"
+//    
+//    FirebaseApp.configure(name: "LiveDB", options: secondaryOptions)
+//    let liveDB = FirebaseApp.app(name: "LiveDB")
+//    let liveDb = Firestore.firestore(app: liveDB!)
+//    liveDb.collection("Members").addDocument(data: ["First Name":""]) { (err) in
+//        if let err = err {
+//            print(" LOADING SECONDARY DB \(err)")
+//        }else{
+//            print("Successful LOADING SECONDARY DB")
+//        }
+//    }
+//    
+    
+    
+    
+    
     
 //    Prime database with add cells
 //    let db = Firestore.firestore()

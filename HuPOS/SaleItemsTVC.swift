@@ -55,7 +55,7 @@ public class Sale {
             return "No Sale"
         }else{
             for sale in saleItems! {
-                if(sale.inventoryItem?.tax)!{
+                if(sale.inventoryItem?.taxIndex == Tax.tax_added.rawValue){
                     
                     let sale_ = ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
                     let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) * (STATE_TAX)
@@ -63,13 +63,19 @@ public class Sale {
                    // print("+ Sale Total | \(sale_)")
                     taxTotalTemp += tax_
                    // print("+ Tax Total | \(tax_)")
-                }else{
+                }else if (sale.inventoryItem?.taxIndex == Tax.tax_inc.rawValue){
                     let sale_ = ((sale.inventoryItem?.price)! * sale.quantity)
                     let tax_ = ((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
                     saleTotalTemp += sale_
                  //   print("+ Sale Total | \(sale_)")
                     taxTotalTemp += tax_
                  //   print("+ Tax Total | \(tax_)")
+                }else if(sale.inventoryItem?.taxIndex == Tax.no_tax.rawValue){
+                    let sale_ = ((sale.inventoryItem?.price)! * sale.quantity)
+                    let tax_ = 0.0 //((sale.inventoryItem?.price)! * sale.quantity) - (((sale.inventoryItem?.price)! * sale.quantity) / (1 + STATE_TAX))
+                    saleTotalTemp += sale_
+                    //   print("+ Sale Total | \(sale_)")
+                    taxTotalTemp += tax_
                 }
             }
             var totals = [String]()
@@ -223,16 +229,20 @@ class SaleItemCell: UITableViewCell {
             let itemPriceTotal = (saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!
             var tax:Double = 0.0
             var itemRawCost = 0.0
-            if(saleItem?.inventoryItem?.tax)!{
+            if(saleItem?.inventoryItem?.taxIndex == Tax.tax_added.rawValue){
                 tax = STATE_TAX * itemPriceTotal
                 saleItem?.taxTotal = tax
                 print("TAX ADDED: \(itemPriceTotal) + \(tax) = \(itemPriceTotal + tax)")
-            }else{
+            }else if (saleItem?.inventoryItem?.taxIndex == Tax.tax_inc.rawValue){
                 itemRawCost = (itemPriceTotal)/(1.0 + STATE_TAX)
                 tax = (itemPriceTotal) - itemRawCost
                 saleItem?.taxTotal = tax
                 print("TAX INCLUDED: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
                 tax = 0.0
+            }else if(saleItem?.inventoryItem?.taxIndex == Tax.no_tax.rawValue){
+                tax = 0.0
+                saleItem?.taxTotal = tax
+                print("TAX INCLUDED: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
             }
             let s_total = ((saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!) + tax
             subtotal.text = NumberFormatter.localizedString(from: NSNumber(value: s_total), number: .currency)

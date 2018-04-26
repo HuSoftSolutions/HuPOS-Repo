@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3507027B203B5EEB00156854 /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507027A203B5EEB00156854 /* AddItemVC.swift */; };
 		3507027D203B628900156854 /* HuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3507027C203B628900156854 /* HuView.swift */; };
-		350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 350D63F52028F393005C8CF5 /* GoogleService-Info.plist */; };
+		350D63F62028F393005C8CF5 /* GoogleService-Info_Test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 350D63F52028F393005C8CF5 /* GoogleService-Info_Test.plist */; };
 		350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F720292965005C8CF5 /* UserSignInTVC.swift */; };
 		350D63FA20292FAC005C8CF5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350D63F920292FAC005C8CF5 /* User.swift */; };
 		35104213202CEE64002614AC /* UserTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35104212202CEE64002614AC /* UserTVC.swift */; };
@@ -17,7 +17,7 @@
 		352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */; };
 		352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */; };
 		354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */; };
-		35533058208FAA220069BAB9 /* DatabaseConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35533057208FAA220069BAB9 /* DatabaseConnection.swift */; };
+		3555D0DC209130DC0039A2EA /* GoogleService-Info_Live.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
@@ -68,7 +68,7 @@
 /* Begin PBXFileReference section */
 		3507027A203B5EEB00156854 /* AddItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		3507027C203B628900156854 /* HuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuView.swift; sourceTree = "<group>"; };
-		350D63F52028F393005C8CF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		350D63F52028F393005C8CF5 /* GoogleService-Info_Test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info_Test.plist"; sourceTree = "<group>"; };
 		350D63F720292965005C8CF5 /* UserSignInTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignInTVC.swift; sourceTree = "<group>"; };
 		350D63F920292FAC005C8CF5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35104212202CEE64002614AC /* UserTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTVC.swift; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
 		352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPopUpVC.swift; sourceTree = "<group>"; };
 		354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPopUpVC.swift; sourceTree = "<group>"; };
-		35533057208FAA220069BAB9 /* DatabaseConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseConnection.swift; sourceTree = "<group>"; };
+		3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info_Live.plist"; path = "FoxRun_HuPOS/FoxRun_HuPOS/GoogleService-Info_Live.plist"; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 				35B8DD8B201FB086002F49C9 /* Main.storyboard */,
 				35B8DD8E201FB086002F49C9 /* Assets.xcassets */,
 				35B8DD90201FB086002F49C9 /* LaunchScreen.storyboard */,
-				350D63F52028F393005C8CF5 /* GoogleService-Info.plist */,
+				350D63F52028F393005C8CF5 /* GoogleService-Info_Test.plist */,
 				35B8DD93201FB086002F49C9 /* Info.plist */,
 				35B8DDC0201FB833002F49C9 /* ObjCBridge.h */,
 				350D63F720292965005C8CF5 /* UserSignInTVC.swift */,
@@ -215,13 +215,13 @@
 				3507027C203B628900156854 /* HuView.swift */,
 				35A0DB202050B7E200DDA5F0 /* ItemsCVC.swift */,
 				35A2C6092050C8A3004B040B /* AddItemCVCell.swift */,
+				3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */,
 				357678D5205DC9250009828C /* SaleItemCell.swift */,
 				357678DB205DE0680009828C /* NoSaleCell.swift */,
 				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
 				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
 				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
 				352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */,
-				35533057208FAA220069BAB9 /* DatabaseConnection.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -271,7 +271,6 @@
 				35B8DD81201FB086002F49C9 /* Frameworks */,
 				35B8DD82201FB086002F49C9 /* Resources */,
 				66BB34940076B68DD5746C42 /* [CP] Embed Pods Frameworks */,
-				1C08AAA34B7D8CA5AD597868 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -290,8 +289,6 @@
 				35B8DD94201FB086002F49C9 /* Sources */,
 				35B8DD95201FB086002F49C9 /* Frameworks */,
 				35B8DD96201FB086002F49C9 /* Resources */,
-				076A8611AA9C9F8165C1B927 /* [CP] Embed Pods Frameworks */,
-				7A0FAFEF2D727C705C1E012B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,8 +308,6 @@
 				35B8DD9F201FB086002F49C9 /* Sources */,
 				35B8DDA0201FB086002F49C9 /* Frameworks */,
 				35B8DDA1201FB086002F49C9 /* Resources */,
-				233D3B82F6F1E5F6F3805C20 /* [CP] Embed Pods Frameworks */,
-				91425BE4A86E50FF8EE5C265 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -378,7 +373,8 @@
 				35B8DD92201FB086002F49C9 /* LaunchScreen.storyboard in Resources */,
 				35B8DD8F201FB086002F49C9 /* Assets.xcassets in Resources */,
 				35B8DD8D201FB086002F49C9 /* Main.storyboard in Resources */,
-				350D63F62028F393005C8CF5 /* GoogleService-Info.plist in Resources */,
+				350D63F62028F393005C8CF5 /* GoogleService-Info_Test.plist in Resources */,
+				3555D0DC209130DC0039A2EA /* GoogleService-Info_Live.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,51 +395,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		076A8611AA9C9F8165C1B927 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1C08AAA34B7D8CA5AD597868 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		233D3B82F6F1E5F6F3805C20 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2E20F9430F7DF7E5BFA966F3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -470,10 +421,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/RAReorderableLayout/RAReorderableLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/SideMenu/SideMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
@@ -487,10 +440,12 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EmptyDataSet_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RAReorderableLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SideMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
@@ -504,36 +459,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7A0FAFEF2D727C705C1E012B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSTests/Pods-HuPOSTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		91425BE4A86E50FF8EE5C265 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A3BDC3D1E9DF7F7B7C28FB19 /* [CP] Check Pods Manifest.lock */ = {
@@ -600,7 +525,6 @@
 				352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */,
 				357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
-				35533058208FAA220069BAB9 /* DatabaseConnection.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,
 				358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */,
 				35A2C60A2050C8A3004B040B /* AddItemCVCell.swift in Sources */,
