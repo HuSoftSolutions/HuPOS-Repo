@@ -26,6 +26,7 @@
 		357678D8205DCBD50009828C /* EditItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D7205DCBD40009828C /* EditItemsCell.swift */; };
 		357678DC205DE0680009828C /* NoSaleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678DB205DE0680009828C /* NoSaleCell.swift */; };
 		357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357F1DE3208566DF009C4C98 /* NumberPadPopUpVC.swift */; };
+		358C3A4B2093869A00B7C124 /* ReportingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358C3A4A2093869A00B7C124 /* ReportingVC.swift */; };
 		358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358CABDA206ED8EE002E17FC /* SettingsTVC.swift */; };
 		359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359C622B203286AC0002F7AE /* SideBarMenu.swift */; };
 		35A0DB1F2050B64500DDA5F0 /* SaleItemsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */; };
@@ -85,6 +86,8 @@
 		357678D7205DCBD40009828C /* EditItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditItemsCell.swift; path = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/EditItemsCell.swift"; sourceTree = "<absolute>"; };
 		357678DB205DE0680009828C /* NoSaleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSaleCell.swift; sourceTree = "<group>"; };
 		357F1DE3208566DF009C4C98 /* NumberPadPopUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberPadPopUpVC.swift; path = Pods/NumberPadPopUpVC.swift; sourceTree = SOURCE_ROOT; };
+		358C3A49209351FA00B7C124 /* HuPOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HuPOS.entitlements; sourceTree = "<group>"; };
+		358C3A4A2093869A00B7C124 /* ReportingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportingVC.swift; sourceTree = "<group>"; };
 		358CABDA206ED8EE002E17FC /* SettingsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		359C622B203286AC0002F7AE /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
 		35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemsTVC.swift; sourceTree = "<group>"; };
@@ -191,6 +194,7 @@
 		35B8DD86201FB086002F49C9 /* HuPOS */ = {
 			isa = PBXGroup;
 			children = (
+				358C3A49209351FA00B7C124 /* HuPOS.entitlements */,
 				357678D7205DCBD40009828C /* EditItemsCell.swift */,
 				35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */,
 				3569B3E72027875F00B88A76 /* HomeVC.swift */,
@@ -222,6 +226,7 @@
 				35CB5C16207042620080187C /* NotificationNameExtension.swift */,
 				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
 				352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */,
+				358C3A4A2093869A00B7C124 /* ReportingVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -332,6 +337,11 @@
 					35B8DD83201FB086002F49C9 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					35B8DD97201FB086002F49C9 = {
 						CreatedOnToolsVersion = 9.2;
@@ -522,6 +532,7 @@
 				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
 				359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */,
 				350D63FA20292FAC005C8CF5 /* User.swift in Sources */,
+				358C3A4B2093869A00B7C124 /* ReportingVC.swift in Sources */,
 				352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */,
 				357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
@@ -694,6 +705,7 @@
 			baseConfigurationReference = 5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HuPOS/HuPOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZRALRG384S;
@@ -718,6 +730,7 @@
 			baseConfigurationReference = 80EE05793D2D8282B1C96C8D /* Pods-HuPOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HuPOS/HuPOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZRALRG384S;

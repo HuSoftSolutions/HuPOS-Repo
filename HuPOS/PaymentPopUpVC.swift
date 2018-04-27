@@ -228,6 +228,8 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
     }
     
+
+    
     @objc func acceptSaleAction(){
         var payment = self.amtPaid.toDouble()/100
         let totalDue = (self.sale?.remainingBalance?.roundTo(places: 2))!
@@ -243,7 +245,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             // partial payment -- deduct from remaining balance
             print("Payment \(payment) is less than total due \(totalDue)")
             
-            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: (CURRENT_USER?.firstName!)!, _time: date)
             self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
             self.sale!.events!.append(event)
             self.eventTableView.reloadData()
@@ -258,7 +260,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             print("Payment \(payment) is equal to the total due \(totalDue)")
             
             // add payment event
-            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: (CURRENT_USER?.firstName!)!, _time: date)
             self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
             self.sale!.events!.append(event)
             self.sale!.changeGiven = 0.0

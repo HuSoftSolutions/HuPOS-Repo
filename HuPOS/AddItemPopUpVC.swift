@@ -160,6 +160,19 @@ class AddItemPopUpVC:UIViewController {
         return btn
     }()
     
+    let changeColorBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Change Color", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(colorChangedAction), for: .touchUpInside)
+        btn.backgroundColor = CELL_BACKGROUND_COLOR
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
+        return btn
+    }()
+    
     let addItemBtn:UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -244,7 +257,7 @@ class AddItemPopUpVC:UIViewController {
             id = (inventoryItem?.id!)!
         }
         
-        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxIndex, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id)
+        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxIndex, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id, cellColorIndex:(self.inventoryItem?.cellColorIndex)!)
         
         print(newItem.dictionary())
         let db = Firestore.firestore()
@@ -258,7 +271,8 @@ class AddItemPopUpVC:UIViewController {
                 "Price":newItem.price!,
                 "Cost":newItem.cost!,
                 "Tax":newItem.taxIndex,
-                "Description":newItem.desc!]){ err in
+                "Description":newItem.desc!,
+                "CellColorIndex":newItem.cellColorIndex]){ err in
                 if let err = err {
                     print(err)
                     //                            let errorAlert = UIAlertController(title: "Error", message: "'\(String(describing: newItem.title) )' was not updated.", preferredStyle: .alert)
@@ -340,6 +354,12 @@ class AddItemPopUpVC:UIViewController {
 
     }
     
+    @objc func colorChangedAction(){
+        let newColorIndex = ((self.inventoryItem?.cellColorIndex)!+1) % (CELL_COLORS.count)
+        self.inventoryItem?.cellColorIndex = newColorIndex
+        self.changeColorBtn.backgroundColor = CELL_COLORS[newColorIndex]
+    }
+    
     @objc func taxChangedAction(){
         self.taxIndex = (self.tax.rawValue + 1)%3
         self.tax = tax.array[self.taxIndex]
@@ -379,10 +399,12 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(cost)
         view.addSubview(price)
         view.addSubview(desc)
+        view.addSubview(changeColorBtn)
         
         
         
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
+        changeColorBtn.backgroundColor = CELL_COLORS[(self.inventoryItem?.cellColorIndex)!]
         
         mainView.snp.makeConstraints { (make) in
             make.width.height.equalTo(MAIN_VIEW_WIDTH)
@@ -458,6 +480,11 @@ class AddItemPopUpVC:UIViewController {
         cancelBtn.snp.makeConstraints { (make) in
             make.left.equalTo(mainView).offset(15)
             make.bottom.equalTo(mainView).offset(-15)
+        }
+        
+        changeColorBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(cancelBtn.snp.right).offset(25)
+            make.bottom.equalTo(cancelBtn)
         }
         
         addItemBtn.snp.makeConstraints { (make) in

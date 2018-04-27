@@ -24,6 +24,8 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
+var CURRENT_USER:User?
+
 class UserTVC:UITableViewCell {
     
     @IBOutlet weak var userName: UILabel!
@@ -89,6 +91,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
             queryPin { (isValid) in
                 if isValid {
                     self.view.isUserInteractionEnabled = true
+                    CURRENT_USER = self.currentUser
                     self.performSegue(withIdentifier: "to_HomeVC", sender: nil)
                 }else{
                     self.view.isUserInteractionEnabled = true
@@ -119,8 +122,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
         
         print("View loaded successfully! Welcome \(String(describing: currentUser?.firstName))!")
         
-        
-        
+
         indicator.color = UIColor.white
         indicator.frame = CGRect.init(x:0, y:0, width:10, height:10)
         indicator.center = self.view.center

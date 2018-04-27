@@ -34,6 +34,7 @@ enum Tax:Int {
 
 let CELL_COUNT = 40
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.yellow.withAlphaComponent(0.5), UIColor.blue.withAlphaComponent(0.5), UIColor.green.withAlphaComponent(0.5), UIColor.red.withAlphaComponent(0.5), UIColor.darkGray.withAlphaComponent(0.5),UIColor.cyan.withAlphaComponent(0.5), UIColor.orange.withAlphaComponent(0.5), UIColor.magenta.withAlphaComponent(0.5), UIColor.purple.withAlphaComponent(0.5)]
 
 public class InventoryItem {
     var id:String?
@@ -46,6 +47,7 @@ public class InventoryItem {
     var taxIndex = 0
     var miscPrice:Bool?
     var index:Int?
+    var cellColorIndex:Int = 0
     
     init(id:String, dictionary:[String:Any]){
         self.id = id
@@ -58,9 +60,10 @@ public class InventoryItem {
         self.taxIndex = (dictionary["Tax"] as? Int)!
         self.miscPrice = dictionary["MiscPrice"] as? Bool
         self.index = dictionary["Index"] as? Int
+        self.cellColorIndex = (dictionary["CellColorIndex"] as? Int)!
     }
     
-    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Int, miscPrice:Bool, description:String, index:Int, id:String){
+    init(img:String, title:String, category:String, price:Double, cost:Double, tax:Int, miscPrice:Bool, description:String, index:Int, id:String, cellColorIndex:Int){
         self.image = img
         self.title = title
         self.category = category
@@ -71,10 +74,11 @@ public class InventoryItem {
         self.miscPrice = miscPrice
         self.index = index
         self.id = id
+        self.cellColorIndex = cellColorIndex
     }
     
     public func dictionary() -> [String : Any]{
-        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Int(), "MiscPrice":Bool() ]
+        var data:[String:Any] = ["Id":String(), "Image":String(), "Title":String(), "Category":String(), "Index":String(), "Description":String(), "Price":Double(), "Cost":Double(), "Tax":Int(), "MiscPrice":Bool(), "CellColorIndex":Int() ]
         
         data["Id"] = self.id
         data["Title"] = self.title
@@ -86,6 +90,7 @@ public class InventoryItem {
         data["Image"] = self.image
         data["Index"] = self.index
         data["Description"] = self.desc
+        data["CellColorIndex"] = self.cellColorIndex
         
         return data
     }
@@ -543,7 +548,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         }else{                                                        // Iventory item present
             cell?.titleLabel.text = itemCells[indexPath.row].inventoryItemCell?.title
             cell?.imageView_.image = nil
-            cell?.backgroundColor = CELL_BACKGROUND_COLOR
+            cell?.backgroundColor = CELL_COLORS[(self.itemCells[indexPath.row].inventoryItemCell?.cellColorIndex)!]
         }
         
         return cell!
