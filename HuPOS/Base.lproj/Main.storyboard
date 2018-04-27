@@ -304,6 +304,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="eUl-9Q-hSx" kind="show" id="aYF-4W-dau"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PuO-8n-j1l" rowHeight="71" style="IBUITableViewCellStyleDefault" id="sgY-cq-Aej" customClass="UITableViewVibrantCell" customModule="SideMenu">
                                         <rect key="frame" x="0.0" y="142" width="1112" height="71"/>
@@ -356,10 +359,10 @@
             </objects>
             <point key="canvasLocation" x="47" y="-124"/>
         </scene>
-        <!--View Controller-->
+        <!--ReportingVC-->
         <scene sceneID="cRg-7F-Dmi">
             <objects>
-                <viewController id="eUl-9Q-hSx" sceneMemberID="viewController">
+                <viewController id="eUl-9Q-hSx" customClass="ReportingVC" customModule="HuPOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JnB-eY-csB">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

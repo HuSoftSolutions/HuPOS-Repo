@@ -385,7 +385,6 @@ class AddItemPopUpVC:UIViewController {
         let MAIN_VIEW_WIDTH = screen.width / 2
         let IMG_WIDTH = screen.width / 6
         
-        
         view.addSubview(mainView)
         view.addSubview(itemImage)
         view.addSubview(cancelBtn)
@@ -400,8 +399,6 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(price)
         view.addSubview(desc)
         view.addSubview(changeColorBtn)
-        
-        
         
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
         changeColorBtn.backgroundColor = CELL_COLORS[(self.inventoryItem?.cellColorIndex)!]
