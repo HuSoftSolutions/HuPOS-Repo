@@ -12,6 +12,7 @@ import Firebase
 import SnapKit
 import UIKit
 import IQKeyboardManagerSwift
+import MessageUI
 
 enum EventType {
     case cash, credit, gift, check
@@ -133,7 +134,7 @@ class EventTableViewCell : UITableViewCell {
         
     }
 }
-class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -295,6 +296,15 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             
             // open drawer if cash, gift, check
             BTCommunication.openDrawer()
+            
+            //Send receipt
+            let mailComposerVC = MFMailComposeViewController()
+            mailComposerVC.mailComposeDelegate = self
+            
+            mailComposerVC.setToRecipients(["codyhusek@gmail.com"])
+            mailComposerVC.setSubject("Hello")
+            mailComposerVC.setMessageBody("How are you doing?", isHTML: false)
+    
             
             // pause and dismiss
             

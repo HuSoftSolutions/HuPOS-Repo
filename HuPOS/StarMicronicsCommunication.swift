@@ -22,6 +22,8 @@ final class BTCommunication {
         return true
     }
     
+    //public static func getCurrentUser
+    
     public static func openDrawer(){
         if(BTEnabled()){
             let delegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -47,7 +49,7 @@ final class BTCommunication {
         }
     }
     
-    public static func print(){
+    public static func print(doc:[String]){
         if(BTEnabled()){
             let encoding: String.Encoding
             encoding = String.Encoding.utf8

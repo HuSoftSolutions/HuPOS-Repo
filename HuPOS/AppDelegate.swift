@@ -61,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("BUNDLE PATH: \(Bundle.main.bundlePath)")
         let filePath = Bundle.main.path(forResource: LIVE_DB, ofType: "plist")
         guard let fileopts = FirebaseOptions(contentsOfFile: filePath!)
-            else { assert(false, "Couldn't load config file") }
+            else { assert(false, "Couldn't load config file")
+                return
+        }
         FirebaseApp.configure(options: fileopts)
        
         //var ref = Firestore.firestore(app: "https://HuSoftSolutions.FoxRun-HuPOS.firebaseio.com")
