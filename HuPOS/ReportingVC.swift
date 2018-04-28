@@ -36,26 +36,33 @@ enum ReportCategory:Int {
     }
 }
 
-class Report {
+class Report: NSObject {
 
+    override init(){
+        cash_sale_total = 0.0
+        credit_sale_total = 0.0
+        tax_total = 0.0
+        sale_total = 0.0
+    }
+    
     var categories = ReportCategory.cash_sale_total.array
-    var cash_sale_total:Double = 0.0
-    var credit_sale_total:Double = 0.0
-    var tax_total:Double = 0.0
-    var sale_total:Double = 0.0
+    var cash_sale_total:Double?
+    var credit_sale_total:Double?
+    var tax_total:Double?
+    var sale_total:Double?
 
 }
 
 class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var report = Report()
+    var report = Report.init()
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return report.categories.count
+        return Report().categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,15 +76,15 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
 
         if (report.categories[indexPath.row] == .cash_sale_total) {
-            cell.detailTextLabel?.text = report.cash_sale_total.toCurrencyString()
+            cell.detailTextLabel?.text = report.cash_sale_total?.toCurrencyString()
         }else if(report.categories[indexPath.row] == .credit_sale_total){
-            cell.detailTextLabel?.text = report.credit_sale_total.toCurrencyString()
+            cell.detailTextLabel?.text = report.credit_sale_total?.toCurrencyString()
         }else if(report.categories[indexPath.row] == .total_sales){
-            cell.detailTextLabel?.text = (report.credit_sale_total + report.cash_sale_total).toCurrencyString()
+            cell.detailTextLabel?.text = (report.credit_sale_total! + report.cash_sale_total!).toCurrencyString()
         }else if(report.categories[indexPath.row] == .total_tax){
-            cell.detailTextLabel?.text = report.tax_total.toCurrencyString()
+            cell.detailTextLabel?.text = report.tax_total?.toCurrencyString()
         }else if(report.categories[indexPath.row] == .total_tax_sales){
-            cell.detailTextLabel?.text = (report.sale_total + report.tax_total).toCurrencyString()
+            cell.detailTextLabel?.text = (report.sale_total! + report.tax_total!).toCurrencyString()
         }
         
         return cell
@@ -199,7 +206,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         endDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(endDateLbl.snp.bottom)
             make.left.equalTo(view).offset(PAD)
-
+            
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
@@ -217,83 +224,100 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.width.equalTo(GENERATE_REPORT_WIDTH)
             make.height.equalTo(GENERATE_REPORT_HEIGHT)
         }
-
+        
     }
-
+    
     private func getReportData(){
         _ = Firestore.firestore()
         
     }
     
-   @objc private func datePickerValueChanged(_ sender: UIDatePicker){
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker){
         let dateFormatter: DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
         let selectedDate: String = dateFormatter.string(from: sender.date)
         print("Selected value \(selectedDate)")
-    
+        
     }
     
     private func clearTable(){
         
     }
     
+    private func clearReport(){
+        self.report.cash_sale_total = 0.0
+        self.report.credit_sale_total = 0.0
+        self.report.tax_total = 0.0
+        self.report.sale_total = 0.0
+    }
+    
     @objc func generateReport(){
-        let group = DispatchGroup()
+        let newReport = Report()
+      //  self.generateReportBtn.backgroundColor = UIColor.orange
+        
         self.generateReportBtn.isUserInteractionEnabled = false
-        report = Report()
-        self.reportTable.reloadData()
-        group.enter()
+        //self.clearReport()
 
+        //self.reportTable.reloadData()
+        let myGroup = DispatchGroup()
         let db = Firestore.firestore()
-        let db2 = Firestore.firestore()
+        print("Start date: \(self.startDatePicker.date)\nEnd date: \(self.endDatePicker.date)")
         db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).getDocuments { (snapshot, err) in
             if let err = err {
-                print(err.localizedDescription)
+                print("ERROR \(err.localizedDescription)")
                 self.generateReportBtn.isUserInteractionEnabled = true
-                return
             }else{
-
+                
                 for document in snapshot!.documents {
+                    myGroup.enter()
                     var taxTotal = 0.0
                     var saleTotal = 0.0
                     taxTotal = (document["Tax Total"] as? Double)!
                     saleTotal = (document["Sale Total"] as? Double)!
-                    self.report.tax_total += taxTotal
-                    self.report.sale_total += saleTotal
+                    newReport.tax_total! += taxTotal
+                    newReport.sale_total! += saleTotal
                     
-                    db2.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
+                    let myGroup2 = DispatchGroup()
+                    
+                    db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
                         if let err = err {
-                            print(err.localizedDescription)
+                            print("ERROR \(err.localizedDescription)")
                             self.generateReportBtn.isUserInteractionEnabled = true
-                            return
                         }else{
                             var cashTotal = 0.0
                             var creditTotal = 0.0
                             for document in snapshot!.documents {
-                                let type = document["Type"] as? String
-                                let amount = document["Amount"] as? Double
-                                if(type == "Cash" || type == "Gift" || type == "Check"){
-                                   cashTotal += amount!
+                                let eventCount:Double = Double(snapshot!.documents.count)
+                                let type = document["Type"] as! String
+                                let amount = document["Amount"] as! Double
+                                print("Event type: \(type) Amt: \(amount.toCurrencyString())")
+                                if(type.trimmingCharacters(in: .whitespaces) == "Cash" || type == "Gift" || type == "Check"){
+                                    cashTotal += (amount - taxTotal/eventCount)
                                 }else{
-                                   creditTotal += amount!
+                                    creditTotal += (amount - taxTotal/eventCount)
                                 }
+                                newReport.cash_sale_total! += cashTotal
+                                newReport.credit_sale_total! += creditTotal
                             }
-                            self.report.cash_sale_total += cashTotal - taxTotal/2.0
-                            self.report.credit_sale_total += creditTotal - taxTotal/2.0
                         }
+                        myGroup.leave()
+
                     })
                 }
-            }
-            group.leave()
+                myGroup.notify(queue: .main) {
+                    print("Finished all requests.")
+                    self.generateReportBtn.isUserInteractionEnabled = true
+                    //self.clearReport()
+                    self.report = newReport
+                    self.reportTable.reloadData()
 
+                }
+                
+            }
+            
         }
-        group.notify(queue: .main){
-            print("Finshed!")
-            DispatchQueue.main.async(execute: {
-                self.reportTable.reloadData()
-                self.generateReportBtn.isUserInteractionEnabled = true
-            })
-        }
+
+        
     }
     
     @objc func cancelAction(){
