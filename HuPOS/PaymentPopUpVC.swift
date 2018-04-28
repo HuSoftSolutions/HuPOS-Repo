@@ -344,7 +344,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd:mm:yyyy hh:mm:ss"
         ref = db.collection("Sales").addDocument(data: [
-            "Timestamp":dateFormatter.string(from: (self.sale?.timestamp)!),
+            "Timestamp":self.sale?.timestamp as Any,
             "Employee":sale?.employeeId as Any,
             "Tax Total":sale?.taxTotal?.roundTo(places: 2) as Any,
             "Sale Total":sale?.saleTotal?.roundTo(places: 2) as Any,
@@ -360,7 +360,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
                         "Type":event.type.description,
                         "Amount":event.amount.roundTo(places: 2),
                         "Employee":event.userID,
-                        "Timestamp":dateFormatter.string(from: event.timestamp)
+                        "Timestamp":event.timestamp
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")
@@ -374,10 +374,12 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
                 for saleItem in (self.sale?.saleItems)!{
                     db.collection("Sales/\(ref!.documentID)/Sale Items").addDocument(data: [
                         "Quantity":saleItem.quantity,
-                        "Subtotal":saleItem.subtotal.roundTo(places: 2),
+                        "Total":saleItem.subtotal.roundTo(places: 2),
+                        //"Subtotal":saleItem.subtotal.
                         "Tax Total":saleItem.taxTotal.roundTo(places: 2),
                         "Void":saleItem.void,
-                        "Inventory Item Id": saleItem.inventoryItem?.id
+                        "Inventory Item Id": saleItem.inventoryItem?.id,
+                        "Tax Index": saleItem.inventoryItem?.taxIndex
                     ]) { err in
                         if let err = err {
                             print("Error writing document: \(err)")

@@ -11,7 +11,7 @@ import UIKit
 class NoSaleCell: UITableViewCell {
     
     var message:String = "No Sale"
-    var mainImage:UIImage = #imageLiteral(resourceName: "EmptyBag")
+    var mainImage:UIImage = #imageLiteral(resourceName: "EmptyCartHuPOS")
     
     var messageView:UITextView = {
         var textView = UITextView(frame: CGRect(x: 0, y: 0, width: 200, height: 50))

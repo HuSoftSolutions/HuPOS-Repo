@@ -400,7 +400,12 @@ class SaleItemsTVC: UITableViewController {
                     print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
                     if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
                         exists = true
-                        self.saleCells[i].subtotal += (inventoryItem.inventoryItemCell?.price)!
+                        if(inventoryItem.inventoryItemCell?.taxIndex == 1){
+                            print("\(self.saleCells[i].subtotal) += \((inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX))")
+                            self.saleCells[i].subtotal += (inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX)
+                        }else{
+                            self.saleCells[i].subtotal += (inventoryItem.inventoryItemCell?.price)!
+                        }
                         
                         self.saleCells[i].quantity += 1
                         break
@@ -409,7 +414,11 @@ class SaleItemsTVC: UITableViewController {
                 if(!exists){
                     let saleItem = SaleItem()
                     saleItem.inventoryItem = inventoryItem.inventoryItemCell
-                    saleItem.subtotal = (inventoryItem.inventoryItemCell?.price!)!
+                    if(inventoryItem.inventoryItemCell?.taxIndex == 1){
+                        saleItem.subtotal += (inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX)
+                    }else{
+                        saleItem.subtotal = (inventoryItem.inventoryItemCell?.price!)!
+                    }
                     self.saleCells.append(saleItem)
                 }
                 self.tableView.reloadData()

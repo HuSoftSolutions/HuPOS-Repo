@@ -34,7 +34,7 @@ enum Tax:Int {
 
 let CELL_COUNT = 40
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.yellow.withAlphaComponent(0.5), UIColor.blue.withAlphaComponent(0.5), UIColor.green.withAlphaComponent(0.5), UIColor.red.withAlphaComponent(0.5), UIColor.darkGray.withAlphaComponent(0.5),UIColor.cyan.withAlphaComponent(0.5), UIColor.orange.withAlphaComponent(0.5), UIColor.magenta.withAlphaComponent(0.5), UIColor.purple.withAlphaComponent(0.5)]
+let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.yellow.withAlphaComponent(0.25), UIColor.blue.withAlphaComponent(0.25), UIColor.green.withAlphaComponent(0.25), UIColor.red.withAlphaComponent(0.25), UIColor.darkGray.withAlphaComponent(0.25),UIColor.cyan.withAlphaComponent(0.25), UIColor.orange.withAlphaComponent(0.25), UIColor.magenta.withAlphaComponent(0.25), UIColor.purple.withAlphaComponent(0.25)]
 
 public class InventoryItem {
     var id:String?
@@ -256,6 +256,8 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     var inventoryItemObserver:NSObjectProtocol?
     var reloadCollectionView:NSObjectProtocol?
     
+    
+    
     var itemCells = [Item_]()
     
     func initItemCells(){
@@ -290,14 +292,11 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
             }
             group.leave()
         }
-
         group.notify(queue: .main){
             print("Finshed!")
             DispatchQueue.main.async(execute: {
                 self.collectionView?.reloadData()
             })
-
-        
         }
       
         let defaults = UserDefaults.standard
@@ -406,6 +405,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         self.collectionView?.allowsSelection = true
         self.collectionView?.addGestureRecognizer(longPressGesture)
 
+        
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
     }
     
