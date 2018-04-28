@@ -252,9 +252,14 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 self.generateReportBtn.isUserInteractionEnabled = true
                 return
             }else{
+
                 for document in snapshot!.documents {
-                    self.report.tax_total += (document["Tax Total"] as? Double)!
-                    self.report.sale_total += (document["Sale Total"] as? Double)!
+                    var taxTotal = 0.0
+                    var saleTotal = 0.0
+                    taxTotal = (document["Tax Total"] as? Double)!
+                    saleTotal = (document["Sale Total"] as? Double)!
+                    self.report.tax_total += taxTotal
+                    self.report.sale_total += saleTotal
                     
                     db2.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
                         if let err = err {
@@ -262,7 +267,19 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                             self.generateReportBtn.isUserInteractionEnabled = true
                             return
                         }else{
-                            
+                            var cashTotal = 0.0
+                            var creditTotal = 0.0
+                            for document in snapshot!.documents {
+                                let type = document["Type"] as? String
+                                let amount = document["Amount"] as? Double
+                                if(type == "Cash" || type == "Gift" || type == "Check"){
+                                   cashTotal += amount!
+                                }else{
+                                   creditTotal += amount!
+                                }
+                            }
+                            self.report.cash_sale_total += cashTotal - taxTotal/2.0
+                            self.report.credit_sale_total += creditTotal - taxTotal/2.0
                         }
                     })
                 }
