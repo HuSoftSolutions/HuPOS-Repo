@@ -300,12 +300,12 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             BTCommunication.openDrawer()
             
             //Send receipt
-            let mailComposerVC = MFMailComposeViewController()
-            mailComposerVC.mailComposeDelegate = self
-            
-            mailComposerVC.setToRecipients(["codyhusek@gmail.com"])
-            mailComposerVC.setSubject("Hello")
-            mailComposerVC.setMessageBody("How are you doing?", isHTML: false)
+//            let mailComposerVC = MFMailComposeViewController()
+//            mailComposerVC.mailComposeDelegate = self
+//            
+//            mailComposerVC.setToRecipients(["codyhusek@gmail.com"])
+//            mailComposerVC.setSubject("Hello")
+//            mailComposerVC.setMessageBody("How are you doing?", isHTML: false)
     
             
             // pause and dismiss

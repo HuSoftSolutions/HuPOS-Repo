@@ -121,7 +121,6 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         
         print("View loaded successfully! Welcome \(String(describing: currentUser?.firstName))!")
-        
 
         indicator.color = UIColor.white
         indicator.frame = CGRect.init(x:0, y:0, width:10, height:10)
