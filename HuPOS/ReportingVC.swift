@@ -74,6 +74,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.textLabel?.numberOfLines = 2
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 25)
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
+        cell.selectionStyle = .none
 
         if (report.categories[indexPath.row] == .cash_sale_total) {
             cell.detailTextLabel?.text = report.cash_sale_total?.toCurrencyString()
@@ -84,7 +85,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }else if(report.categories[indexPath.row] == .total_tax){
             cell.detailTextLabel?.text = report.tax_total?.toCurrencyString()
         }else if(report.categories[indexPath.row] == .total_tax_sales){
-            cell.detailTextLabel?.text = (report.sale_total! + report.tax_total!).toCurrencyString()
+            cell.detailTextLabel?.text = (report.sale_total!).toCurrencyString()
         }
         
         return cell
@@ -125,6 +126,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let reportTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tbl.backgroundColor = .clear
+        tbl.alwaysBounceVertical = false
         return tbl
     }()
     
@@ -256,6 +258,8 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
       //  self.generateReportBtn.backgroundColor = UIColor.orange
         
         self.generateReportBtn.isUserInteractionEnabled = false
+        let originalColor = self.generateReportBtn.backgroundColor
+        self.generateReportBtn.backgroundColor = .lightGray
         //self.clearReport()
 
         //self.reportTable.reloadData()
@@ -265,6 +269,8 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).getDocuments { (snapshot, err) in
             if let err = err {
                 print("ERROR \(err.localizedDescription)")
+                self.generateReportBtn.backgroundColor = originalColor
+
                 self.generateReportBtn.isUserInteractionEnabled = true
             }else{
                 
@@ -282,6 +288,8 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                     db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
                         if let err = err {
                             print("ERROR \(err.localizedDescription)")
+                            self.generateReportBtn.backgroundColor = originalColor
+
                             self.generateReportBtn.isUserInteractionEnabled = true
                         }else{
                             var cashTotal = 0.0
@@ -296,9 +304,10 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                                 }else{
                                     creditTotal += (amount - taxTotal/eventCount)
                                 }
-                                newReport.cash_sale_total! += cashTotal
-                                newReport.credit_sale_total! += creditTotal
+                                
                             }
+                            newReport.cash_sale_total! += cashTotal
+                            newReport.credit_sale_total! += creditTotal
                         }
                         myGroup.leave()
 
@@ -306,6 +315,8 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
                 }
                 myGroup.notify(queue: .main) {
                     print("Finished all requests.")
+                    self.generateReportBtn.backgroundColor = originalColor
+
                     self.generateReportBtn.isUserInteractionEnabled = true
                     //self.clearReport()
                     self.report = newReport

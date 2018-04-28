@@ -347,11 +347,11 @@ class SaleItemsTVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         createCell()
         //tableView.register(NoSaleCell.self, forCellReuseIdentifier: "NoSaleCell")
         tableView.separatorStyle = .singleLine
-        
+        tableView.alwaysBounceVertical = false
     }
     
     func generateSaleTotal() -> Sale{

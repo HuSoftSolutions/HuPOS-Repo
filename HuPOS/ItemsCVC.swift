@@ -34,7 +34,7 @@ enum Tax:Int {
 
 let CELL_COUNT = 40
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.yellow.withAlphaComponent(0.25), UIColor.blue.withAlphaComponent(0.25), UIColor.green.withAlphaComponent(0.25), UIColor.red.withAlphaComponent(0.25), UIColor.darkGray.withAlphaComponent(0.25),UIColor.cyan.withAlphaComponent(0.25), UIColor.orange.withAlphaComponent(0.25), UIColor.magenta.withAlphaComponent(0.25), UIColor.purple.withAlphaComponent(0.25)]
+let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.blue.withAlphaComponent(0.25), UIColor.blue.withAlphaComponent(0.50), UIColor.blue.withAlphaComponent(0.75), UIColor.blue.withAlphaComponent(0.95), UIColor.darkGray.withAlphaComponent(0.25),UIColor.darkGray.withAlphaComponent(0.50), UIColor.darkGray.withAlphaComponent(0.75), UIColor.darkGray.withAlphaComponent(0.95), UIColor.red.withAlphaComponent(0.50)]
 
 public class InventoryItem {
     var id:String?
@@ -404,7 +404,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         self.collectionView?.isUserInteractionEnabled = true
         self.collectionView?.allowsSelection = true
         self.collectionView?.addGestureRecognizer(longPressGesture)
-
+        self.collectionView?.alwaysBounceVertical = false
         
         collectionView?.register(ItemCell.self, forCellWithReuseIdentifier: cellId)
     }
