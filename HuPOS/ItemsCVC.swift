@@ -34,7 +34,7 @@ enum Tax:Int {
 
 let CELL_COUNT = 40
 let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.blue.withAlphaComponent(0.25), UIColor.blue.withAlphaComponent(0.50), UIColor.blue.withAlphaComponent(0.75), UIColor.blue.withAlphaComponent(0.95), UIColor.darkGray.withAlphaComponent(0.25),UIColor.darkGray.withAlphaComponent(0.50), UIColor.darkGray.withAlphaComponent(0.75), UIColor.darkGray.withAlphaComponent(0.95), UIColor.red.withAlphaComponent(0.50)]
+let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.blue.withAlphaComponent(0.50).lighter(by: 90)!, UIColor.blue.withAlphaComponent(0.50).lighter(by: 90)!, UIColor.blue.withAlphaComponent(0.75), UIColor.blue.withAlphaComponent(0.95), UIColor.darkGray.withAlphaComponent(0.25),UIColor.darkGray.withAlphaComponent(0.50), UIColor.darkGray.withAlphaComponent(0.75), UIColor.darkGray.withAlphaComponent(0.95), UIColor.red.withAlphaComponent(0.50)]
 
 public class InventoryItem {
     var id:String?
@@ -558,18 +558,39 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.frame.width / 4) - 16, height: (view.frame.height / 5) - 16)
+        return CGSize(width: (view.frame.width / 4) - 5, height: (view.frame.height / 5) - 5)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+//    }
     override func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true
     }
   
 }
-
+extension UIColor {
+    
+    func lighter(by percentage:CGFloat=30.0) -> UIColor? {
+        return self.adjust(by: abs(percentage) )
+    }
+    
+    func darker(by percentage:CGFloat=30.0) -> UIColor? {
+        return self.adjust(by: -1 * abs(percentage) )
+    }
+    
+    func adjust(by percentage:CGFloat=30.0) -> UIColor? {
+        var r:CGFloat=0, g:CGFloat=0, b:CGFloat=0, a:CGFloat=0;
+        if(self.getRed(&r, green: &g, blue: &b, alpha: &a)){
+            return UIColor(red: min(r + percentage/100, 1.0),
+                           green: min(g + percentage/100, 1.0),
+                           blue: min(b + percentage/100, 1.0),
+                           alpha: a)
+        }else{
+            return nil
+        }
+    }
+}
 extension UIView {
     
     func pinToEdges(view: UIView) {

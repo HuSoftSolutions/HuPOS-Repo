@@ -8,11 +8,12 @@
 
 import Foundation
 import CoreBluetooth
+import UIKit
 
 final class BTCommunication {
     
     private init(){
-        
+        print("INIT WORKS")
     }
     
     private static func BTEnabled() -> Bool {
@@ -25,19 +26,28 @@ final class BTCommunication {
     //public static func getCurrentUser
     
     public static func openDrawer(){
+        
         if(BTEnabled()){
+            print("OPEN DRAWER: START")
             let delegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let builder: ISCBBuilder = StarIoExt.createCommandBuilder(delegate.emulation)
             builder.beginDocument()
             builder.appendPeripheral(SCBPeripheralChannel.no1)
             builder.endDocument()
-            
+            print("OPEN DRAWER: Builder complete")
+
             let commands = builder.commands.copy() as! Data
             var commandsArray: [UInt8] = [UInt8](repeating: 0, count: commands.count)
+            
+            print("OPEN DRAWER: Commands array built: \(commandsArray.description)")
+            
             let port = SMPort.getPort(delegate.BTDevice, nil, 10000)
+            print("OPEN DRAWER: SMPort.getPort connected: \(port?.connected())")
+
             
             commands.copyBytes(to: &commandsArray, count: commands.count)
-            
+            print("OPEN DRAWER: commands.copyBytes begin...")
+
             var error: NSError?
             var total: UInt32 = 0
             while total < UInt32(commands.count) {
@@ -45,11 +55,19 @@ final class BTCommunication {
                 if error != nil { break }
                 total += written
             }
+            
+            print("OPEN DRAWER: commands.copyBytes ...end")
+
+
             SMPort.release(port)
+            port?.disconnect()
+            print("OPEN DRAWER: SMPort.release connected: \(port?.connected())")
+
+            
         }
     }
     
-    public static func print(doc:[String]){
+    public static func print_(doc:[String]){
         if(BTEnabled()){
             let encoding: String.Encoding
             encoding = String.Encoding.utf8
@@ -60,7 +78,7 @@ final class BTCommunication {
             builder.appendAlignment(SCBAlignmentPosition.center)
             builder.append((
                 "HuSoft Solutions\n" +
-                "SUCCESSFUL PRINT\n"
+                "SUCCESSFUL print_\n"
                 ).data(using: encoding))
             builder.appendCutPaper(SCBCutPaperAction.partialCutWithFeed)
             builder.endDocument()

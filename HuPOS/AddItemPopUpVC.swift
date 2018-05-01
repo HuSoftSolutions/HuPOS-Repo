@@ -19,6 +19,7 @@ class AddItemPopUpVC:UIViewController {
     var cellIndex = 0
     var tax:Tax = .tax_added
     var taxIndex:Int = 0
+    var cellColorIndex:Int = 0
     
     var miscPriceOn:Bool = false
     
@@ -257,7 +258,7 @@ class AddItemPopUpVC:UIViewController {
             id = (inventoryItem?.id!)!
         }
         
-        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxIndex, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id, cellColorIndex:(self.inventoryItem?.cellColorIndex)!)
+        let newItem = InventoryItem(img: "", title: self.itemName.text!, category: self.itemCategory.text!, price: price_d, cost: cost_d, tax: self.taxIndex, miscPrice: self.miscPriceOn, description: self.desc.text, index: self.cellIndex, id:id, cellColorIndex:(self.cellColorIndex))
         
         print(newItem.dictionary())
         let db = Firestore.firestore()
@@ -355,8 +356,8 @@ class AddItemPopUpVC:UIViewController {
     }
     
     @objc func colorChangedAction(){
-        let newColorIndex = ((self.inventoryItem?.cellColorIndex)!+1) % (CELL_COLORS.count)
-        self.inventoryItem?.cellColorIndex = newColorIndex
+        let newColorIndex = ((self.cellColorIndex)+1) % (CELL_COLORS.count)
+        self.cellColorIndex = newColorIndex
         self.changeColorBtn.backgroundColor = CELL_COLORS[newColorIndex]
     }
     
@@ -401,7 +402,10 @@ class AddItemPopUpVC:UIViewController {
         view.addSubview(changeColorBtn)
         
         addItemBtn.setTitleColor(self.view.tintColor, for: .normal)
-        changeColorBtn.backgroundColor = CELL_COLORS[(self.inventoryItem?.cellColorIndex)!]
+        if self.inventoryItem != nil {
+            self.cellColorIndex = (self.inventoryItem?.cellColorIndex)!    
+        }
+        changeColorBtn.backgroundColor = CELL_COLORS[(self.cellColorIndex)]
         
         mainView.snp.makeConstraints { (make) in
             make.width.height.equalTo(MAIN_VIEW_WIDTH)

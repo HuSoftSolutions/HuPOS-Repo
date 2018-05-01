@@ -444,6 +444,8 @@ class SaleItemsTVC: UITableViewController {
                 self.present(paymentPopUp, animated: true, completion: {
                     print("Finished presenting Payment Pad View!")
                 })
+            }else{
+                BTCommunication.openDrawer()
             }
         })
         
