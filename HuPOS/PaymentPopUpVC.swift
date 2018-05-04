@@ -78,8 +78,8 @@ class EventTableViewCell : UITableViewCell {
     
     var event:Event?{
         didSet{
-            amountLbl.text = "- \(event?.amount.toCurrencyString() ?? "$0.00")"
-            typeLbl.text = event?.type.description
+            amountLbl.text = "- \(event?.amount?.toCurrencyString() ?? "$0.00")"
+            typeLbl.text = event?.type?.description
         }
     }
     
@@ -138,7 +138,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (self.sale?.events?.count)!
+        return (self.sale?.events!.count)!
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -148,8 +148,8 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:EventTableViewCell = self.eventTableView.dequeueReusableCell(withIdentifier: "EventCell")! as! EventTableViewCell
-        let amt = self.sale!.events![indexPath.row].amount.toCurrencyString()
-        let type = self.sale!.events![indexPath.row].type.description
+        let amt = self.sale!.events![indexPath.row].amount?.toCurrencyString()
+        let type = self.sale!.events![indexPath.row].type?.description
         
         cell.isUserInteractionEnabled = false
         cell.event = self.sale?.events![indexPath.row]
@@ -159,10 +159,10 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete && !self.sale!.events!.isEmpty) {
+        if (editingStyle == UITableViewCellEditingStyle.delete && !(self.sale!.events?.isEmpty)!) {
             // handle delete (by removing the data from your array and updating the tableview)
-            let removedSale = self.sale!.events!.remove(at: indexPath.row)
-            self.sale!.remainingBalance! += removedSale.amount
+            let removedSale = self.sale!.events?.remove(at: indexPath.row)
+            self.sale!.remainingBalance! += (removedSale?.amount!)!
             eventTableView.reloadData()
             self.refreshSale()
         }
@@ -247,9 +247,10 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             
             let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: (CURRENT_USER?.firstName!)!, _time: date)
             self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
-            self.sale!.events!.append(event)
+            self.sale?.events?.append(event)
+            
             self.eventTableView.reloadData()
-            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.eventTableView.scrollToRow(at: IndexPath(row: (self.sale!.events?.count)! - 1, section: 0), at: .bottom, animated: true)
             self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
             self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
             self.amtPaid = "0"
@@ -262,10 +263,10 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             // add payment event
             let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: (CURRENT_USER?.firstName!)!, _time: date)
             self.sale!.remainingBalance = totalDue.roundTo(places: 2) - payment
-            self.sale!.events!.append(event)
+            self.sale!.events?.append(event)
             self.sale!.changeGiven = 0.0
             self.eventTableView.reloadData()
-            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.eventTableView.scrollToRow(at: IndexPath(row: (self.sale!.events?.count)! - 1, section: 0), at: .bottom, animated: true)
             self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
             self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
             self.amtPaid = "0"
@@ -288,10 +289,10 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             // add payment event
             let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
             self.sale!.remainingBalance = totalDue - payment
-            self.sale!.events!.append(event)
+            self.sale!.events?.append(event)
             self.sale!.changeGiven = payment - totalDue
             self.eventTableView.reloadData()
-            self.eventTableView.scrollToRow(at: IndexPath(row: self.sale!.events!.count - 1, section: 0), at: .bottom, animated: true)
+            self.eventTableView.scrollToRow(at: IndexPath(row: (self.sale!.events?.count)! - 1, section: 0), at: .bottom, animated: true)
             self.saleSubtotal.text = sale!.remainingBalance!.toCurrencyString()
             self.acceptBtn.setTitle("Pay  \(sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
             self.amtPaid = "0"
@@ -357,8 +358,8 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
                 for event in (self.sale?.events)!{
                     
                     db.collection("Sales/\(ref!.documentID)/Events").addDocument(data: [
-                        "Type":event.type.description,
-                        "Amount":event.amount.roundTo(places: 2),
+                        "Type":event.type?.description,
+                        "Amount":event.amount?.roundTo(places: 2),
                         "Employee":event.userID,
                         "Timestamp":event.timestamp
                     ]) { err in
@@ -869,7 +870,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         view.addSubview(subtotalDueLbl)
         view.addSubview(saleSubtotal)
         
-        var remainingBalance = self.sale!.remainingBalance!
+        _ = self.sale!.remainingBalance!
         self.saleTotal.text = self.sale!.getSaleTotal()
         self.saleSubtotal.text = self.sale!.remainingBalance?.toCurrencyString()
         self.acceptBtn.setTitle("Pay  \(self.sale!.getSaleTotal())  \(self.eventType.description)", for: .normal)

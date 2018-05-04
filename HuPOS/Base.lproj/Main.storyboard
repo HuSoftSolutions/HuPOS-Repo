@@ -1158,10 +1158,10 @@
             </objects>
             <point key="canvasLocation" x="-606" y="-1400"/>
         </scene>
-        <!--View Controller-->
+        <!--Sales HistoryVC-->
         <scene sceneID="ksF-QN-28l">
             <objects>
-                <viewController id="WwS-hy-MVU" sceneMemberID="viewController">
+                <viewController id="WwS-hy-MVU" customClass="SalesHistoryVC" customModule="HuPOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J2B-R7-mRq">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

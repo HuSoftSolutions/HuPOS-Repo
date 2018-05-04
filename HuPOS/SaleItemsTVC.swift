@@ -17,14 +17,26 @@ let STATE_TAX = 0.08
 
 public class Event {
     var id:String?
-    var type:EventType
-    var amount:Double
-    var userID:String
-    var timestamp:Date
+    var type:String?
+    var amount:Double?
+    var userID:String?
+    var timestamp:Date?
+    
+    init(){
+        
+    }
+    
+    init(id:String, dictionary:[String:Any]){
+        self.id = id
+        self.type = (dictionary["Type"] as? String)!
+        self.amount = (dictionary["Amount"] as? Double)!
+        self.userID = (dictionary["Employee"] as? String)!
+        self.timestamp = (dictionary["Timestamp"] as? Date)!
+    }
     
     init(_id:String, _type:EventType, _amount:Double, _userID:String, _time:Date){
         self.id = _id
-        self.type = _type
+        self.type = _type.description
         self.amount = _amount
         self.userID = _userID
         self.timestamp = _time
@@ -42,6 +54,22 @@ public class Sale {
     var remainingBalance:Double?
     var changeGiven:Double?
     var events:[Event]?
+    
+    init(){
+        
+    }
+    
+    init(id:String, dictionary:[String:Any]){
+        self.id = id
+        self.timestamp = dictionary["Timestamp"] as? Date
+        self.employeeId = dictionary["Employee"] as? String
+        self.taxTotal = dictionary["Tax Total"] as? Double
+        self.saleTotal = dictionary["Sale Total"] as? Double
+        self.remainingBalance = dictionary["Remaining Balance"] as? Double
+        self.changeGiven = dictionary["Change"] as? Double
+        self.events = []
+        self.saleItems = []
+    }
 
     public var description: String { return "\n\n - Sale Total: \(saleTotal!)\n - Tax Total: \(taxTotal!)\n - Remaining Balance: \(remainingBalance!)\n - Events: \(events!.description)" }
 //    public var eventsDescription: String {
@@ -97,10 +125,22 @@ public class Sale {
 
 public class SaleItem {
     var inventoryItem:InventoryItem?
+    var inventoryItemId:String?
     var quantity:Double = 1.0
     var subtotal:Double = 0.0
     var taxTotal:Double = 0.0
+    var taxIndex:Int = 0
     var void = false
+    init(){
+        
+    }
+    init(id:String, dictionary:[String:Any]){
+        self.inventoryItemId = dictionary["Inventory Item Id"] as? String
+        self.quantity = (dictionary["Quantity"] as? Double)!
+        self.subtotal = (dictionary["Total"] as? Double)!
+        self.taxTotal = (dictionary["Tax Total"] as? Double)!
+        self.void = (dictionary["Void"] as? Bool)!
+    }
 }
 
 class SaleItemCell: UITableViewCell {
@@ -362,7 +402,7 @@ class SaleItemsTVC: UITableViewController {
             taxTotal += sale.taxTotal
         }
         let sale = Sale()
-        sale.employeeId = Auth.auth().currentUser?.displayName
+        sale.employeeId = CURRENT_USER!.firstName
         sale.timestamp = Date()
         sale.taxTotal = taxTotal
         sale.saleTotal = saleTotal
@@ -573,12 +613,12 @@ class SaleItemsTVC: UITableViewController {
     
     func getCurrentSale() -> Sale {
         print("Getting current sale...")
-        var sale = Sale()
+        let sale = Sale()
 //        sale = self.generateSaleTotal()
 //        print("Sale total: \(sale.saleTotal)")
 //        print("Tax total: \(sale.taxTotal)")
 //
-//        sale.employeeId = Auth.auth().currentUser?.displayName
+        sale.employeeId = (CURRENT_USER?.firstName!)!
 //        sale.timestamp = Date()
         sale.events = [Event]()
         sale.saleItems = self.saleCells
