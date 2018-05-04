@@ -186,11 +186,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let saleCell = SaleCell()
-        saleCell.title.text = "Sale ID: " + self.sales[indexPath.row].id
+        saleCell.title.text = self.sales[indexPath.row].id!
         saleCell.employee.text = self.sales[indexPath.row].employeeId
         saleCell.saleTotal.text = self.sales[indexPath.row].saleTotal?.toCurrencyString()
         saleCell.taxTotal.text = self.sales[indexPath.row].taxTotal?.toCurrencyString()
-        saleCell.timestamp.text = "Time: " + self.sales[indexPath.row].timestamp?.description
+        saleCell.timestamp.text = (self.sales[indexPath.row].timestamp?.description)!
         return saleCell
         
     }
