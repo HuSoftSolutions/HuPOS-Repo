@@ -22,6 +22,7 @@
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
 		3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EC2027881B00B88A76 /* Transaction.swift */; };
+		356BCCB9209BA9AF00A1B186 /* SalesHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356BCCB8209BA9AF00A1B186 /* SalesHistoryVC.swift */; };
 		357678D6205DC9250009828C /* SaleItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D5205DC9250009828C /* SaleItemCell.swift */; };
 		357678D8205DCBD50009828C /* EditItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D7205DCBD40009828C /* EditItemsCell.swift */; };
 		357678DC205DE0680009828C /* NoSaleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678DB205DE0680009828C /* NoSaleCell.swift */; };
@@ -82,6 +83,7 @@
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
 		3569B3EC2027881B00B88A76 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		356BCCB8209BA9AF00A1B186 /* SalesHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesHistoryVC.swift; sourceTree = "<group>"; };
 		357678D5205DC9250009828C /* SaleItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCell.swift; sourceTree = "<group>"; };
 		357678D7205DCBD40009828C /* EditItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditItemsCell.swift; path = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/EditItemsCell.swift"; sourceTree = "<absolute>"; };
 		357678DB205DE0680009828C /* NoSaleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSaleCell.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */,
 				352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */,
 				358C3A4A2093869A00B7C124 /* ReportingVC.swift */,
+				356BCCB8209BA9AF00A1B186 /* SalesHistoryVC.swift */,
 			);
 			path = HuPOS;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 			files = (
 				35CB5C17207042620080187C /* NotificationNameExtension.swift in Sources */,
 				357678D6205DC9250009828C /* SaleItemCell.swift in Sources */,
+				356BCCB9209BA9AF00A1B186 /* SalesHistoryVC.swift in Sources */,
 				3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */,
 				3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */,
 				35B8DD88201FB086002F49C9 /* AppDelegate.swift in Sources */,

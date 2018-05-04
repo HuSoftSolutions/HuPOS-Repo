@@ -328,6 +328,26 @@
                                             <segue destination="0ba-MF-3q9" kind="showDetail" identifier="to_Settings" id="CVD-cB-Zzw"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PGs-dP-wd4" rowHeight="71" style="IBUITableViewCellStyleDefault" id="rem-Ev-yhI" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                        <rect key="frame" x="0.0" y="213" width="1112" height="71"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rem-Ev-yhI" id="zVm-hU-g2W" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Sales History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PGs-dP-wd4">
+                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="WwS-hy-MVU" kind="show" id="0KT-Go-RJD"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -355,7 +375,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z2m-Vf-eI6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="449" y="662"/>
+            <point key="canvasLocation" x="787" y="662"/>
         </scene>
         <!--Add UserVC-->
         <scene sceneID="6pj-Az-1nM">
@@ -1137,6 +1157,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rxh-Ye-S8k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-606" y="-1400"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ksF-QN-28l">
+            <objects>
+                <viewController id="WwS-hy-MVU" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J2B-R7-mRq">
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wG6-se-u2h"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WTD-ms-yvq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="166" y="662"/>
         </scene>
     </scenes>
     <resources>
