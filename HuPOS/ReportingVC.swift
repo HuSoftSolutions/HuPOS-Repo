@@ -177,7 +177,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
         let PICKER_HEIGHT = SCREEN_HEIGHT_SAFE / 3
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
-        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (7/10)
+        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
 

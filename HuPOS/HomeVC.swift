@@ -174,7 +174,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
+        let cell = UITableViewCell()
         cell.textLabel?.text = dropDownOptions[indexPath.row]
         cell.backgroundColor = UIColor.green
         return cell
@@ -330,7 +330,7 @@ override func viewDidLoad() {
         }
     }
     
-    let db = Firestore.firestore()
+    _ = Firestore.firestore()
            // db.collection("Test").addDocument(data: ["Test":Tax.no_tax.])
     
 //    let secondaryOptions = FirebaseOptions(googleAppID: "1:674033348952:ios:9a8e773604672caf", gcmSenderID: "674033348952")
@@ -388,16 +388,19 @@ override func viewDidLoad() {
             let saleTotal:String = notification.object as! String
             print("Changing button price to: \(saleTotal)")
             if(saleTotal == "No Sale"){
-                self.payButton.setTitle(saleTotal, for: .normal)
+                self.payButton.setTitle("Open Drawer", for: .normal)
+                self.payButton.setTitleColor(UIColor.black.withAlphaComponent(0.5), for: .normal)
             }else{
                 self.payButton.setTitle("Pay \(saleTotal)", for: .normal)
+                self.payButton.setTitleColor(UIColor.green.darker(by: 25), for: .normal)
+
             }
             
         })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if let saleItemChanged = self.saleItemChanged {
+        if self.saleItemChanged != nil {
             NotificationCenter.default.removeObserver(self.saleItemChanged)
         }
     }

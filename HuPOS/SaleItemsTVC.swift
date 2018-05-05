@@ -453,7 +453,7 @@ class SaleItemsTVC: UITableViewController {
                 }
                 if(!exists){
                     let saleItem = SaleItem()
-                    saleItem.inventoryItem = inventoryItem.inventoryItemCell
+                    saleItem.inventoryItem = inventoryItem.inventoryItemCell  
                     if(inventoryItem.inventoryItemCell?.taxIndex == 1){
                         saleItem.subtotal += (inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX)
                     }else{

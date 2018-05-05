@@ -250,7 +250,6 @@ extension ItemsCVC:UICollectionViewDataSourcePrefetching {
 
 class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, UIPopoverPresentationControllerDelegate{
     
-
     var editModeOn = false
     var editModeObserver:NSObjectProtocol?
     var inventoryItemObserver:NSObjectProtocol?
@@ -558,7 +557,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.frame.width / 4) - 5, height: (view.frame.height / 5) - 5)
+        return CGSize(width: (view.frame.width / 4) - 5, height: (self.collectionView!.frame.height / 5) - 5)
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

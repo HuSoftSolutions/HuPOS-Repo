@@ -280,7 +280,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         saleCell.taxTotal.text = self.sales[indexPath.row].taxTotal?.toCurrencyString()
         saleCell.timestamp.text = (dateFormatter.string(from: (self.sales[indexPath.row].timestamp)!))
         
-        if(indexPath.row % 2 == 0){
+        if(indexPath.row % 2 == 1){
             saleCell.backgroundColor = UIColor.lightGray.lighter(by: 25)
         }
         
@@ -317,15 +317,22 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func setup(screen:CGRect){
-        let PAD = 25.0
+        let PAD:CGFloat = 25.0
         let NAVIGATIONBAR_HEIGHT = (navigationController?.navigationBar.layer.frame.height)!
         let TOOLBAR_HEIGHT = (navigationController?.toolbar.layer.frame.height)!
         var SCREEN_HEIGHT_SAFE = screen.height
         SCREEN_HEIGHT_SAFE -= NAVIGATIONBAR_HEIGHT
         SCREEN_HEIGHT_SAFE -= TOOLBAR_HEIGHT
-        //SCREEN_HEIGHT_SAFE -= CGFloat(3*PAD)
+        SCREEN_HEIGHT_SAFE -= CGFloat(3*PAD)
+        let GENERATE_REPORT_WIDTH = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
+        let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (2/10)
+        _ = SCREEN_HEIGHT_SAFE * (8/10)
+        let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
+        let PICKER_HEIGHT = SCREEN_HEIGHT_SAFE / 3
+        let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
+        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
         
-        self.saleTable.separatorStyle = .singleLine
+        self.saleTable.separatorStyle = .none
         
         self.saleTable.delegate = self
         self.saleTable.dataSource = self
@@ -337,41 +344,43 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(endDateLbl)
         self.view.addSubview(endDatePicker)
         
-        //        startDateLbl.snp.makeConstraints { (make) in
-        //            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-        //            make.left.equalTo(view).offset(PAD)
-        //        }
-        //
-        //        startDatePicker.snp.makeConstraints { (make) in
-        //            make.top.equalTo(startDateLbl.snp.bottom)
-        //            make.left.equalTo(view).offset(PAD)
-        //            make.width.equalTo(PICKER_WIDTH)
-        //            make.height.equalTo(PICKER_HEIGHT)
-        //        }
-        //        endDateLbl.snp.makeConstraints { (make) in
-        //            make.top.equalTo(startDatePicker.snp.bottom)
-        //            make.left.equalTo(view).offset(PAD)
-        //        }
-        //        endDatePicker.snp.makeConstraints { (make) in
-        //            make.top.equalTo(endDateLbl.snp.bottom)
-        //            make.left.equalTo(view).offset(PAD)
-        //
-        //            make.width.equalTo(PICKER_WIDTH)
-        //            make.height.equalTo(PICKER_HEIGHT)
-        //        }
+
         
         saleTable.snp.makeConstraints { (make) in
            // make.right.equalTo(self.view).offset(-1*PAD)
-            make.top.equalTo(self.view).offset(PAD + Double(NAVIGATIONBAR_HEIGHT))
+            make.top.equalTo(self.view).offset(PAD + NAVIGATIONBAR_HEIGHT)
             make.left.equalTo(self.view).offset(PAD)
-            make.height.equalTo((SCREEN_HEIGHT_SAFE - CGFloat(3*PAD)) * (8/10))
-            make.width.equalTo(screen.width * (5/10))
+            make.height.equalTo(REPORT_TABLE_HEIGHT)
+            make.width.equalTo(REPORT_TABLE_WIDTH)
         }
         generateSaleBtn.snp.makeConstraints { (make) in
-            make.height.equalTo((SCREEN_HEIGHT_SAFE - CGFloat(3*PAD)) * (2/10))
-            make.bottom.equalTo(self.view).offset(Double(-1*TOOLBAR_HEIGHT) - PAD)
+            make.height.equalTo(GENERATE_REPORT_HEIGHT)
+            make.bottom.equalTo(self.view).offset(-1*TOOLBAR_HEIGHT - PAD)
             make.left.equalTo(self.view).offset(PAD)
             make.right.equalTo(self.view).offset(-1*PAD)
+        }
+        
+        startDateLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(saleTable.snp.right).offset(PAD)
+        }
+        
+        startDatePicker.snp.makeConstraints { (make) in
+            make.top.equalTo(startDateLbl.snp.bottom)
+            make.left.equalTo(saleTable.snp.right).offset(PAD)
+            make.width.equalTo(PICKER_WIDTH)
+            make.height.equalTo(PICKER_HEIGHT)
+        }
+        endDateLbl.snp.makeConstraints { (make) in
+            make.top.equalTo(startDatePicker.snp.bottom)
+            make.left.equalTo(saleTable.snp.right).offset(PAD)
+        }
+        endDatePicker.snp.makeConstraints { (make) in
+            make.top.equalTo(endDateLbl.snp.bottom)
+            make.left.equalTo(saleTable.snp.right).offset(PAD)
+            
+            make.width.equalTo(PICKER_WIDTH)
+            make.height.equalTo(PICKER_HEIGHT)
         }
         
         
