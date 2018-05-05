@@ -33,8 +33,20 @@ enum Tax:Int {
 }
 
 let CELL_COUNT = 40
-let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
-let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR, UIColor.blue.withAlphaComponent(0.50).lighter(by: 90)!, UIColor.blue.withAlphaComponent(0.50).lighter(by: 90)!, UIColor.blue.withAlphaComponent(0.75), UIColor.blue.withAlphaComponent(0.95), UIColor.darkGray.withAlphaComponent(0.25),UIColor.darkGray.withAlphaComponent(0.50), UIColor.darkGray.withAlphaComponent(0.75), UIColor.darkGray.withAlphaComponent(0.95), UIColor.red.withAlphaComponent(0.50)]
+let CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 255/255, alpha: 1.0)
+let CUSTOM_COLOR1 = UIColor(red: 0/255, green: 0/255, blue: 200/255, alpha: 1)
+let CUSTOM_COLOR2 = UIColor(red: 255/255, green: 255/255, blue: 10/255, alpha: 1)
+
+let CELL_COLORS:[UIColor] = [CELL_BACKGROUND_COLOR,
+                             CUSTOM_COLOR1.lighter(by: 5)!,
+                             CUSTOM_COLOR1.lighter(by: 10)!,
+                             CUSTOM_COLOR1.lighter(by: 15)!,
+                             CUSTOM_COLOR1.lighter(by: 20)!,
+                             CUSTOM_COLOR2.lighter(by: 5)!,
+                             CUSTOM_COLOR2.lighter(by: 10)!,
+                             CUSTOM_COLOR2.lighter(by: 15)!,
+                             CUSTOM_COLOR2.lighter(by: 20)!,
+                             UIColor.green.withAlphaComponent(0.5)]
 
 public class InventoryItem {
     var id:String?

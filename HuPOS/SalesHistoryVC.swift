@@ -285,7 +285,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         if(self.sales[indexPath.row].saleTotal! < 0.0){
-            saleCell.saleTotal.textColor = UIColor.red.darker(by: 20)
+            saleCell.saleTotal.textColor = UIColor.blue.darker(by: 10)
         }
         
         return saleCell
