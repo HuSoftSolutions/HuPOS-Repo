@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import SnapKit
 
+var REPORT_TABLE_HEIGHT:CGFloat = 0
+
 enum ReportCategory:Int {
     case cash_sale_total = 0, credit_sale_total = 1, total_tax = 2, total_sales = 3, total_tax_sales = 4
     
@@ -58,7 +60,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     var report = Report.init()
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return REPORT_TABLE_HEIGHT / CGFloat(Report().categories.count)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -172,11 +174,10 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let GENERATE_REPORT_WIDTH = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
         let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (2/10)
         _ = SCREEN_HEIGHT_SAFE * (8/10)
-        let PICKER_WIDTH = (screen.width) * (3/10)
+        let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
         let PICKER_HEIGHT = SCREEN_HEIGHT_SAFE / 3
-        let REPORT_TABLE_WIDTH = screen.width * (7/10)
-        let REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (7/10)
-        
+        let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
+        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (7/10)
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
 
@@ -192,30 +193,31 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         
         startDateLbl.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(view).offset(PAD)
+            make.left.equalTo(reportTable.snp.right).offset(PAD)
         }
         
         startDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(startDateLbl.snp.bottom)
-            make.left.equalTo(view).offset(PAD)
+            make.left.equalTo(reportTable.snp.right).offset(PAD)
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         endDateLbl.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker.snp.bottom)
-            make.left.equalTo(view).offset(PAD)
+            make.left.equalTo(reportTable.snp.right).offset(PAD)
         }
         endDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(endDateLbl.snp.bottom)
-            make.left.equalTo(view).offset(PAD)
+            make.left.equalTo(reportTable.snp.right).offset(PAD)
             
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         
         reportTable.snp.makeConstraints { (make) in
-            make.top.equalTo(startDatePicker.snp.top)
-            make.right.equalTo(view).offset(-1*PAD)
+            make.top.equalTo(self.view).offset(NAVIGATIONBAR_HEIGHT)
+            make.left.equalTo(self.view)
+//            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
             make.height.equalTo(REPORT_TABLE_HEIGHT)
         }

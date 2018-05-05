@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>674033348952-i3gunjbeuopqfc55t7jqiug1it1dhlrv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.674033348952-i3gunjbeuopqfc55t7jqiug1it1dhlrv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDfE77Lk3K5FuZ4odMBc82EKkNUEubozWg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>674033348952</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>HuSoftSolutions.FoxRun-HuPOS</string>
+	<key>PROJECT_ID</key>
+	<string>fox-run-point-of-sale</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fox-run-point-of-sale.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:674033348952:ios:9a8e773604672caf</string>
+	<key>DATABASE_URL</key>
+	<string>https://fox-run-point-of-sale.firebaseio.com</string>
+</dict>
+</plist>

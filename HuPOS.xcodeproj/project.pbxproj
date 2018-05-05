@@ -17,11 +17,11 @@
 		352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */; };
 		352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */; };
 		354747E52074578D003E7BA6 /* AddItemPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */; };
-		3555D0DC209130DC0039A2EA /* GoogleService-Info_Live.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */; };
 		3569B3E82027875F00B88A76 /* LockScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E62027875E00B88A76 /* LockScreenVC.swift */; };
 		3569B3E92027875F00B88A76 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3E72027875F00B88A76 /* HomeVC.swift */; };
 		3569B3EB2027881200B88A76 /* StarMicronicsCommunication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */; };
 		3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3569B3EC2027881B00B88A76 /* Transaction.swift */; };
+		356A1CAE209D3A500059C2E1 /* GoogleService-Info_Live.plist in Resources */ = {isa = PBXBuildFile; fileRef = 356A1CAD209D3A500059C2E1 /* GoogleService-Info_Live.plist */; };
 		356BCCB9209BA9AF00A1B186 /* SalesHistoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356BCCB8209BA9AF00A1B186 /* SalesHistoryVC.swift */; };
 		357678D6205DC9250009828C /* SaleItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D5205DC9250009828C /* SaleItemCell.swift */; };
 		357678D8205DCBD50009828C /* EditItemsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357678D7205DCBD40009828C /* EditItemsCell.swift */; };
@@ -78,11 +78,11 @@
 		3521579F20337B0A009D1CC5 /* SideMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuTableViewController.swift; sourceTree = "<group>"; };
 		352A81EE2086C8E900C3848F /* PaymentPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentPopUpVC.swift; sourceTree = "<group>"; };
 		354747E42074578D003E7BA6 /* AddItemPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemPopUpVC.swift; sourceTree = "<group>"; };
-		3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info_Live.plist"; path = "FoxRun_HuPOS/FoxRun_HuPOS/GoogleService-Info_Live.plist"; sourceTree = "<group>"; };
 		3569B3E62027875E00B88A76 /* LockScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockScreenVC.swift; sourceTree = "<group>"; };
 		3569B3E72027875F00B88A76 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		3569B3EA2027881100B88A76 /* StarMicronicsCommunication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarMicronicsCommunication.swift; sourceTree = "<group>"; };
 		3569B3EC2027881B00B88A76 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		356A1CAD209D3A500059C2E1 /* GoogleService-Info_Live.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info_Live.plist"; sourceTree = "<group>"; };
 		356BCCB8209BA9AF00A1B186 /* SalesHistoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalesHistoryVC.swift; sourceTree = "<group>"; };
 		357678D5205DC9250009828C /* SaleItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaleItemCell.swift; sourceTree = "<group>"; };
 		357678D7205DCBD40009828C /* EditItemsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditItemsCell.swift; path = "/Users/codyhusek/Development/HuSoft Solutions/HuPOS/HuPOS/EditItemsCell.swift"; sourceTree = "<absolute>"; };
@@ -221,7 +221,7 @@
 				3507027C203B628900156854 /* HuView.swift */,
 				35A0DB202050B7E200DDA5F0 /* ItemsCVC.swift */,
 				35A2C6092050C8A3004B040B /* AddItemCVCell.swift */,
-				3555D0DB209130DC0039A2EA /* GoogleService-Info_Live.plist */,
+				356A1CAD209D3A500059C2E1 /* GoogleService-Info_Live.plist */,
 				357678D5205DC9250009828C /* SaleItemCell.swift */,
 				357678DB205DE0680009828C /* NoSaleCell.swift */,
 				358CABDA206ED8EE002E17FC /* SettingsTVC.swift */,
@@ -385,9 +385,9 @@
 			files = (
 				35B8DD92201FB086002F49C9 /* LaunchScreen.storyboard in Resources */,
 				35B8DD8F201FB086002F49C9 /* Assets.xcassets in Resources */,
+				356A1CAE209D3A500059C2E1 /* GoogleService-Info_Live.plist in Resources */,
 				35B8DD8D201FB086002F49C9 /* Main.storyboard in Resources */,
 				350D63F62028F393005C8CF5 /* GoogleService-Info_Test.plist in Resources */,
-				3555D0DC209130DC0039A2EA /* GoogleService-Info_Live.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

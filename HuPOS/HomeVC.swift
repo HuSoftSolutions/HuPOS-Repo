@@ -242,6 +242,7 @@ class HomeVC:UIViewController {
     @IBOutlet weak var payButton: UIButton!
     @IBOutlet weak var itemsCVC: UIView!
     
+    @IBOutlet weak var todaysDateLbl: UILabel!
     @IBOutlet weak var saleItemsTVC: UIView!
     
     // protocol delegates
@@ -258,6 +259,7 @@ class HomeVC:UIViewController {
     var pageIndex = 0
     var saleDropDownButton = dropDownButton()
     var saleItemChanged:NSObjectProtocol?
+    let dateFormatter = DateFormatter()
     
     @IBAction func pageBackAction(_ sender: Any) {
         
@@ -317,6 +319,11 @@ class HomeVC:UIViewController {
 
 override func viewDidLoad() {
     let app = UIApplication.shared.delegate! as! AppDelegate
+    dateFormatter.dateStyle = .medium
+    dateFormatter.timeStyle = .none
+    dateFormatter.locale = Locale(identifier: "en_US")
+    
+    self.todaysDateLbl.text = dateFormatter.string(from: Date())
     if let viewControllers = app.window?.rootViewController?.childViewControllers {
         viewControllers.forEach{ vc in
             print("LISTED VIEW CONTROLLERS \(vc.description)")
