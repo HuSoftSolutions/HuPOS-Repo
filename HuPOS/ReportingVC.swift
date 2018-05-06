@@ -129,6 +129,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tbl.backgroundColor = .clear
         tbl.alwaysBounceVertical = false
+        tbl.isScrollEnabled = false
         return tbl
     }()
     
@@ -215,7 +216,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         }
         
         reportTable.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(NAVIGATIONBAR_HEIGHT)
+            make.top.equalTo(self.view).offset(NAVIGATIONBAR_HEIGHT + PAD)
             make.left.equalTo(self.view)
 //            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
