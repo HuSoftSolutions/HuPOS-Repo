@@ -319,7 +319,7 @@ class HomeVC:UIViewController {
 
 override func viewDidLoad() {
     let app = UIApplication.shared.delegate! as! AppDelegate
-    dateFormatter.dateStyle = .medium
+    dateFormatter.dateStyle = .full
     dateFormatter.timeStyle = .none
     dateFormatter.locale = Locale(identifier: "en_US")
     

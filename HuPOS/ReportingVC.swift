@@ -58,8 +58,10 @@ class Report: NSObject {
 class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var report = Report.init()
-    var dateRange = DateRange.Month
-
+    var startDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
+    var endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())
+    var dateRange = DateRange.Day
+    var rangeIndex = 0
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return REPORT_TABLE_HEIGHT / CGFloat(Report().categories.count)
@@ -228,13 +230,14 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("-", for: .normal)
+        btn.setTitle("<", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
+        
         //        btn.layer.cornerRadius = 5
         //        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(decrementRange), for: .touchUpInside)
@@ -245,11 +248,11 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("+", for: .normal)
+        btn.setTitle(">", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         //        btn.layer.cornerRadius = 5
@@ -265,7 +268,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let screenSize = UIScreen.main.bounds
 
         setupViews(screen: screenSize)
-        self.generateReport()
+        //self.generateReport()
         // Do any additional setup after loading the view.
     }
 
@@ -292,7 +295,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
 
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
-
+        self.setDateRangeBtn(range: self.dateRange)
         reportTable.delegate = self
         reportTable.dataSource = self
         
@@ -421,14 +424,72 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     @objc func setRangeType(_ sender: UIButton){
-        
+        print(sender.titleLabel!.text!)
+        // self.rangeIndex = 0
+        switch sender.titleLabel!.text! {
+        case DateRange.Day.description:
+            self.dateRange = .Day
+        case DateRange.Week.description:
+            self.dateRange = .Week
+        case DateRange.Month.description:
+            self.dateRange = .Month
+        case DateRange.Year.description:
+            self.dateRange = .Year
+        default:
+            return
+        }
+        self.setDateRangeBtn(range: self.dateRange)
     }
     @objc func decrementRange(){
-        
+        self.rangeIndex -= 1
+        self.setDateRangeBtn(range: self.dateRange)
+
     }
     
     @objc func incrementRange(){
+        self.setDateRangeBtn(range: self.dateRange)
+        self.rangeIndex += 1
+    }
+    
+    func setDateRangeBtn(range:DateRange) {
         
+        self.byDayBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byWeekBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byMonthBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byYearBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        
+        //            startDate = Calendar.current.date(byAdding: .day, value: 0, to: startDate!)
+        
+        
+        startDate = Date()
+        endDate = Date()
+        
+        switch range.rawValue {
+        case 0:
+            self.byDayBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .day, value: rangeIndex, to: startDate!)
+            endDate = Calendar.current.date(byAdding: .day, value: rangeIndex, to: endDate!)
+        case 1:
+            self.byWeekBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .weekOfMonth, value: rangeIndex, to: (startDate?.startOfWeek)!)
+            endDate = Calendar.current.date(byAdding: .weekOfMonth, value: rangeIndex, to: (endDate?.endOfWeek)!)
+        case 2:
+            self.byMonthBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .month, value: rangeIndex, to: (startDate?.startOfMonth)!)
+            endDate = Calendar.current.date(byAdding: .month, value: rangeIndex, to: (endDate?.endOfMonth)!)
+            
+        case 3:
+            self.byYearBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .year, value: rangeIndex, to: (startDate?.startOfYear)!)
+            endDate = Calendar.current.date(byAdding: .year, value: rangeIndex, to: (endDate?.endOfYear)!)
+        default:
+            return
+        }
+        
+        startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: startDate!)!
+        endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: endDate!)!
+        
+        self.generateReport()
     }
     
     @objc func generateReport(){

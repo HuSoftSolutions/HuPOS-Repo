@@ -212,8 +212,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var sales:[Sale] = []
     var startDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
-    var dateRange = DateRange.Month
+    var endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())
+    var dateRange = DateRange.Day
+    var rangeIndex = 0
     let dateFormatter = DateFormatter()
+    
     
     
     let saleTable:UITableView = {
@@ -349,11 +352,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("-", for: .normal)
+        btn.setTitle("<", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
 //        btn.layer.cornerRadius = 5
@@ -366,11 +369,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitleShadowColor(.black, for: .highlighted)
-        btn.setTitle("+", for: .normal)
+        btn.setTitle(">", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
 //        btn.layer.cornerRadius = 5
@@ -412,7 +415,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.getSalesForMonth()
+       // self.getSalesForMonth()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -429,15 +432,32 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc func setRangeType(_ sender: UIButton){
-        
+        print(sender.titleLabel!.text!)
+       // self.rangeIndex = 0
+        switch sender.titleLabel!.text! {
+        case DateRange.Day.description:
+            self.dateRange = .Day
+        case DateRange.Week.description:
+            self.dateRange = .Week
+        case DateRange.Month.description:
+            self.dateRange = .Month
+        case DateRange.Year.description:
+            self.dateRange = .Year
+        default:
+            return
+        }
+        self.setDateRangeBtn(range: self.dateRange)
     }
     
     @objc func decrementRange(){
-        
+        self.rangeIndex -= 1
+        self.setDateRangeBtn(range: self.dateRange)
+
     }
     
     @objc func incrementRange(){
-        
+        self.setDateRangeBtn(range: self.dateRange)
+        self.rangeIndex += 1
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker){
@@ -445,6 +465,47 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
         let selectedDate: String = dateFormatter.string(from: sender.date)
         print("Selected value \(selectedDate)")
+    }
+    
+    func setDateRangeBtn(range:DateRange) {
+        
+        self.byDayBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byWeekBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byMonthBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        self.byYearBtn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        
+        //            startDate = Calendar.current.date(byAdding: .day, value: 0, to: startDate!)
+        
+
+        startDate = Date()
+        endDate = Date()
+        
+        switch range.rawValue {
+        case 0:
+            self.byDayBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .day, value: rangeIndex, to: startDate!)
+            endDate = Calendar.current.date(byAdding: .day, value: rangeIndex, to: endDate!)
+        case 1:
+            self.byWeekBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .weekOfMonth, value: rangeIndex, to: (startDate?.startOfWeek)!)
+            endDate = Calendar.current.date(byAdding: .weekOfMonth, value: rangeIndex, to: (endDate?.endOfWeek)!)
+        case 2:
+            self.byMonthBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .month, value: rangeIndex, to: (startDate?.startOfMonth)!)
+            endDate = Calendar.current.date(byAdding: .month, value: rangeIndex, to: (endDate?.endOfMonth)!)
+            
+        case 3:
+            self.byYearBtn.backgroundColor = .lightGray
+            startDate = Calendar.current.date(byAdding: .year, value: rangeIndex, to: (startDate?.startOfYear)!)
+            endDate = Calendar.current.date(byAdding: .year, value: rangeIndex, to: (endDate?.endOfYear)!)
+        default:
+            return
+        }
+        
+        startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: startDate!)!
+        endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: endDate!)!
+        
+        self.getSalesForMonth()
     }
     
     func setup(screen:CGRect){
@@ -461,8 +522,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
-        _ =
-            REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
+        _ = REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
         let RANGE_BTN_WIDTH = REPORT_TABLE_WIDTH / 5
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT - 2*PAD) / 2
@@ -470,22 +530,10 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.saleTable.separatorStyle = .none
 
         
-//        // Setup DateRange
-//        Calendar.current.date(bySetting: .weekOfMonth, value: 0, of: Calendar.current.week)
-//        switch DateRange.RawValue {
-//        case 0:
-//            startDate = Calendar.current.date(byAdding: .day, value: 0, to: startDate!)
-//        case 1:
-//            startDate = Calendar.current.date(byAdding: .day, value: -30, to: startDate!)
-//
-//        case 2:
-//        case 3:
-//        default:
-//            
-//        }
-        startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of:startDate!)!
-        endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
-        
+        // Setup DateRange
+        self.setDateRangeBtn(range: self.dateRange)
+
+
         
         self.saleTable.delegate = self
         self.saleTable.dataSource = self
@@ -653,6 +701,9 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         
                                         self.generateSaleBtn.isUserInteractionEnabled = true
                                     }else{
+                                        self.generateSaleBtn.backgroundColor = originalColor
+                                        
+                                        self.generateSaleBtn.isUserInteractionEnabled = true
                                         //                                        print(snapshot?.data())
                                         //                                        newSale?.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot?.documentID)!, dictionary: (snapshot?.data())!)
                                         //                                        print("Adding Inventory Item to Sale: \(snapshot?.documentID)")
@@ -696,4 +747,51 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
      }
      */
     
+}
+
+extension Date {
+    var startOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 0, to: sunday)
+    }
+    
+    var startOfMonth: Date? {
+        let calendar: Calendar = Calendar.current
+        var components: DateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        components.setValue(1, for: .day)
+        return calendar.date(from: components)!
+    }
+    
+    var startOfYear: Date? {
+        let calendar: Calendar = Calendar.current
+        var components: DateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        components.setValue(1, for: .day)
+        components.setValue(1, for: .month)
+        return calendar.date(from: components)!
+    }
+    
+    var endOfWeek: Date? {
+        let gregorian = Calendar(identifier: .gregorian)
+        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)) else { return nil }
+        return gregorian.date(byAdding: .day, value: 6, to: sunday)
+    }
+    
+    var endOfMonth: Date? {
+        let calendar = Calendar.current
+        let components = DateComponents(day:1)
+        let startOfNextMonth = calendar.nextDate(after:Date(), matching: components, matchingPolicy: .nextTime)!
+        return calendar.date(byAdding:.day, value: -1, to: startOfNextMonth)!
+    }
+    
+    var endOfYear: Date? {
+        let calendar: Calendar = Calendar.current
+        var components: DateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        components.setValue(1, for: .day)
+        components.setValue(1, for: .month)
+        let firstDayThisYear = calendar.date(from: components)!
+        let firstDayNextYear = calendar.date(byAdding: .year, value: 1, to: firstDayThisYear)!
+        let lastDayThisYear = calendar.date(byAdding: .day, value: -1, to: firstDayNextYear)!
+        return lastDayThisYear
+    }
 }
