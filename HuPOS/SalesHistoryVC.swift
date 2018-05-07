@@ -10,6 +10,18 @@ import UIKit
 import Firebase
 import SnapKit
 
+enum DateRange:Int {
+    case Day = 0, Week = 1, Month = 2, Year = 3
+    
+    var description : String {
+        switch self {
+        case .Day: return "Day"
+        case .Week: return "Week"
+        case .Month: return "Month"
+        case .Year: return "Year"
+        }
+    }}
+
 class SaleCell: UITableViewCell {
     let titleLbl:UILabel = {
         let lbl = UILabel()
@@ -113,7 +125,7 @@ class SaleCell: UITableViewCell {
         lbl.baselineAdjustment = .alignCenters
         return lbl
     }()
-  
+    
     func setup(){
         let PAD = 10.0
         //self.addSubview(titleLbl)
@@ -122,14 +134,14 @@ class SaleCell: UITableViewCell {
         self.addSubview(saleTotal)
         self.addSubview(timestamp)
         self.addSubview(employee)
-
-
-//        self.addSubview(taxLbl)
-//        self.addSubview(taxTotal)
         
-//        titleLbl.snp.makeConstraints { (make) in
-//            make.top.equalTo(self).offset(PAD/2.0)
-//        }
+        
+        //        self.addSubview(taxLbl)
+        //        self.addSubview(taxTotal)
+        
+        //        titleLbl.snp.makeConstraints { (make) in
+        //            make.top.equalTo(self).offset(PAD/2.0)
+        //        }
         
         title.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(PAD)
@@ -137,26 +149,26 @@ class SaleCell: UITableViewCell {
             //make.width.equalTo(self.bounds.width/2)
             // make.height.equalTo(self.bounds.height/2)
         }
-
+        
         saleTotal.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(PAD)
             make.right.bottom.equalTo(self).offset(-1*PAD)
             
         }
-//        saleTotalLbl.snp.makeConstraints { (make) in
-//            make.right.bottom.equalTo(saleTotal).offset(-1*PAD)
-//        }
-
-//        taxTotal.snp.makeConstraints { (make) in
-//            make.top.equalTo(taxLbl.snp.bottom).offset(PAD)
-//            make.right.equalTo(self).offset(-1*PAD)
-//        }
-//        taxLbl.snp.makeConstraints { (make) in
-//            make.top.equalTo(self).offset(PAD)
-//            make.right.equalTo(taxTotal.snp.left)
-//        }
-
-
+        //        saleTotalLbl.snp.makeConstraints { (make) in
+        //            make.right.bottom.equalTo(saleTotal).offset(-1*PAD)
+        //        }
+        
+        //        taxTotal.snp.makeConstraints { (make) in
+        //            make.top.equalTo(taxLbl.snp.bottom).offset(PAD)
+        //            make.right.equalTo(self).offset(-1*PAD)
+        //        }
+        //        taxLbl.snp.makeConstraints { (make) in
+        //            make.top.equalTo(self).offset(PAD)
+        //            make.right.equalTo(taxTotal.snp.left)
+        //        }
+        
+        
         timestamp.snp.makeConstraints { (make) in
             make.bottom.equalTo(self).offset(-1*PAD)
             //make.right.equalTo(self).offset(-1*PAD)
@@ -167,7 +179,7 @@ class SaleCell: UITableViewCell {
             make.left.equalTo(self).offset(PAD)
         }
         
-
+        
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -199,10 +211,10 @@ class SaleCell: UITableViewCell {
 class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var sales:[Sale] = []
-    var oneMonthAgo = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
-
+    var startDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
+    var dateRange = DateRange.Month
     let dateFormatter = DateFormatter()
-
+    
     
     let saleTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -231,9 +243,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let startDateLbl:UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont.systemFont(ofSize: 35)
-        lbl.textColor = UIColor.black
-        lbl.text = "Start Date:"
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textColor = UIColor.white
+        lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
+        lbl.textAlignment = .center
+        lbl.text = "Start Date"
         return lbl
     }()
     
@@ -248,9 +262,12 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let endDateLbl:UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont.systemFont(ofSize: 35)
-        lbl.textColor = UIColor.black
-        lbl.text = "End Date:"
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textColor = UIColor.white
+        lbl.text = "End Date"
+        lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
+        lbl.textAlignment = .center
+        
         return lbl
     }()
     
@@ -269,11 +286,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -285,11 +302,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -302,11 +319,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -319,11 +336,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -336,11 +353,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(decrementRange), for: .touchUpInside)
         return btn
     }()
@@ -353,11 +370,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-        btn.layer.cornerRadius = 5
-        btn.layer.masksToBounds = true
+//        btn.layer.cornerRadius = 5
+//        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(incrementRange), for: .touchUpInside)
         return btn
     }()
@@ -371,7 +388,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         //print(dateFormatter.stringFromDate(date)) // Jan 2, 2001
         
         let saleCell = SaleCell()
@@ -438,20 +455,37 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         SCREEN_HEIGHT_SAFE -= NAVIGATIONBAR_HEIGHT
         SCREEN_HEIGHT_SAFE -= TOOLBAR_HEIGHT
         SCREEN_HEIGHT_SAFE -= CGFloat(3*PAD)
-        let GENERATE_REPORT_WIDTH = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
+        _ = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
         let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (2/10)
         _ = SCREEN_HEIGHT_SAFE * (8/10)
         let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
-        let PICKER_HEIGHT = SCREEN_HEIGHT_SAFE / 3
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
-        let RANGE_BTN_WIDTH = (PICKER_WIDTH / 2) - 2*PAD
-        let RANGE_BTN_HEIGHT = 
-        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
-        
+        _ = (PICKER_WIDTH / 2) - 2*PAD
+        _ =
+            REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
+        let RANGE_BTN_WIDTH = REPORT_TABLE_WIDTH / 5
+        let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
+        let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT - 2*PAD) / 2
+
         self.saleTable.separatorStyle = .none
-        oneMonthAgo = Calendar.current.date(byAdding: .day, value: -30, to: oneMonthAgo!)
-        startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of:oneMonthAgo!)!
+
+        
+//        // Setup DateRange
+//        Calendar.current.date(bySetting: .weekOfMonth, value: 0, of: Calendar.current.week)
+//        switch DateRange.RawValue {
+//        case 0:
+//            startDate = Calendar.current.date(byAdding: .day, value: 0, to: startDate!)
+//        case 1:
+//            startDate = Calendar.current.date(byAdding: .day, value: -30, to: startDate!)
+//
+//        case 2:
+//        case 3:
+//        default:
+//            
+//        }
+        startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of:startDate!)!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
+        
         
         self.saleTable.delegate = self
         self.saleTable.dataSource = self
@@ -468,16 +502,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(byYearBtn)
         self.view.addSubview(decrementRangeBtn)
         self.view.addSubview(incrementRangeBtn)
-
-
         
-        saleTable.snp.makeConstraints { (make) in
-           // make.right.equalTo(self.view).offset(-1*PAD)
-            make.top.equalTo(self.view).offset(PAD + NAVIGATIONBAR_HEIGHT)
-            make.left.equalTo(self.view).offset(PAD)
-            make.height.equalTo(REPORT_TABLE_HEIGHT)
-            make.width.equalTo(REPORT_TABLE_WIDTH)
-        }
         generateSaleBtn.snp.makeConstraints { (make) in
             make.height.equalTo(GENERATE_REPORT_HEIGHT)
             make.bottom.equalTo(self.view).offset(-1*TOOLBAR_HEIGHT - PAD)
@@ -485,45 +510,79 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             make.right.equalTo(self.view).offset(-1*PAD)
         }
         
+        decrementRangeBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(saleTable)
+            make.width.equalTo(RANGE_BTN_WIDTH/2)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+        }
         byDayBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(saleTable.snp.right).offset(PAD/2)
-            make.width.equalTo(<#T##other: ConstraintRelatableTarget##ConstraintRelatableTarget#>)
+            make.left.equalTo(decrementRangeBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
         }
         byWeekBtn.snp.makeConstraints { (make) in
-            <#code#>
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byDayBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
         }
         byMonthBtn.snp.makeConstraints { (make) in
-            <#code#>
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byWeekBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
         }
         byYearBtn.snp.makeConstraints { (make) in
-            <#code#>
-        }
-        decrementRangeBtn.snp.makeConstraints { (make) in
-            <#code#>
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byMonthBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
         }
         incrementRangeBtn.snp.makeConstraints { (make) in
-            <#code#>
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byYearBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH/2)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+        }
+        saleTable.snp.makeConstraints { (make) in
+            make.top.equalTo(decrementRangeBtn.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + PAD)
+            make.left.equalTo(self.view).offset(PAD)
+            //            make.right.equalTo(view).offset(-1*PAD)
+            make.width.equalTo(REPORT_TABLE_WIDTH)
+            //make.height.equalTo(REPORT_TABLE_HEIGHT)
+            make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
         }
         
+     
+        
         startDateLbl.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(saleTable.snp.right).offset(PAD/2)
+            make.top.equalTo(startDatePicker)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(startDatePicker)//.offset(PAD/2)
+            make.width.equalTo(PICKER_WIDTH)
+            
         }
         
         startDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(startDateLbl.snp.bottom)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             make.left.equalTo(saleTable.snp.right).offset(PAD/2)
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         endDateLbl.snp.makeConstraints { (make) in
+            make.width.equalTo(PICKER_WIDTH)
             make.top.equalTo(startDatePicker.snp.bottom)
             make.left.equalTo(saleTable.snp.right).offset(PAD/2)
         }
         endDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(endDateLbl.snp.bottom)
-            make.left.equalTo(saleTable.snp.right).offset(PAD/2)
+            make.top.equalTo(startDatePicker.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(endDateLbl)//.offset(PAD/2)
             
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
@@ -544,7 +603,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let myGroup = DispatchGroup()
         print("GETTING SALES FOR MONTH...")
         db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).order(by: "Timestamp", descending: true).getDocuments { (snapshot, err) in
-
+            
             if let err = err {
                 print("ERROR \(err.localizedDescription)")
                 self.generateSaleBtn.backgroundColor = originalColor
@@ -568,7 +627,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 
                                 newSale?.events?.append(Event(id: document_.documentID, dictionary: document_.data()))
                                 print("Adding Event to Sale: \(document.documentID)")
-
+                                
                                 
                             }
                         }
@@ -585,7 +644,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                             for document_ in snapshot!.documents{
                                 newSale?.saleItems?.append(SaleItem(id: document_.documentID, dictionary: document_.data()))
                                 print("Adding SaleItem to Sale: \(document.documentID)")
-
+                                
                                 print("NEW ITEM + \((newSale?.saleItems?.last?.inventoryItemId!)!)")
                                 db.collection("Items").document((newSale?.saleItems?.last?.inventoryItemId)!).getDocument(completion: { (snapshot, err) in
                                     if let err = err {
@@ -594,9 +653,10 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         
                                         self.generateSaleBtn.isUserInteractionEnabled = true
                                     }else{
-                                        newSale?.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot?.documentID)!, dictionary: (snapshot?.data())!)
-                                        print("Adding Inventory Item to Sale: \(snapshot?.documentID)")
-                                        newSaleReport.append(newSale!)
+                                        //                                        print(snapshot?.data())
+                                        //                                        newSale?.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot?.documentID)!, dictionary: (snapshot?.data())!)
+                                        //                                        print("Adding Inventory Item to Sale: \(snapshot?.documentID)")
+                                        //                                        newSaleReport.append(newSale!)
                                     }
                                     
                                 })

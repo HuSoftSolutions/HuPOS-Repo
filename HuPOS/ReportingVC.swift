@@ -58,7 +58,9 @@ class Report: NSObject {
 class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var report = Report.init()
+    var dateRange = DateRange.Month
 
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return REPORT_TABLE_HEIGHT / CGFloat(Report().categories.count)
     }
@@ -96,9 +98,11 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let startDateLbl:UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont.systemFont(ofSize: 35)
-        lbl.textColor = UIColor.black
-        lbl.text = "Start Date:"
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textColor = UIColor.white
+        lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
+        lbl.textAlignment = .center
+        lbl.text = "Start Date"
         return lbl
     }()
     
@@ -112,9 +116,11 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     let endDateLbl:UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.font = UIFont.systemFont(ofSize: 35)
-        lbl.textColor = UIColor.black
-        lbl.text = "End Date:"
+        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.textColor = UIColor.white
+        lbl.text = "End Date"
+        lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
+        lbl.textAlignment = .center
         return lbl
     }()
     
@@ -149,6 +155,108 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         btn.addTarget(self, action: #selector(generateReport), for: .touchUpInside)
         return btn
     }()
+    
+    
+    let byDayBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Day", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
+        return btn
+    }()
+    let byWeekBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Week", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
+        return btn
+    }()
+    
+    let byMonthBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Month", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
+        return btn
+    }()
+    
+    let byYearBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("Year", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
+        return btn
+    }()
+    
+    let decrementRangeBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("-", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(decrementRange), for: .touchUpInside)
+        return btn
+    }()
+    
+    let incrementRangeBtn:UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitleShadowColor(.black, for: .highlighted)
+        btn.setTitle("+", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.adjustsFontSizeToFitWidth = true
+        btn.titleLabel?.sizeToFit()
+        //        btn.layer.cornerRadius = 5
+        //        btn.layer.masksToBounds = true
+        btn.addTarget(self, action: #selector(incrementRange), for: .touchUpInside)
+        return btn
+    }()
 
     
     override func viewDidLoad() {
@@ -176,9 +284,12 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (2/10)
         _ = SCREEN_HEIGHT_SAFE * (8/10)
         let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
-        let PICKER_HEIGHT = SCREEN_HEIGHT_SAFE / 3
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
-        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
+        REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (7/10)
+        let RANGE_BTN_WIDTH = REPORT_TABLE_WIDTH / 5
+        let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
+        let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT) / 2
+
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
 
@@ -191,36 +302,89 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         view.addSubview(endDatePicker)
         view.addSubview(generateReportBtn)
         view.addSubview(reportTable)
+        view.addSubview(byDayBtn)
+        view.addSubview(byWeekBtn)
+        view.addSubview(byMonthBtn)
+        view.addSubview(byYearBtn)
+        view.addSubview(decrementRangeBtn)
+        view.addSubview(incrementRangeBtn)
         
         startDateLbl.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(reportTable.snp.right).offset(PAD)
+            make.top.equalTo(startDatePicker)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(startDatePicker)//.offset(PAD/2)
+            make.width.equalTo(PICKER_WIDTH)
         }
         
         startDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(startDateLbl.snp.bottom)
-            make.left.equalTo(reportTable.snp.right).offset(PAD)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(reportTable.snp.right).offset(PAD/2)
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         endDateLbl.snp.makeConstraints { (make) in
+            make.width.equalTo(PICKER_WIDTH)
             make.top.equalTo(startDatePicker.snp.bottom)
-            make.left.equalTo(reportTable.snp.right).offset(PAD)
+            make.left.equalTo(reportTable.snp.right).offset(PAD/2)
+        
         }
         endDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(endDateLbl.snp.bottom)
-            make.left.equalTo(reportTable.snp.right).offset(PAD)
+            make.top.equalTo(startDatePicker.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(endDateLbl)//.offset(PAD/2)
             
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
-        
+        decrementRangeBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(reportTable)
+            make.width.equalTo(RANGE_BTN_WIDTH/2)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+        }
+        byDayBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(decrementRangeBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+        }
+        byWeekBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byDayBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+            
+        }
+        byMonthBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byWeekBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+            
+        }
+        byYearBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byMonthBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+        }
+        incrementRangeBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.left.equalTo(byYearBtn.snp.right)
+            make.width.equalTo(RANGE_BTN_WIDTH/2)
+            make.height.equalTo(RANGE_BTN_HEIGHT)
+
+            
+        }
         reportTable.snp.makeConstraints { (make) in
-            make.top.equalTo(self.view).offset(NAVIGATIONBAR_HEIGHT + PAD)
-            make.left.equalTo(self.view)
+            make.top.equalTo(decrementRangeBtn.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + PAD)
+            make.left.equalTo(self.view).offset(PAD)
 //            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
             make.height.equalTo(REPORT_TABLE_HEIGHT)
+            //make.bottom.equalTo(generateReportBtn.snp.top).offset(-1*PAD)
         }
         
         generateReportBtn.snp.makeConstraints { (make) in
@@ -254,6 +418,17 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         self.report.credit_sale_total = 0.0
         self.report.tax_total = 0.0
         self.report.sale_total = 0.0
+    }
+    
+    @objc func setRangeType(_ sender: UIButton){
+        
+    }
+    @objc func decrementRange(){
+        
+    }
+    
+    @objc func incrementRange(){
+        
     }
     
     @objc func generateReport(){
