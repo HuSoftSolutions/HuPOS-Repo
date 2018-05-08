@@ -83,7 +83,7 @@ class SaleCell: UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Sale Total"
         lbl.textColor = UIColor.green.darker(by: 20)
-        lbl.font = UIFont.systemFont(ofSize: 40)
+        lbl.font = UIFont.systemFont(ofSize: 25)
         lbl.textAlignment = .left
         lbl.adjustsFontSizeToFitWidth = true
         lbl.lineBreakMode = .byWordWrapping
@@ -513,7 +513,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func setup(screen:CGRect){
-        let PAD:CGFloat = 25.0
+        let PAD:CGFloat = 15.0
         let S_PAD:CGFloat = 2
         let NAVIGATIONBAR_HEIGHT = (navigationController?.navigationBar.layer.frame.height)!
         let TOOLBAR_HEIGHT = (navigationController?.toolbar.layer.frame.height)!
@@ -522,15 +522,15 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         SCREEN_HEIGHT_SAFE -= TOOLBAR_HEIGHT
         SCREEN_HEIGHT_SAFE -= CGFloat(3*PAD)
         _ = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
-        let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (2/10)
+        let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         _ = SCREEN_HEIGHT_SAFE * (8/10)
         let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
-        let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
+        let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (3/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
         _ = REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
-        let RANGE_BTN_WIDTH = (REPORT_TABLE_WIDTH - 4*S_PAD) / 5
+        let RANGE_BTN_WIDTH = ((screen.width - 2*PAD) - 4*S_PAD) / 5
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
-        let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT - 2*PAD) / 2
+        let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT - 4*PAD) / 2
 
         self.saleTable.separatorStyle = .none
 
@@ -605,7 +605,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         }
         saleTable.snp.makeConstraints { (make) in
-            make.top.equalTo(decrementRangeBtn.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + PAD)
+            make.top.equalTo(decrementRangeBtn.snp.bottom).offset(PAD)
             make.left.equalTo(self.view).offset(PAD)
             //            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
@@ -623,20 +623,22 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         startDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(saleTable.snp.right).offset(PAD/2)
+            make.top.equalTo(incrementRangeBtn.snp.bottom).offset(PAD)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+           //make.left.equalTo(saleTable.snp.right).offset(PAD/2)
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
+            make.right.equalTo(view).offset(-1*PAD)
         }
         endDateLbl.snp.makeConstraints { (make) in
             make.width.equalTo(PICKER_WIDTH)
             make.top.equalTo(startDatePicker.snp.bottom)
-            make.left.equalTo(saleTable.snp.right).offset(PAD/2)
+            make.left.equalTo(endDatePicker).offset(PAD/2)
         }
         endDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(endDateLbl)//.offset(PAD/2)
-            
+            //make.left.equalTo(endDateLbl)//.offset(PAD/2)
+            make.right.equalTo(view).offset(-1*PAD)
+
             make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
