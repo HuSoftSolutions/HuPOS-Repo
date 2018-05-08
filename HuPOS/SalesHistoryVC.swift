@@ -250,6 +250,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         lbl.textColor = UIColor.white
         lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
         lbl.textAlignment = .center
+        lbl.layer.cornerRadius = 5
+        lbl.layer.masksToBounds = true
         lbl.text = "Start Date"
         return lbl
     }()
@@ -268,6 +270,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         lbl.font = UIFont.systemFont(ofSize: 18)
         lbl.textColor = UIColor.white
         lbl.text = "End Date"
+        lbl.layer.cornerRadius = 5
+        lbl.layer.masksToBounds = true
         lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
         lbl.textAlignment = .center
         
@@ -292,8 +296,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -308,8 +312,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -325,8 +329,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -342,8 +346,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(setRangeType), for: .touchUpInside)
         return btn
     }()
@@ -356,11 +360,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(decrementRange), for: .touchUpInside)
         return btn
     }()
@@ -373,11 +377,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 60)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
-//        btn.layer.cornerRadius = 5
-//        btn.layer.masksToBounds = true
+        btn.layer.cornerRadius = 5
+        btn.layer.masksToBounds = true
         btn.addTarget(self, action: #selector(incrementRange), for: .touchUpInside)
         return btn
     }()
@@ -510,6 +514,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func setup(screen:CGRect){
         let PAD:CGFloat = 25.0
+        let S_PAD:CGFloat = 2
         let NAVIGATIONBAR_HEIGHT = (navigationController?.navigationBar.layer.frame.height)!
         let TOOLBAR_HEIGHT = (navigationController?.toolbar.layer.frame.height)!
         var SCREEN_HEIGHT_SAFE = screen.height
@@ -523,7 +528,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (7/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
         _ = REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
-        let RANGE_BTN_WIDTH = REPORT_TABLE_WIDTH / 5
+        let RANGE_BTN_WIDTH = (REPORT_TABLE_WIDTH - 4*S_PAD) / 5
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT - 2*PAD) / 2
 
@@ -567,34 +572,34 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         byDayBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(decrementRangeBtn.snp.right)
+            make.left.equalTo(decrementRangeBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
 
         }
         byWeekBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(byDayBtn.snp.right)
+            make.left.equalTo(byDayBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
 
         }
         byMonthBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(byWeekBtn.snp.right)
+            make.left.equalTo(byWeekBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
         }
         byYearBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(byMonthBtn.snp.right)
+            make.left.equalTo(byMonthBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
 
         }
         incrementRangeBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
-            make.left.equalTo(byYearBtn.snp.right)
+            make.left.equalTo(byYearBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH/2)
             make.height.equalTo(RANGE_BTN_HEIGHT)
 

@@ -265,7 +265,6 @@ class HomeVC:UIViewController {
         
     }
     
-    
     @IBAction func payTapped(_ sender: UIButton) {
         
         NotificationCenter.default.post(name: .finalizeSale, object: nil)
