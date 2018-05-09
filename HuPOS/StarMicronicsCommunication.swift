@@ -28,42 +28,71 @@ final class BTCommunication {
     public static func openDrawer(){
         
         if(BTEnabled()){
-            print("OPEN DRAWER: START")
-            let delegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            let builder: ISCBBuilder = StarIoExt.createCommandBuilder(delegate.emulation)
-            builder.beginDocument()
-            builder.appendPeripheral(SCBPeripheralChannel.no1)
-            builder.endDocument()
-            print("OPEN DRAWER: Builder complete")
-
-            let commands = builder.commands.copy() as! Data
-            var commandsArray: [UInt8] = [UInt8](repeating: 0, count: commands.count)
             
-            print("OPEN DRAWER: Commands array built: \(commandsArray.description)")
+            let commands: Data
+            commands = CashDrawerFunctions.createData(AppDelegate.getEmulation(), channel: SCBPeripheralChannel.no1)
             
-            let port = SMPort.getPort(delegate.BTDevice, nil, 10000)
-            print("OPEN DRAWER: SMPort.getPort connected: \(port?.connected())")
-
+            let portName:     String = AppDelegate.getPortName()
+            let portSettings: String = AppDelegate.getPortSettings()
+            let timeout:      UInt32 = 10000
             
-            commands.copyBytes(to: &commandsArray, count: commands.count)
-            print("OPEN DRAWER: commands.copyBytes begin...")
-
-            var error: NSError?
-            var total: UInt32 = 0
-            while total < UInt32(commands.count) {
-                let written: UInt32 = port!.write(commandsArray, total, UInt32(commands.count) - total, &error)
-                if error != nil { break }
-                total += written
+            GlobalQueueManager.shared.serialQueue.async {
+                _ = Communication.sendCommandsDoNotCheckCondition(commands,
+                                               portName: portName,
+                                               portSettings: portSettings,
+                                               timeout: timeout,
+                                               completionHandler: { (result: Bool, title: String, message: String) in
+                                                DispatchQueue.main.async {
+                                                    let alertView: UIAlertView = UIAlertView(title: title,
+                                                                                             message: message,
+                                                                                             delegate: nil,
+                                                                                             cancelButtonTitle: "OK")
+                                                    
+                                                    alertView.show()
+                                                    
+                                                }
+                                                
+                })
             }
             
-            print("OPEN DRAWER: commands.copyBytes ...end")
-
-
-            SMPort.release(port)
-            port?.disconnect()
-            print("OPEN DRAWER: SMPort.release connected: \(port?.connected())")
-
             
+            
+            //            print("OPEN DRAWER: START")
+            //            let delegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            //            let builder: ISCBBuilder = StarIoExt.createCommandBuilder(delegate.emulation)
+            //            builder.beginDocument()
+            //            builder.appendPeripheral(SCBPeripheralChannel.no1)
+            //            builder.endDocument()
+            //            print("OPEN DRAWER: Builder complete")
+            //
+            //            let commands = builder.commands.copy() as! Data
+            //            var commandsArray: [UInt8] = [UInt8](repeating: 0, count: commands.count)
+            //
+            //            print("OPEN DRAWER: Commands array built: \(commandsArray.description)")
+            //
+            //            let port = SMPort.getPort(delegate.BTDevice, nil, 10000)
+            //            print("OPEN DRAWER: SMPort.getPort connected: \(port?.connected())")
+            //
+            //
+            //            commands.copyBytes(to: &commandsArray, count: commands.count)
+            //            print("OPEN DRAWER: commands.copyBytes begin...")
+            //
+            //            var error: NSError?
+            //            var total: UInt32 = 0
+            //            while total < UInt32(commands.count) {
+            //                let written: UInt32 = port!.write(commandsArray, total, UInt32(commands.count) - total, &error)
+            //                if error != nil { break }
+            //                total += written
+            //            }
+            //
+            //            print("OPEN DRAWER: commands.copyBytes ...end")
+            //
+            //
+            //            SMPort.release(port)
+            //            port?.disconnect()
+            //            print("OPEN DRAWER: SMPort.release connected: \(port?.connected())")
+            //
+            //
         }
     }
     

@@ -386,6 +386,13 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         return btn
     }()
     
+    let saleItemsTbl:UITableView = {
+        let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tbl.backgroundColor = .clear
+        tbl.alwaysBounceVertical = false
+        return tbl
+    }()
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.sales.count
     }
@@ -397,25 +404,32 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //print(dateFormatter.stringFromDate(date)) // Jan 2, 2001
-        
-        let saleCell = SaleCell()
-        saleCell.selectionStyle = .none
-        saleCell.title.text = self.sales[indexPath.row].id!
-        saleCell.employee.text = self.sales[indexPath.row].employeeId
-        saleCell.saleTotal.text = self.sales[indexPath.row].saleTotal?.toCurrencyString()
-        saleCell.taxTotal.text = self.sales[indexPath.row].taxTotal?.toCurrencyString()
-        saleCell.timestamp.text = (dateFormatter.string(from: (self.sales[indexPath.row].timestamp)!))
-        
-        if(indexPath.row % 2 == 1){
-            saleCell.backgroundColor = UIColor.lightGray.lighter(by: 25)
+        switch tableView {
+        case saleTable:
+            let saleCell = SaleCell()
+            saleCell.selectionStyle = .none
+            saleCell.title.text = self.sales[indexPath.row].id!
+            saleCell.employee.text = self.sales[indexPath.row].employeeId
+            saleCell.saleTotal.text = self.sales[indexPath.row].saleTotal?.toCurrencyString()
+            saleCell.taxTotal.text = self.sales[indexPath.row].taxTotal?.toCurrencyString()
+            saleCell.timestamp.text = (dateFormatter.string(from: (self.sales[indexPath.row].timestamp)!))
+            //        if(indexPath.row % 2 == 1){
+            //            saleCell.backgroundColor = UIColor.lightGray.lighter(by: 25)
+            //        }
+            if(self.sales[indexPath.row].saleTotal! < 0.0){
+                saleCell.saleTotal.textColor = UIColor.blue.darker(by: 10)
+            }
+            
+            return saleCell
+        case saleItemsTbl:
+            let saleItemCell = UITableViewCell(style: .value1, reuseIdentifier: "saleItemCell")
+            
+            return saleItemCell
+        default:
+            let saleItemCell = UITableViewCell(style: .value1, reuseIdentifier: "saleItemCell")
+            
+            return saleItemCell
         }
-        
-        if(self.sales[indexPath.row].saleTotal! < 0.0){
-            saleCell.saleTotal.textColor = UIColor.blue.darker(by: 10)
-        }
-        
-        return saleCell
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -524,8 +538,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         _ = screen.width - 2*PAD//(screen.width - CGFloat(4*PAD)) * (7/10)
         let GENERATE_REPORT_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         _ = SCREEN_HEIGHT_SAFE * (8/10)
-        let PICKER_WIDTH = (screen.width - 2*PAD) * (3/10)
-        let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (3/10)
+        let PICKER_WIDTH = self.startDatePicker.frame.width//(screen.width - 2*PAD) * (3/10)
+        //let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (6/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
         _ = REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
         let RANGE_BTN_WIDTH = ((screen.width - 2*PAD) - 4*S_PAD) / 5
@@ -607,8 +621,9 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         saleTable.snp.makeConstraints { (make) in
             make.top.equalTo(decrementRangeBtn.snp.bottom).offset(PAD)
             make.left.equalTo(self.view).offset(PAD)
+            make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
             //            make.right.equalTo(view).offset(-1*PAD)
-            make.width.equalTo(REPORT_TABLE_WIDTH)
+           // make.width.equalTo(REPORT_TABLE_WIDTH)
             //make.height.equalTo(REPORT_TABLE_HEIGHT)
             make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
         }
@@ -618,28 +633,30 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         startDateLbl.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             make.left.equalTo(startDatePicker)//.offset(PAD/2)
-            make.width.equalTo(PICKER_WIDTH)
-            
+            //make.width.equalTo(PICKER_WIDTH)
+            make.right.equalTo(startDatePicker).offset(-1*PAD/2)
+
         }
         
         startDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(incrementRangeBtn.snp.bottom).offset(PAD)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
            //make.left.equalTo(saleTable.snp.right).offset(PAD/2)
-            make.width.equalTo(PICKER_WIDTH)
+            //make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
             make.right.equalTo(view).offset(-1*PAD)
         }
         endDateLbl.snp.makeConstraints { (make) in
-            make.width.equalTo(PICKER_WIDTH)
+            //make.width.equalTo(PICKER_WIDTH)
             make.top.equalTo(startDatePicker.snp.bottom)
             make.left.equalTo(endDatePicker).offset(PAD/2)
+            make.right.equalTo(endDatePicker).offset(-1*PAD/2)
         }
         endDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             //make.left.equalTo(endDateLbl)//.offset(PAD/2)
             make.right.equalTo(view).offset(-1*PAD)
 
-            make.width.equalTo(PICKER_WIDTH)
+           // make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         
@@ -687,51 +704,62 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                             }
                         }
                     })
-                    
-                    db.collection("Sales").document(document.documentID).collection("Sale Items").getDocuments(completion: { (snapshot, err) in
-                        if let err = err {
-                            print("ERROR \(err.localizedDescription)")
-                            self.generateSaleBtn.backgroundColor = originalColor
-                            
-                            self.generateSaleBtn.isUserInteractionEnabled = true
-                        }else{
-                            
-                            for document_ in snapshot!.documents{
-                                newSale?.saleItems?.append(SaleItem(id: document_.documentID, dictionary: document_.data()))
-                                print("Adding SaleItem to Sale: \(document.documentID)")
-                                
-                                print("NEW ITEM + \((newSale?.saleItems?.last?.inventoryItemId!)!)")
-                                db.collection("Items").document((newSale?.saleItems?.last?.inventoryItemId)!).getDocument(completion: { (snapshot, err) in
-                                    if let err = err {
-                                        print("ERROR \(err.localizedDescription)")
-                                        self.generateSaleBtn.backgroundColor = originalColor
-                                        
-                                        self.generateSaleBtn.isUserInteractionEnabled = true
-                                    }else{
-                                        self.generateSaleBtn.backgroundColor = originalColor
-                                        
-                                        self.generateSaleBtn.isUserInteractionEnabled = true
-                                        //                                        print(snapshot?.data())
-                                        //                                        newSale?.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot?.documentID)!, dictionary: (snapshot?.data())!)
-                                        //                                        print("Adding Inventory Item to Sale: \(snapshot?.documentID)")
-                                        //                                        newSaleReport.append(newSale!)
-                                    }
-                                    
-                                })
-                            }
-                        }
-                    })
                     myGroup.leave()
                     newSaleReport.append(newSale!)
                 }
                 myGroup.notify(queue: .main) {
+                    
                     print("Finished all requests.")
                     self.generateSaleBtn.backgroundColor = originalColor
                     
                     self.generateSaleBtn.isUserInteractionEnabled = true
                     self.sales = newSaleReport
-                    self.saleTable.reloadData()
-                    print(newSaleReport.count)
+                    
+                    let myGroup2 = DispatchGroup()
+                    for sale in newSaleReport {
+                        db.collection("Sales").document(sale.id!).collection("Sale Items").getDocuments(completion: { (snapshot, err) in
+                            if let err = err {
+                                print("ERROR \(err.localizedDescription)")
+                                self.generateSaleBtn.backgroundColor = originalColor
+                                
+                                self.generateSaleBtn.isUserInteractionEnabled = true
+                            }else{
+                                
+                                for document_ in snapshot!.documents{
+                                    myGroup2.enter()
+                                    sale.saleItems?.append(SaleItem(id: document_.documentID, dictionary: document_.data()))
+                                    print("Adding SaleItem to Sale: \(sale.id!)")
+                                    
+                                    print("NEW ITEM + \((sale.saleItems?.last?.inventoryItemId!)!)")
+                                    db.collection("Items").document((sale.saleItems?.last?.inventoryItemId)!).getDocument(completion: { (snapshot, err) in
+                                        if let err = err {
+                                            print("ERROR \(err.localizedDescription)")
+                                            self.generateSaleBtn.backgroundColor = originalColor
+                                            
+                                            self.generateSaleBtn.isUserInteractionEnabled = true
+                                        }else{
+                                            self.generateSaleBtn.backgroundColor = originalColor
+                                            
+                                            self.generateSaleBtn.isUserInteractionEnabled = true
+                                            //                                        print(snapshot?.data())
+                                            //                                        newSale?.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot?.documentID)!, dictionary: (snapshot?.data())!)
+                                            //                                        print("Adding Inventory Item to Sale: \(snapshot?.documentID)")
+                                            //                                        newSaleReport.append(newSale!)
+                                        }
+                                        
+                                    })
+                                    myGroup2.leave()
+                                }
+                                myGroup2.notify(queue: .main){
+                                    self.saleTable.reloadData()
+                                    print(newSaleReport.count)
+                                }
+
+                            }
+                        })
+                    }
+                    
+
                     
                 }
             }

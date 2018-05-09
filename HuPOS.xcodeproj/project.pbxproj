@@ -45,6 +45,10 @@
 		35B8DDBE201FB7F3002F49C9 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBB201FB7F3002F49C9 /* SMCloudServices.framework */; };
 		35B8DDBF201FB7F3002F49C9 /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */; };
 		35CB5C17207042620080187C /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CB5C16207042620080187C /* NotificationNameExtension.swift */; };
+		35FDB26720A32CC600A022F8 /* CashDrawerFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FDB26620A32CC500A022F8 /* CashDrawerFunctions.swift */; };
+		35FDB26920A32DAF00A022F8 /* GlobalQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FDB26820A32DAF00A022F8 /* GlobalQueueManager.swift */; };
+		35FDB26B20A32DF000A022F8 /* Communication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FDB26A20A32DF000A022F8 /* Communication.swift */; };
+		35FDB26D20A32E5B00A022F8 /* SMDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FDB26C20A32E5B00A022F8 /* SMDefine.swift */; };
 		8EA188CB0AD7D2A0118A0A74 /* Pods_HuPOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94B789342D7D8D0BD4B6AA9D /* Pods_HuPOSUITests.framework */; };
 		C9D460034DA187E891158FE3 /* Pods_HuPOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819DB4D06E1D3F0274F94CA2 /* Pods_HuPOS.framework */; };
 		DD5D1AC24026576275D770AB /* Pods_HuPOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */; };
@@ -114,6 +118,10 @@
 		35B8DDBC201FB7F3002F49C9 /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO_Extension.framework; path = ExternalFrameworks/StarIO_Extension.framework; sourceTree = "<group>"; };
 		35B8DDC0201FB833002F49C9 /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCBridge.h; sourceTree = "<group>"; };
 		35CB5C16207042620080187C /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
+		35FDB26620A32CC500A022F8 /* CashDrawerFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashDrawerFunctions.swift; sourceTree = "<group>"; };
+		35FDB26820A32DAF00A022F8 /* GlobalQueueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalQueueManager.swift; sourceTree = "<group>"; };
+		35FDB26A20A32DF000A022F8 /* Communication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Communication.swift; sourceTree = "<group>"; };
+		35FDB26C20A32E5B00A022F8 /* SMDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMDefine.swift; sourceTree = "<group>"; };
 		4E841623857CF18CA8474FAC /* Pods-HuPOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOSUITests/Pods-HuPOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5976E8BDECE4CB16B030FABB /* Pods-HuPOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HuPOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HuPOS/Pods-HuPOS.debug.xcconfig"; sourceTree = "<group>"; };
 		68C9C30FBC9C4AE855848205 /* Pods_HuPOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HuPOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,6 +205,10 @@
 			isa = PBXGroup;
 			children = (
 				358C3A49209351FA00B7C124 /* HuPOS.entitlements */,
+				35FDB26820A32DAF00A022F8 /* GlobalQueueManager.swift */,
+				35FDB26620A32CC500A022F8 /* CashDrawerFunctions.swift */,
+				35FDB26A20A32DF000A022F8 /* Communication.swift */,
+				35FDB26C20A32E5B00A022F8 /* SMDefine.swift */,
 				357678D7205DCBD40009828C /* EditItemsCell.swift */,
 				35A0DB1E2050B64500DDA5F0 /* SaleItemsTVC.swift */,
 				3569B3E72027875F00B88A76 /* HomeVC.swift */,
@@ -517,6 +529,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35FDB26720A32CC600A022F8 /* CashDrawerFunctions.swift in Sources */,
 				35CB5C17207042620080187C /* NotificationNameExtension.swift in Sources */,
 				357678D6205DC9250009828C /* SaleItemCell.swift in Sources */,
 				356BCCB9209BA9AF00A1B186 /* SalesHistoryVC.swift in Sources */,
@@ -532,6 +545,8 @@
 				350D63F820292965005C8CF5 /* UserSignInTVC.swift in Sources */,
 				3507027B203B5EEB00156854 /* AddItemVC.swift in Sources */,
 				35A0DB212050B7E200DDA5F0 /* ItemsCVC.swift in Sources */,
+				35FDB26B20A32DF000A022F8 /* Communication.swift in Sources */,
+				35FDB26920A32DAF00A022F8 /* GlobalQueueManager.swift in Sources */,
 				35A0DB1F2050B64500DDA5F0 /* SaleItemsTVC.swift in Sources */,
 				3569B3ED2027881B00B88A76 /* Transaction.swift in Sources */,
 				359C622C203286AC0002F7AE /* SideBarMenu.swift in Sources */,
@@ -540,6 +555,7 @@
 				352A81EF2086C8E900C3848F /* PaymentPopUpVC.swift in Sources */,
 				357F1DE4208566DF009C4C98 /* NumberPadPopUpVC.swift in Sources */,
 				357678DC205DE0680009828C /* NoSaleCell.swift in Sources */,
+				35FDB26D20A32E5B00A022F8 /* SMDefine.swift in Sources */,
 				352157A020337B0A009D1CC5 /* SideMenuTableViewController.swift in Sources */,
 				358CABDB206ED8EE002E17FC /* SettingsTVC.swift in Sources */,
 				35A2C60A2050C8A3004B040B /* AddItemCVCell.swift in Sources */,

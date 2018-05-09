@@ -134,7 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     fileprivate func loadParam() {
         let userDefaults: UserDefaults = UserDefaults.standard
         
-        userDefaults.register(defaults: ["portName"                 : ""])
+        userDefaults.register(defaults: ["portName"                 : BTDevice])
         userDefaults.register(defaults: ["portSettings"             : ""])
         userDefaults.register(defaults: ["modelName"                : ""])
         userDefaults.register(defaults: ["macAddress"               : ""])

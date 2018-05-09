@@ -55,8 +55,8 @@ class EventTableViewCell : UITableViewCell {
         lbl.lineBreakMode = .byWordWrapping
         lbl.numberOfLines = 1
         lbl.sizeToFit()
-        // lbl.lineBreakMode = .byCharWrapping
-        //lbl.baselineAdjustment = .alignCenters
+         lbl.lineBreakMode = .byCharWrapping
+        lbl.baselineAdjustment = .alignCenters
         return lbl
     }()
     
@@ -65,20 +65,20 @@ class EventTableViewCell : UITableViewCell {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.textColor = UIColor.red
         lbl.backgroundColor = .clear
-        lbl.font = UIFont.systemFont(ofSize: 40)
-        lbl.textAlignment = .left
+        lbl.font = UIFont.systemFont(ofSize: 25)
+        lbl.textAlignment = .right
         lbl.adjustsFontSizeToFitWidth = true
         lbl.lineBreakMode = .byWordWrapping
         lbl.numberOfLines = 1
         lbl.sizeToFit()
-        //lbl.lineBreakMode = .byCharWrapping
-        // lbl.baselineAdjustment = .alignCenters
+        lbl.lineBreakMode = .byCharWrapping
+         lbl.baselineAdjustment = .alignCenters
         return lbl
     }()
     
     var event:Event?{
         didSet{
-            amountLbl.text = "- \(event?.amount?.toCurrencyString() ?? "$0.00")"
+            amountLbl.text = "- \(event!.amount!.toCurrencyString() )"
             typeLbl.text = event?.type?.description
         }
     }
@@ -96,7 +96,7 @@ class EventTableViewCell : UITableViewCell {
             //            make.height.equalTo(self.bounds.width)
             
             make.right.equalTo(self).offset(-2)
-            make.width.equalTo(self.bounds.width / 2)
+            make.width.equalTo(self.bounds.width * (2/3))
             make.height.equalTo(self.bounds.height)
             make.bottom.equalTo(self)
             
@@ -106,6 +106,8 @@ class EventTableViewCell : UITableViewCell {
             //make.centerY.equalTo(self)
             make.right.equalTo(amountLbl.snp.left).offset(-10)
             make.bottom.equalTo(amountLbl.snp.bottom)
+            make.height.equalTo(self.bounds.height)
+
             //            make.width.equalTo(self.bounds.width / 2)
             //            make.height.equalTo(self.bounds.height)
             
@@ -148,7 +150,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:EventTableViewCell = self.eventTableView.dequeueReusableCell(withIdentifier: "EventCell")! as! EventTableViewCell
-        let amt = self.sale!.events![indexPath.row].amount?.toCurrencyString()
+        let amt = self.sale!.events![indexPath.row].amount!.toCurrencyString()
         let type = self.sale!.events![indexPath.row].type?.description
         
         cell.isUserInteractionEnabled = false
@@ -1029,7 +1031,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         
         eventTableView.snp.makeConstraints { (make) in
-            make.width.equalTo((MAIN_VIEW_WIDTH - NUM_PAD_WIDTH)/2)
+            make.width.equalTo((MAIN_VIEW_WIDTH - NUM_PAD_WIDTH) * (2/3))
             //make.height.equalTo(NUM_PAD_HEIGHT - Double(saleTotal.frame.height) - Double(saleSubtotal.frame.height))
             make.top.equalTo(saleTotal.snp.bottom)
             make.bottom.equalTo(saleSubtotal.snp.top)
