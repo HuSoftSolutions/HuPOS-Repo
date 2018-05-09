@@ -42,15 +42,15 @@ final class BTCommunication {
                                                portSettings: portSettings,
                                                timeout: timeout,
                                                completionHandler: { (result: Bool, title: String, message: String) in
-                                                DispatchQueue.main.async {
-                                                    let alertView: UIAlertView = UIAlertView(title: title,
-                                                                                             message: message,
-                                                                                             delegate: nil,
-                                                                                             cancelButtonTitle: "OK")
-                                                    
-                                                    alertView.show()
-                                                    
-                                                }
+//                                                DispatchQueue.main.async {
+//                                                    let alertView: UIAlertView = UIAlertView(title: title,
+//                                                                                             message: message,
+//                                                                                             delegate: nil,
+//                                                                                             cancelButtonTitle: "OK")
+//
+//                                                    //alertView.show()
+//
+//                                                }
                                                 
                 })
             }

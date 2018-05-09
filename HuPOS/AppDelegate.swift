@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var selectedLanguage:         LanguageIndex!
     var selectedPaperSize:        PaperSizeIndex!
     
-    let BTDevice = "BT:Star Micronics"//"BT:mPOP"//"BT:Star Micronics"
+    let BTDevice = "BT:mPOP"//"BT:Star Micronics"//"BT:mPOP"//"BT:Star Micronics"
     
     
     public var currentUser:User?
@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      
         
         print("BUNDLE PATH: \(Bundle.main.bundlePath)")
-        let filePath = Bundle.main.path(forResource: LIVE_DB, ofType: "plist")
+        let filePath = Bundle.main.path(forResource: TEST_DB, ofType: "plist")
         guard let fileopts = FirebaseOptions(contentsOfFile: filePath!)
             else { assert(false, "Couldn't load config file")
                 return
