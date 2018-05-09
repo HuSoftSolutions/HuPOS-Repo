@@ -39,7 +39,7 @@ enum ReportCategory:Int {
 }
 
 class Report: NSObject {
-
+    
     override init(){
         cash_sale_total = 0.0
         credit_sale_total = 0.0
@@ -52,7 +52,7 @@ class Report: NSObject {
     var credit_sale_total:Double?
     var tax_total:Double?
     var sale_total:Double?
-
+    
 }
 
 class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -81,7 +81,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 25)
         cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
         cell.selectionStyle = .none
-
+        
         if (report.categories[indexPath.row] == .cash_sale_total) {
             cell.detailTextLabel?.text = report.cash_sale_total?.toCurrencyString()
         }else if(report.categories[indexPath.row] == .credit_sale_total){
@@ -124,7 +124,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         lbl.textColor = UIColor.white
         lbl.text = "End Date"
         lbl.textAlignment = .center
-
+        
         
         lbl.backgroundColor = UIColor.darkGray.darker(by: 20)
         lbl.textAlignment = .center
@@ -264,24 +264,24 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         btn.addTarget(self, action: #selector(incrementRange), for: .touchUpInside)
         return btn
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let screenSize = UIScreen.main.bounds
-
+        
         setupViews(screen: screenSize)
         //self.generateReport()
         // Do any additional setup after loading the view.
     }
-
+    
     func setupViews(screen:CGRect){
         let PAD:CGFloat = 25.0
         let NAVIGATIONBAR_HEIGHT = (navigationController?.navigationBar.layer.frame.height)!
         let TOOLBAR_HEIGHT = (navigationController?.toolbar.layer.frame.height)!
         let S_PAD:CGFloat = 2
-
+        
         _ = screen.width
         let SCREEN_HEIGHT = screen.height
         var SCREEN_HEIGHT_SAFE = SCREEN_HEIGHT - (startDateLbl.frame.height)*2
@@ -297,7 +297,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         let RANGE_BTN_WIDTH = (REPORT_TABLE_WIDTH - 4*S_PAD) / 5
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT + RANGE_BTN_HEIGHT) / 2
-
+        
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
         self.setDateRangeBtn(range: self.dateRange)
@@ -333,7 +333,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.width.equalTo(PICKER_WIDTH)
             make.top.equalTo(startDatePicker.snp.bottom)
             make.left.equalTo(reportTable.snp.right).offset(PAD/2)
-        
+            
         }
         endDatePicker.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
@@ -353,14 +353,14 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.left.equalTo(decrementRangeBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
-
+            
         }
         byWeekBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             make.left.equalTo(byDayBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
-
+            
             
         }
         byMonthBtn.snp.makeConstraints { (make) in
@@ -368,7 +368,7 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.left.equalTo(byWeekBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
-
+            
             
         }
         byYearBtn.snp.makeConstraints { (make) in
@@ -376,20 +376,20 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             make.left.equalTo(byMonthBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
-
+            
         }
         incrementRangeBtn.snp.makeConstraints { (make) in
             make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             make.left.equalTo(byYearBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH/2)
             make.height.equalTo(RANGE_BTN_HEIGHT)
-
+            
             
         }
         reportTable.snp.makeConstraints { (make) in
             make.top.equalTo(decrementRangeBtn.snp.bottom)//.offset(NAVIGATIONBAR_HEIGHT + PAD)
             make.left.equalTo(self.view).offset(PAD)
-//            make.right.equalTo(view).offset(-1*PAD)
+            //            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
             make.height.equalTo(REPORT_TABLE_HEIGHT)
             //make.bottom.equalTo(generateReportBtn.snp.top).offset(-1*PAD)
@@ -448,12 +448,22 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     @objc func decrementRange(){
         self.rangeIndex -= 1
         self.setDateRangeBtn(range: self.dateRange)
-
+        
     }
     
     @objc func incrementRange(){
-        self.setDateRangeBtn(range: self.dateRange)
         self.rangeIndex += 1
+        self.setDateRangeBtn(range: self.dateRange)
+    }
+    
+    func setInterationTo(state:Bool){
+        self.generateReportBtn.isUserInteractionEnabled = state
+        self.decrementRangeBtn.isUserInteractionEnabled = state
+        self.incrementRangeBtn.isUserInteractionEnabled = state
+        self.byDayBtn.isUserInteractionEnabled = state
+        self.byWeekBtn.isUserInteractionEnabled = state
+        self.byMonthBtn.isUserInteractionEnabled = state
+        self.byYearBtn.isUserInteractionEnabled = state
     }
     
     func setDateRangeBtn(range:DateRange) {
@@ -499,13 +509,13 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     
     @objc func generateReport(){
         let newReport = Report()
-      //  self.generateReportBtn.backgroundColor = UIColor.orange
+        //  self.generateReportBtn.backgroundColor = UIColor.orange
         
-        self.generateReportBtn.isUserInteractionEnabled = false
+        self.setInterationTo(state: false)
         let originalColor = self.generateReportBtn.backgroundColor
         self.generateReportBtn.backgroundColor = .lightGray
         //self.clearReport()
-
+        
         //self.reportTable.reloadData()
         let myGroup = DispatchGroup()
         let db = Firestore.firestore()
@@ -514,64 +524,75 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
             if let err = err {
                 print("ERROR \(err.localizedDescription)")
                 self.generateReportBtn.backgroundColor = originalColor
-
-                self.generateReportBtn.isUserInteractionEnabled = true
-            }else{
                 
-                for document in snapshot!.documents {
-                    myGroup.enter()
-                    var taxTotal = 0.0
-                    var saleTotal = 0.0
-                    taxTotal = (document["Tax Total"] as? Double)!
-                    saleTotal = (document["Sale Total"] as? Double)!
-                    newReport.tax_total! += taxTotal
-                    newReport.sale_total! += saleTotal
+                self.setInterationTo(state: true)
+            }else{
+                if(snapshot!.count > 0){
                     
-                    let myGroup2 = DispatchGroup()
-                    
-                    db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
-                        if let err = err {
-                            print("ERROR \(err.localizedDescription)")
-                            self.generateReportBtn.backgroundColor = originalColor
-
-                            self.generateReportBtn.isUserInteractionEnabled = true
-                        }else{
-                            var cashTotal = 0.0
-                            var creditTotal = 0.0
-                            for document in snapshot!.documents {
-                                let eventCount:Double = Double(snapshot!.documents.count)
-                                let type = document["Type"] as! String
-                                let amount = document["Amount"] as! Double
-                                print("Event type: \(type) Amt: \(amount.toCurrencyString())")
-                                if(type.trimmingCharacters(in: .whitespaces) == "Cash" || type == "Gift" || type == "Check"){
-                                    cashTotal += (amount - taxTotal/eventCount)
-                                }else{
-                                    creditTotal += (amount - taxTotal/eventCount)
-                                }
+                    for document in snapshot!.documents {
+                        myGroup.enter()
+                        var taxTotal = 0.0
+                        var saleTotal = 0.0
+                        taxTotal = (document["Tax Total"] as? Double)!
+                        saleTotal = (document["Sale Total"] as? Double)!
+                        newReport.tax_total! += taxTotal
+                        newReport.sale_total! += saleTotal
+                        
+                        let myGroup2 = DispatchGroup()
+                        
+                        db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
+                            if let err = err {
+                                print("ERROR \(err.localizedDescription)")
+                                self.generateReportBtn.backgroundColor = originalColor
                                 
+                                self.setInterationTo(state: true)
+                            }else{
+                                var cashTotal = 0.0
+                                var creditTotal = 0.0
+                                for document in snapshot!.documents {
+                                    let eventCount:Double = Double(snapshot!.documents.count)
+                                    let type = document["Type"] as! String
+                                    let amount = document["Amount"] as! Double
+                                    print("Event type: \(type) Amt: \(amount.toCurrencyString())")
+                                    if(type.trimmingCharacters(in: .whitespaces) == "Cash" || type == "Gift" || type == "Check"){
+                                        cashTotal += (amount - taxTotal/eventCount)
+                                    }else{
+                                        creditTotal += (amount - taxTotal/eventCount)
+                                    }
+                                    
+                                }
+                                newReport.cash_sale_total! += cashTotal
+                                newReport.credit_sale_total! += creditTotal
                             }
-                            newReport.cash_sale_total! += cashTotal
-                            newReport.credit_sale_total! += creditTotal
-                        }
-                        myGroup.leave()
-
-                    })
-                }
-                myGroup.notify(queue: .main) {
+                            myGroup.leave()
+                            
+                        })
+                    }
+                    
+                    myGroup.notify(queue: .main) {
+                        print("Finished all requests.")
+                        self.generateReportBtn.backgroundColor = originalColor
+                        
+                        self.setInterationTo(state: true)
+                        //self.clearReport()
+                        self.report = newReport
+                        self.reportTable.reloadData()
+                        
+                    }
+                    
+                }else{
                     print("Finished all requests.")
                     self.generateReportBtn.backgroundColor = originalColor
-
-                    self.generateReportBtn.isUserInteractionEnabled = true
+                    
+                    self.setInterationTo(state: true)
                     //self.clearReport()
                     self.report = newReport
                     self.reportTable.reloadData()
-
                 }
-                
             }
             
         }
-
+        
         
     }
     
@@ -584,15 +605,15 @@ class ReportingVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
