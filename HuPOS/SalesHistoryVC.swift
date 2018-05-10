@@ -763,6 +763,14 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
+    func getSaleHistoryForDateRange() -> [Sale]{
+        let newSalesReport = [Sale]()
+        
+        
+        
+        return newSalesReport
+    }
+    
     
     func getSalesForMonth(){
         let db = Firestore.firestore()
