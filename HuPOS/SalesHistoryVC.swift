@@ -134,7 +134,7 @@ class SaleCell: UITableViewCell {
         self.addSubview(saleTotal)
         self.addSubview(timestamp)
         self.addSubview(employee)
-        
+
         
         //        self.addSubview(taxLbl)
         //        self.addSubview(taxTotal)
@@ -217,8 +217,9 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var rangeIndex = 0
     var selectedSaleIndex = 0
     let dateFormatter = DateFormatter()
-    
-    
+    let dispatchGroup = DispatchGroup()
+    let progressHUD = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+
     
     let saleTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -654,6 +655,10 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(incrementRangeBtn)
         self.view.addSubview(saleItemsTbl)
         self.view.addSubview(eventsTbl)
+        self.view.addSubview(progressHUD)
+        progressHUD.center = self.view.center
+        progressHUD.hidesWhenStopped = true
+
         
         generateSaleBtn.snp.makeConstraints { (make) in
             make.height.equalTo(GENERATE_REPORT_HEIGHT)
@@ -762,12 +767,37 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func startFirebaseCalls(){
+        
+        let sales = getSaleHistoryForDateRange()
+        self.dispatchGroup.notify(queue: .main){
+            print("Finished adding \(sales.count) new sales")
+        }
+    }
+    
+    
     
     func getSaleHistoryForDateRange() -> [Sale]{
         let newSalesReport = [Sale]()
-        
-        
-        
+        self.setInteractionTo(state: false)
+        let db = Firestore.firestore()
+        self.dispatchGroup.enter()
+        db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).order(by: "Timestamp", descending: true).getDocuments { (snapshot, err) in
+            
+            if let err = err {
+                print("ERROR \(err.localizedDescription)")
+                self.setInteractionTo(state: true)
+                self.dispatchGroup.leave()
+            }else{
+                if(snapshot!.documents.count > 0){
+                    for document in snapshot!.documents {
+                        
+                        
+                    }
+                }
+                self.dispatchGroup.leave()
+            }
+        }
         return newSalesReport
     }
     
@@ -777,7 +807,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let originalColor = self.generateSaleBtn.backgroundColor
         var newSaleReport:[Sale] = []
         _ = db.collection("Sales")
-        setInterationTo(state: false)
+        setInteractionTo(state: false)
         self.generateSaleBtn.backgroundColor = .lightGray
         
         let myGroup = DispatchGroup()
@@ -787,7 +817,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let err = err {
                 print("ERROR \(err.localizedDescription)")
                 self.generateSaleBtn.backgroundColor = originalColor
-                self.setInterationTo(state: true)
+                self.setInteractionTo(state: true)
                 
             }else{
                 if(snapshot!.documents.count > 0){
@@ -801,7 +831,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 print("ERROR \(err.localizedDescription)")
                                 self.generateSaleBtn.backgroundColor = originalColor
                                 
-                                self.setInterationTo(state: true)
+                                self.setInteractionTo(state: true)
                                 
                             }else{
                                 
@@ -828,7 +858,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                 if let err = err {
                                     print("ERROR \(err.localizedDescription)")
                                     self.generateSaleBtn.backgroundColor = originalColor
-                                    self.setInterationTo(state: true)
+                                    self.setInteractionTo(state: true)
                                     
                                 }else{
                                     
@@ -842,7 +872,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                             if let err = err {
                                                 print("ERROR \(err.localizedDescription)")
                                                 self.generateSaleBtn.backgroundColor = originalColor
-                                                self.setInterationTo(state: true)
+                                                self.setInteractionTo(state: true)
                                                 
                                             }else{
                                                 print(snapshot!.data()!)
@@ -854,7 +884,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                                         })
                                     }
                                     myGroup2.notify(queue: .main){
-                                        self.setInterationTo(state: true)
+                                        self.setInteractionTo(state: true)
                                         self.generateSaleBtn.backgroundColor = originalColor
                                         self.sales = newSaleReport
                                         self.saleTable.reloadData()
@@ -866,7 +896,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                         }
                     }
                 }else{
-                    self.setInterationTo(state: true)
+                    self.setInteractionTo(state: true)
                     self.generateSaleBtn.backgroundColor = originalColor
                     self.sales = newSaleReport
                     self.saleTable.reloadData()
@@ -877,7 +907,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func setInterationTo(state:Bool){
+    func setInteractionTo(state:Bool){
         self.generateSaleBtn.isUserInteractionEnabled = state
         self.decrementRangeBtn.isUserInteractionEnabled = state
         self.incrementRangeBtn.isUserInteractionEnabled = state
@@ -885,6 +915,12 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.byWeekBtn.isUserInteractionEnabled = state
         self.byMonthBtn.isUserInteractionEnabled = state
         self.byYearBtn.isUserInteractionEnabled = state
+        if(state){
+            self.progressHUD.startAnimating()
+        }else{
+            self.progressHUD.stopAnimating()
+        }
+        
     }
     
     override func didReceiveMemoryWarning() {
