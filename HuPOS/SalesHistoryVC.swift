@@ -199,7 +199,6 @@ class SaleCell: UITableViewCell {
         self.taxTotal.text = ""
         self.backgroundColor = .white
     }
-    
 }
 
 
@@ -219,7 +218,9 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let dateFormatter = DateFormatter()
     let dispatchGroup = DispatchGroup()
     let progressHUD = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-    
+    var saleTableSpinner = UIView()
+    var saleItemTableSpinner = UIView()
+    var eventTableSpinner = UIView()
     
     let saleTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -662,8 +663,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(saleItemsTbl)
         self.view.addSubview(eventsTbl)
         self.view.addSubview(progressHUD)
-        progressHUD.center = self.view.center
-        progressHUD.hidesWhenStopped = true
+        
+
         
         
         generateSaleBtn.snp.makeConstraints { (make) in
@@ -774,11 +775,15 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func startFirebaseCalls(){
-        
+        saleTableSpinner = UIViewController.displaySpinner(onView: self.saleTable)
+        saleItemTableSpinner = UIViewController.displaySpinner(onView: self.saleItemsTbl)
+        eventTableSpinner = UIViewController.displaySpinner(onView: self.eventsTbl)
         getSaleHistoryForDateRange()
         self.dispatchGroup.notify(queue: .main){
             print("Finished adding \(self.sales.count) new sales")
+            UIViewController.removeSpinner(spinner: self.saleTableSpinner)
             self.saleTable.reloadData()
+            
             if(self.sales.count > 0){
                 self.saleTable.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
                 self.getSaleEventsForDateRange()
@@ -788,12 +793,14 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("Finished adding sale items")
 
                     self.eventsTbl.reloadData()
+                    UIViewController.removeSpinner(spinner: self.eventTableSpinner)
                     
                     self.getSaleItemInfoForDateRange()
                     self.dispatchGroup.notify(queue: .main){
                         
                         print("Finished getting all sale item info")
                         self.saleItemsTbl.reloadData()
+                        UIViewController.removeSpinner(spinner: self.saleItemTableSpinner)
                     }
                     
                 }
@@ -1043,6 +1050,31 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
      }
      */
     
+}
+
+
+
+extension UIViewController {
+    class func displaySpinner(onView : UIView) -> UIView {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(activityIndicatorStyle: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        return spinnerView
+    }
+    
+    class func removeSpinner(spinner :UIView) {
+        DispatchQueue.main.async {
+            spinner.removeFromSuperview()
+        }
+    }
 }
 
 extension Date {
