@@ -134,7 +134,7 @@ class SaleCell: UITableViewCell {
         self.addSubview(saleTotal)
         self.addSubview(timestamp)
         self.addSubview(employee)
-
+        
         
         //        self.addSubview(taxLbl)
         //        self.addSubview(taxTotal)
@@ -219,7 +219,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let dateFormatter = DateFormatter()
     let dispatchGroup = DispatchGroup()
     let progressHUD = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-
+    
     
     let saleTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -448,7 +448,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         default:
             return
         }
-
+        
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -483,7 +483,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         case saleItemsTbl:
             let saleItemCell = UITableViewCell(style: .value1, reuseIdentifier: "saleItemCell")
             let saleItem:SaleItem = self.sales[self.selectedSaleIndex].saleItems![indexPath.row]
-            saleItemCell.textLabel?.text = saleItem.inventoryItemId
+            guard case let saleItemCell.textLabel?.text = saleItem.inventoryItem!.title else { saleItemCell.textLabel?.text = saleItem.inventoryItemId }
             saleItemCell.detailTextLabel?.text = saleItem.subtotal.toCurrencyString()
             saleItemCell.detailTextLabel?.textAlignment = .right
             if(indexPath.row % 2 == 0){
@@ -494,7 +494,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             let eventCell = UITableViewCell(style: .value1, reuseIdentifier: "eventCell")
             let event:Event = self.sales[self.selectedSaleIndex].events![indexPath.row]
             eventCell.textLabel?.text = event.type!
-           eventCell.detailTextLabel?.text = event.amount!.toCurrencyString()
+            eventCell.detailTextLabel?.text = event.amount!.toCurrencyString()
             if(indexPath.row % 2 == 0){
                 eventCell.backgroundColor = UIColor.lightGray.lighter(by: 25)
             }
@@ -509,6 +509,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         // self.getSalesForMonth()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let screenSize = UIScreen.main.bounds
@@ -520,8 +521,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @objc func loadSales(){
-        
-        self.getSalesForMonth()
+        self.startFirebaseCalls()
+        //self.getSalesForMonth()
         
     }
     
@@ -601,7 +602,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         startDatePicker.date = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: startDate!)!
         endDatePicker.date = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: endDate!)!
         
-        self.getSalesForMonth()
+        self.startFirebaseCalls()
+        //self.getSalesForMonth()
     }
     
     func setup(screen:CGRect){
@@ -624,7 +626,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
         let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT - 4*PAD) / 2
         let DETAIL_TABLE_HEIGHT = (REPORT_TABLE_HEIGHT - 4*PAD) / 2
-            
+        
         self.saleTable.separatorStyle = .singleLine
         self.saleItemsTbl.separatorStyle = .none
         self.eventsTbl.separatorStyle = .none
@@ -632,7 +634,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Setup DateRange
         self.setDateRangeBtn(range: self.dateRange)
         
-
+        
         
         self.saleTable.delegate = self
         self.saleTable.dataSource = self
@@ -658,7 +660,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(progressHUD)
         progressHUD.center = self.view.center
         progressHUD.hidesWhenStopped = true
-
+        
         
         generateSaleBtn.snp.makeConstraints { (make) in
             make.height.equalTo(GENERATE_REPORT_HEIGHT)
@@ -718,7 +720,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
         }
         
-
+        
         
         startDateLbl.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
@@ -769,16 +771,114 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func startFirebaseCalls(){
         
-        let sales = getSaleHistoryForDateRange()
+        getSaleHistoryForDateRange()
         self.dispatchGroup.notify(queue: .main){
-            print("Finished adding \(sales.count) new sales")
+            print("Finished adding \(self.sales.count) new sales")
+            self.saleTable.reloadData()
+            if(self.sales.count > 0){
+                self.saleTable.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
+                self.getSaleEventsForDateRange()
+                self.getSaleItemsForDateRange()
+                self.dispatchGroup.notify(queue: .main){
+                    print("Finished adding events")
+                    print("Finished adding sale items")
+
+                    self.eventsTbl.reloadData()
+                    
+                    self.getSaleItemInfoForDateRange()
+                    self.dispatchGroup.notify(queue: .main){
+                        
+                        print("Finished getting all sale item info")
+                        self.saleItemsTbl.reloadData()
+                    }
+                    
+                }
+            }
         }
     }
     
+    func getSaleItemInfoForDateRange(){
+        self.setInteractionTo(state: false)
+        let db = Firestore.firestore()
+        
+        for sale in self.sales {
+            for saleItem in sale.saleItems! {
+                self.dispatchGroup.enter()
+                db.collection("Items").document(saleItem.inventoryItemId!).getDocument(completion: { (snapshot, err) in
+                    if let err = err {
+                        print("ERROR \(err.localizedDescription)")
+                        self.setInteractionTo(state: true)
+                        self.dispatchGroup.leave()
+                    }else{
+                        if(snapshot!.exists){
+                            print("Adding sale item information to sale \(sale.id!)")
+
+                            saleItem.inventoryItem = InventoryItem(id: snapshot!.documentID, dictionary: snapshot!.data()!)
+                        }else{
+                            print("ERROR: Inventory Item \(saleItem.inventoryItemId!) may no longer exist")
+
+                        }
+                    }
+                    self.dispatchGroup.leave()
+                })
+            }
+        }
+        self.setInteractionTo(state: true)
+    }
+    
+    func getSaleItemsForDateRange(){
+        self.setInteractionTo(state: false)
+        let db = Firestore.firestore()
+        
+        for sale in self.sales {
+            self.dispatchGroup.enter()
+            db.collection("Sales").document(sale.id!).collection("Sale Items").getDocuments(completion: { (snapshot, err) in
+                if let err = err {
+                    print("ERROR \(err.localizedDescription)")
+                    self.setInteractionTo(state: true)
+                    self.dispatchGroup.leave()
+                }else{
+                    if(snapshot!.count > 0){
+                        for document in snapshot!.documents {
+                            print("Adding sale item to sale \(document.documentID)")
+                            sale.saleItems?.append(SaleItem(id: document.documentID, dictionary: document.data()))
+                        }
+                    }
+                }
+                self.dispatchGroup.leave()
+            })
+        }
+        self.setInteractionTo(state: true)
+    }
+    func getSaleEventsForDateRange(){
+        self.setInteractionTo(state: false)
+        let db = Firestore.firestore()
+        
+        for sale in self.sales {
+            self.dispatchGroup.enter()
+            db.collection("Sales").document(sale.id!).collection("Events").getDocuments(completion: { (snapshot, err) in
+                if let err = err {
+                    print("ERROR \(err.localizedDescription)")
+                    self.setInteractionTo(state: true)
+                    self.dispatchGroup.leave()
+                }else{
+                    if(snapshot!.count > 0){
+                        for document in snapshot!.documents {
+                            print("Adding event to sale \(document.documentID)")
+                            sale.events?.append(Event(id: document.documentID, dictionary: document.data()))
+                        }
+                    }
+                }
+                self.dispatchGroup.leave()
+            })
+        }
+        self.setInteractionTo(state: true)
+    }
     
     
-    func getSaleHistoryForDateRange() -> [Sale]{
-        let newSalesReport = [Sale]()
+    func getSaleHistoryForDateRange(){
+        self.sales.removeAll()
+        self.saleTable.reloadData()
         self.setInteractionTo(state: false)
         let db = Firestore.firestore()
         self.dispatchGroup.enter()
@@ -791,121 +891,121 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }else{
                 if(snapshot!.documents.count > 0){
                     for document in snapshot!.documents {
-                        
+                        print("Adding snapshot document \(document.documentID)")
+                        self.sales.append(Sale(id: document.documentID, dictionary: document.data()))
                         
                     }
                 }
-                self.dispatchGroup.leave()
             }
+            self.dispatchGroup.leave()
         }
-        return newSalesReport
+        self.setInteractionTo(state: true)
     }
     
     
-    func getSalesForMonth(){
-        let db = Firestore.firestore()
-        let originalColor = self.generateSaleBtn.backgroundColor
-        var newSaleReport:[Sale] = []
-        _ = db.collection("Sales")
-        setInteractionTo(state: false)
-        self.generateSaleBtn.backgroundColor = .lightGray
-        
-        let myGroup = DispatchGroup()
-        print("GETTING SALES FOR MONTH...")
-        db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).order(by: "Timestamp", descending: true).getDocuments { (snapshot, err) in
-            
-            if let err = err {
-                print("ERROR \(err.localizedDescription)")
-                self.generateSaleBtn.backgroundColor = originalColor
-                self.setInteractionTo(state: true)
-                
-            }else{
-                if(snapshot!.documents.count > 0){
-                    for document in snapshot!.documents {
-                        myGroup.enter()
-                        let newSale = Sale(id: document.documentID, dictionary: document.data())
-                        print("Adding Sale: \(document.documentID)")
-                        
-                        db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
-                            if let err = err {
-                                print("ERROR \(err.localizedDescription)")
-                                self.generateSaleBtn.backgroundColor = originalColor
-                                
-                                self.setInteractionTo(state: true)
-                                
-                            }else{
-                                
-                                for document_ in snapshot!.documents {
-                                    
-                                    newSale.events!.append(Event(id: document_.documentID, dictionary: document_.data()))
-                                    print("Adding Event to Sale: \(document.documentID)")
-                                }
-                            }
-                        })
-                        myGroup.leave()
-                        newSaleReport.append(newSale)
-                    }
-                    myGroup.notify(queue: .main) {
-                        
-                        print("Finished all requests.")
-                        //                    self.generateSaleBtn.backgroundColor = originalColor
-                        //
-                        //                    self.generateSaleBtn.isUserInteractionEnabled = true
-                        
-                        let myGroup2 = DispatchGroup()
-                        for sale in newSaleReport {
-                            db.collection("Sales").document(sale.id!).collection("Sale Items").getDocuments(completion: { (snapshot, err) in
-                                if let err = err {
-                                    print("ERROR \(err.localizedDescription)")
-                                    self.generateSaleBtn.backgroundColor = originalColor
-                                    self.setInteractionTo(state: true)
-                                    
-                                }else{
-                                    
-                                    for document_ in snapshot!.documents{
-                                        myGroup2.enter()
-                                        sale.saleItems?.append(SaleItem(id: document_.documentID, dictionary: document_.data()))
-                                        print("Adding SaleItem to Sale: \(sale.id!)")
-                                        
-                                        print("NEW ITEM + \((sale.saleItems!.last!.inventoryItemId!))")
-                                        db.collection("Items").document((sale.saleItems!.last!.inventoryItemId!)).getDocument(completion: { (snapshot, err) in
-                                            if let err = err {
-                                                print("ERROR \(err.localizedDescription)")
-                                                self.generateSaleBtn.backgroundColor = originalColor
-                                                self.setInteractionTo(state: true)
-                                                
-                                            }else{
-                                                print(snapshot!.data()!)
-                                                sale.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot!.documentID), dictionary: (snapshot!.data())!)
-                                                print("Adding Inventory Item to Sale: \(snapshot!.documentID)")
-                                                // newSaleReport.append(newSale)
-                                            }
-                                            myGroup2.leave()
-                                        })
-                                    }
-                                    myGroup2.notify(queue: .main){
-                                        self.setInteractionTo(state: true)
-                                        self.generateSaleBtn.backgroundColor = originalColor
-                                        self.sales = newSaleReport
-                                        self.saleTable.reloadData()
-                                        self.saleItemsTbl.reloadData()
-                                        self.eventsTbl.reloadData()
-                                    }
-                                }
-                            })
-                        }
-                    }
-                }else{
-                    self.setInteractionTo(state: true)
-                    self.generateSaleBtn.backgroundColor = originalColor
-                    self.sales = newSaleReport
-                    self.saleTable.reloadData()
-                    self.saleItemsTbl.reloadData()
-                    self.eventsTbl.reloadData()
-                }
-            }
-        }
-    }
+    //    func getSalesForMonth(){
+    //        let db = Firestore.firestore()
+    //        let originalColor = self.generateSaleBtn.backgroundColor
+    //        var newSaleReport:[Sale] = []
+    //        _ = db.collection("Sales")
+    //        setInteractionTo(state: false)
+    //        self.generateSaleBtn.backgroundColor = .lightGray
+    //
+    //        let myGroup = DispatchGroup()
+    //        print("GETTING SALES FOR MONTH...")
+    //        db.collection("Sales").whereField("Timestamp", isGreaterThanOrEqualTo: self.startDatePicker.date).whereField("Timestamp", isLessThanOrEqualTo: self.endDatePicker.date).order(by: "Timestamp", descending: true).getDocuments { (snapshot, err) in
+    //
+    //            if let err = err {
+    //                print("ERROR \(err.localizedDescription)")
+    //                self.generateSaleBtn.backgroundColor = originalColor
+    //                self.setInteractionTo(state: true)
+    //
+    //            }else{
+    //                if(snapshot!.documents.count > 0){
+    //                    for document in snapshot!.documents {
+    //                        myGroup.enter()
+    //                        let newSale = Sale(id: document.documentID, dictionary: document.data());                         print("Adding Sale: \(document.documentID)")
+    //
+    //                        db.collection("Sales").document(document.documentID).collection("Events").getDocuments(completion: { (snapshot, err) in
+    //                            if let err = err {
+    //                                print("ERROR \(err.localizedDescription)")
+    //                                self.generateSaleBtn.backgroundColor = originalColor
+    //
+    //                                self.setInteractionTo(state: true)
+    //
+    //                            }else{
+    //
+    //                                for document_ in snapshot!.documents {
+    //
+    //                                    newSale.events!.append(Event(id: document_.documentID, dictionary: document_.data()))
+    //                                    print("Adding Event to Sale: \(document.documentID)")
+    //                                }
+    //                            }
+    //                        })
+    //                        myGroup.leave()
+    //                        newSaleReport.append(newSale)
+    //                    }
+    //                    myGroup.notify(queue: .main) {
+    //
+    //                        print("Finished all requests.")
+    //                        //                    self.generateSaleBtn.backgroundColor = originalColor
+    //                        //
+    //                        //                    self.generateSaleBtn.isUserInteractionEnabled = true
+    //
+    //                        let myGroup2 = DispatchGroup()
+    //                        for sale in newSaleReport {
+    //                            db.collection("Sales").document(sale.id!).collection("Sale Items").getDocuments(completion: { (snapshot, err) in
+    //                                if let err = err {
+    //                                    print("ERROR \(err.localizedDescription)")
+    //                                    self.generateSaleBtn.backgroundColor = originalColor
+    //                                    self.setInteractionTo(state: true)
+    //
+    //                                }else{
+    //
+    //                                    for document_ in snapshot!.documents{
+    //                                        myGroup2.enter()
+    //                                        sale.saleItems?.append(SaleItem(id: document_.documentID, dictionary: document_.data()))
+    //                                        print("Adding SaleItem to Sale: \(sale.id!)")
+    //
+    //                                        print("NEW ITEM + \((sale.saleItems!.last!.inventoryItemId!))")
+    //                                        db.collection("Items").document((sale.saleItems!.last!.inventoryItemId!)).getDocument(completion: { (snapshot, err) in
+    //                                            if let err = err {
+    //                                                print("ERROR \(err.localizedDescription)")
+    //                                                self.generateSaleBtn.backgroundColor = originalColor
+    //                                                self.setInteractionTo(state: true)
+    //
+    //                                            }else{
+    //                                                print(snapshot!.data()!)
+    //                                                sale.saleItems?.last?.inventoryItem = InventoryItem(id: (snapshot!.documentID), dictionary: (snapshot!.data())!)
+    //                                                print("Adding Inventory Item to Sale: \(snapshot!.documentID)")
+    //                                                // newSaleReport.append(newSale)
+    //                                            }
+    //                                            myGroup2.leave()
+    //                                        })
+    //                                    }
+    //                                    myGroup2.notify(queue: .main){
+    //                                        self.setInteractionTo(state: true)
+    //                                        self.generateSaleBtn.backgroundColor = originalColor
+    //                                        self.sales = newSaleReport
+    //                                        self.saleTable.reloadData()
+    //                                        self.saleItemsTbl.reloadData()
+    //                                        self.eventsTbl.reloadData()
+    //                                    }
+    //                                }
+    //                            })
+    //                        }
+    //                    }
+    //                }else{
+    //                    self.setInteractionTo(state: true)
+    //                    self.generateSaleBtn.backgroundColor = originalColor
+    //                    self.sales = newSaleReport
+    //                    self.saleTable.reloadData()
+    //                    self.saleItemsTbl.reloadData()
+    //                    self.eventsTbl.reloadData()
+    //                }
+    //            }
+    //        }
+    //    }
     
     func setInteractionTo(state:Bool){
         self.generateSaleBtn.isUserInteractionEnabled = state
