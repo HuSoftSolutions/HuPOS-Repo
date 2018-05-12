@@ -483,7 +483,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         case saleItemsTbl:
             let saleItemCell = UITableViewCell(style: .value1, reuseIdentifier: "saleItemCell")
             let saleItem:SaleItem = self.sales[self.selectedSaleIndex].saleItems![indexPath.row]
-            guard case let saleItemCell.textLabel?.text = saleItem.inventoryItem!.title else { saleItemCell.textLabel?.text = saleItem.inventoryItemId }
+            if saleItem.inventoryItem != nil {
+                saleItemCell.textLabel?.text = saleItem.inventoryItem!.title
+            }else{
+                saleItemCell.textLabel?.text = saleItem.inventoryItemId
+            }
             saleItemCell.detailTextLabel?.text = saleItem.subtotal.toCurrencyString()
             saleItemCell.detailTextLabel?.textAlignment = .right
             if(indexPath.row % 2 == 0){
