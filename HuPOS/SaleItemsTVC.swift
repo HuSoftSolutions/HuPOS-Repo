@@ -47,13 +47,13 @@ public class Sale {
     
     var id:String?
     var timestamp:Date?
-    var saleItems:[SaleItem]?
+    var saleItems = [SaleItem]()
     var employeeId:String?
     var taxTotal:Double?
     var saleTotal:Double?
     var remainingBalance:Double?
     var changeGiven:Double?
-    var events:[Event]?
+    var events = [Event]()
     
     init(){
         
@@ -71,7 +71,7 @@ public class Sale {
         self.saleItems = []
     }
 
-    public var description: String { return "\n\n - Sale Total: \(saleTotal!)\n - Tax Total: \(taxTotal!)\n - Remaining Balance: \(remainingBalance!)\n - Events: \(events!.description)" }
+    public var description: String { return "\n\n - Sale Total: \(saleTotal!)\n - Tax Total: \(taxTotal!)\n - Remaining Balance: \(remainingBalance!)\n - Events: \(events.description)" }
 //    public var eventsDescription: String {
 //        
 //    }
@@ -79,10 +79,10 @@ public class Sale {
     func getSaleTotal() -> String {
         var saleTotalTemp = 0.0
         var taxTotalTemp = 0.0
-        if(self.saleItems?.isEmpty)!{
+        if(self.saleItems.isEmpty){
             return "No Sale"
         }else{
-            for sale in saleItems! {
+            for sale in saleItems {
                 if(sale.inventoryItem?.taxIndex == Tax.tax_added.rawValue){
                     
                     let sale_ = ((sale.inventoryItem?.price)! * sale.quantity) * (1 + STATE_TAX)
@@ -471,7 +471,7 @@ class SaleItemsTVC: UITableViewController {
         
         finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
             let sale = self.getCurrentSale()
-            if(!(sale.saleItems?.isEmpty)!){
+            if(!(sale.saleItems.isEmpty)){
                 let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let paymentPopUp = PaymentPopUpVC()
                 paymentPopUp.modalPresentationStyle = .overCurrentContext
