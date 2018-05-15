@@ -76,11 +76,11 @@ public class Sale {
 //        
 //    }
     
-    func getSaleTotal() -> String {
+    func getSaleTotal(completion: (String) -> Void) {
         var saleTotalTemp = 0.0
         var taxTotalTemp = 0.0
         if(self.saleItems.isEmpty){
-            return "No Sale"
+            completion("No Sale")
         }else{
             for sale in saleItems {
                 if(sale.inventoryItem?.taxIndex == Tax.tax_added.rawValue){
@@ -117,7 +117,7 @@ public class Sale {
             self.taxTotal = taxTotalTemp
             self.remainingBalance = saleTotalTemp
             
-            return s_total
+            completion(s_total)
         }
     }
     
@@ -470,23 +470,28 @@ class SaleItemsTVC: UITableViewController {
         })
         
         finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
-            let sale = self.getCurrentSale()
-            if(!(sale.saleItems.isEmpty)){
-                let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let paymentPopUp = PaymentPopUpVC()
-                paymentPopUp.modalPresentationStyle = .overCurrentContext
-                paymentPopUp.modalTransitionStyle = .crossDissolve
-                _ = paymentPopUp.presentationController
-               // paymentPopUp.delegate = self
-                sale.timestamp = Date()
-                paymentPopUp.sale = sale
-                print(sale.description)
-                self.present(paymentPopUp, animated: true, completion: {
-                    print("Finished presenting Payment Pad View!")
-                })
-            }else{
-                BTCommunication.openDrawer()
-            }
+            self.getCurrentSale(saleHandler: {
+                (sale) in
+
+                if(!(sale.saleItems.isEmpty)){
+                    let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let paymentPopUp = PaymentPopUpVC()
+                    paymentPopUp.modalPresentationStyle = .overCurrentContext
+                    paymentPopUp.modalTransitionStyle = .crossDissolve
+                    _ = paymentPopUp.presentationController
+                    // paymentPopUp.delegate = self
+                    sale.timestamp = Date()
+                    paymentPopUp.sale = sale
+                    print(sale.description)
+                    self.present(paymentPopUp, animated: true, completion: {
+                        print("Finished presenting Payment Pad View!")
+                    })
+                }else{
+                    BTCommunication.openDrawer()
+                }
+            })
+            
+
         })
         
         clearSaleItemsObserver = NotificationCenter.default.addObserver(forName: .clearSaleItems, object: nil, queue: OperationQueue.main, using: { (notification) in
@@ -611,7 +616,7 @@ class SaleItemsTVC: UITableViewController {
         }
     }
     
-    func getCurrentSale() -> Sale {
+    func getCurrentSale(saleHandler: (Sale) -> ()) {
         print("Getting current sale...")
         let sale = Sale()
 //        sale = self.generateSaleTotal()
@@ -622,8 +627,10 @@ class SaleItemsTVC: UITableViewController {
 //        sale.timestamp = Date()
         sale.events = [Event]()
         sale.saleItems = self.saleCells
-        sale.getSaleTotal()
-        return sale
+        sale.getSaleTotal(completion: { (saleTotal) in
+            
+            saleHandler(sale)
+        })
     }
     
     func saleItemChanged_Notification(){
@@ -631,7 +638,9 @@ class SaleItemsTVC: UITableViewController {
         sale.employeeId = Auth.auth().currentUser?.displayName
         sale.timestamp = Date()
         sale.saleItems = self.saleCells
-        NotificationCenter.default.post(name: .saleItemChanged, object: sale.getSaleTotal())
+        sale.getSaleTotal(completion: { (saleTotal) in
+            NotificationCenter.default.post(name: .saleItemChanged, object: saleTotal)
+        })
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

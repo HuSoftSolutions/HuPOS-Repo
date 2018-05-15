@@ -873,9 +873,11 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
         view.addSubview(saleSubtotal)
         
         _ = self.sale!.remainingBalance!
-        self.saleTotal.text = self.sale!.getSaleTotal()
+        self.sale!.getSaleTotal(completion: { (saleTotal) in
+            self.saleTotal.text = saleTotal
+        })
         self.saleSubtotal.text = self.sale!.remainingBalance?.toCurrencyString()
-        self.acceptBtn.setTitle("Pay  \(self.sale!.getSaleTotal())  \(self.eventType.description)", for: .normal)
+        self.acceptBtn.setTitle("Pay  \(self.saleTotal.text))  \(self.eventType.description)", for: .normal)
         // apply events first
         
         eventTableView.separatorColor = .clear
