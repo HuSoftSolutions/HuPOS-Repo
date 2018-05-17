@@ -10,6 +10,50 @@ import UIKit
 import Firebase
 import SnapKit
 
+// SALE_TABLE_HEIGHT:CGFloat = 0.0 //(REPORT_TABLE_HEIGHT - 4*PAD) / 2
+var REPORT_TABLE_HEIGHT:CGFloat = 0.0
+enum ReportCategory:Int {
+    case cash_sale_total = 0, credit_sale_total = 1, total_tax = 2, total_sales = 3, total_tax_sales = 4
+
+    var description : String {
+        switch self {
+        case .cash_sale_total: return "Cash Sale Total (Check & Gift Included)"
+        case .credit_sale_total: return "Credit Sale Total"
+        case .total_sales: return "Total Sales (Without Tax)"
+        case .total_tax: return "Total Tax"
+        case .total_tax_sales: return "Total Sales & Tax"
+        }
+    }
+
+    var array:[ReportCategory]{
+        var array:[ReportCategory] = []
+        switch ReportCategory.cash_sale_total {
+        case .cash_sale_total: array.append(.cash_sale_total); fallthrough
+        case .credit_sale_total: array.append(.credit_sale_total); fallthrough
+        case .total_sales: array.append(.total_sales); fallthrough
+        case .total_tax: array.append(.total_tax); fallthrough
+        case .total_tax_sales:array.append(.total_tax_sales);
+        }
+        return array
+    }
+}
+
+class Report: NSObject {
+
+    override init(){
+        cash_sale_total = 0.0
+        credit_sale_total = 0.0
+        tax_total = 0.0
+        sale_total = 0.0
+    }
+
+    var categories = ReportCategory.cash_sale_total.array
+    var cash_sale_total:Double?
+    var credit_sale_total:Double?
+    var tax_total:Double?
+    var sale_total:Double?
+
+}
 enum DateRange:Int {
     case Day = 0, Week = 1, Month = 2, Year = 3
     
@@ -209,6 +253,9 @@ class SaleCell: UITableViewCell {
 
 class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    //var report = Report.init()
+    var newReport = Report.init()
+
     var sales:[Sale] = []
     var startDate = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: Date())
     var endDate = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())
@@ -220,8 +267,10 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     let progressHUD = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     var saleTableSpinner = UIView()
     var saleItemTableSpinner = UIView()
+    var reportTableSpinner = UIView()
     var reportViewSpinner = UIView()
-    
+    var report = Report.init()
+
     let saleTable:UITableView = {
         let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tbl.backgroundColor = .clear
@@ -395,6 +444,13 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tbl.alwaysBounceVertical = false
         return tbl
     }()
+    
+    let reportTable:UITableView = {
+        let tbl = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tbl.backgroundColor = .clear
+        tbl.alwaysBounceVertical = false
+        return tbl
+    }()
 
     func numberOfSections(in tableView: UITableView) -> Int {
         switch tableView {
@@ -422,6 +478,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     return 0
                 }
             }else { return 0 }
+        case reportTable:
+            return Report().categories.count
         default:
             return 0
         }
@@ -433,10 +491,14 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 100
         case saleDetailTable:
             return 50
+        case reportTable:
+            return CGFloat((REPORT_TABLE_HEIGHT - 30) / CGFloat(Report().categories.count))
         default:
             return 0
         }
     }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableView {
         case saleTable:
@@ -465,7 +527,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             default:
                 return "Error"
             }
-            
+        case reportTable:
+            return "Report"
         default:
             return "Error"
         }
@@ -518,7 +581,30 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
             
-
+        case reportTable:
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: "Report Cell")
+            cell.textLabel?.text = report.categories[indexPath.row].description + ":"
+            cell.textLabel?.textColor = .black
+            //cell.textLabel?.font = UIFont.systemFont(ofSize: 25)
+            cell.textLabel?.adjustsFontSizeToFitWidth = true
+            cell.textLabel?.numberOfLines = 2
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 25)
+            cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
+            cell.selectionStyle = .none
+            
+            if (report.categories[indexPath.row] == .cash_sale_total) {
+                cell.detailTextLabel?.text = self.newReport.cash_sale_total?.toCurrencyString()
+            }else if(report.categories[indexPath.row] == .credit_sale_total){
+                cell.detailTextLabel?.text = self.newReport.credit_sale_total?.toCurrencyString()
+            }else if(report.categories[indexPath.row] == .total_sales){
+                cell.detailTextLabel?.text = (self.newReport.credit_sale_total! + self.newReport.cash_sale_total!).toCurrencyString()
+            }else if(report.categories[indexPath.row] == .total_tax){
+                cell.detailTextLabel?.text = self.newReport.tax_total?.toCurrencyString()
+            }else if(report.categories[indexPath.row] == .total_tax_sales){
+                cell.detailTextLabel?.text = (self.newReport.sale_total!).toCurrencyString()
+            }
+            
+            return cell
         default:
             let saleItemCell = UITableViewCell(style: .value1, reuseIdentifier: "saleItemCell")
             
@@ -641,11 +727,14 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let PICKER_WIDTH = self.startDatePicker.frame.width//(screen.width - 2*PAD) * (3/10)
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (3/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
-        _ = REPORT_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE * (8/10)
         let RANGE_BTN_WIDTH = ((screen.width - 2*PAD) - 4*S_PAD) / 5
         let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
-        let PICKER_HEIGHT = (REPORT_TABLE_HEIGHT - 4*PAD) / 2
-        let DETAIL_TABLE_HEIGHT = (REPORT_TABLE_HEIGHT - 4*PAD) / 2
+        var SALE_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE - RANGE_BTN_HEIGHT - 3*PAD - GENERATE_REPORT_HEIGHT
+
+        let PICKER_HEIGHT = (SALE_TABLE_HEIGHT - 4*PAD) / 2
+        
+        
+        REPORT_TABLE_HEIGHT = SALE_TABLE_HEIGHT * (1/2) - PAD
         
         self.saleTable.separatorStyle = .singleLine
         self.saleDetailTable.separatorStyle = .singleLine
@@ -659,6 +748,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.saleTable.dataSource = self
         self.saleDetailTable.delegate = self
         self.saleDetailTable.dataSource = self
+        self.reportTable.delegate = self
+        self.reportTable.dataSource = self
 
         
         self.view.addSubview(saleTable)
@@ -674,8 +765,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.view.addSubview(decrementRangeBtn)
         self.view.addSubview(incrementRangeBtn)
         self.view.addSubview(saleDetailTable)
-
-        self.view.addSubview(progressHUD)
+        self.view.addSubview(reportTable)
+        //self.view.addSubview(progressHUD)
         
 
         
@@ -734,8 +825,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
             //            make.right.equalTo(view).offset(-1*PAD)
             make.width.equalTo(REPORT_TABLE_WIDTH)
-            //make.height.equalTo(REPORT_TABLE_HEIGHT)
-            make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
+            make.height.equalTo(SALE_TABLE_HEIGHT)
+            //make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
         }
         
         
@@ -766,7 +857,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //make.left.equalTo(endDateLbl)//.offset(PAD/2)
             make.right.equalTo(view).offset(-1*PAD)
             
-            // make.width.equalTo(PICKER_WIDTH)
+             //make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
         }
         
@@ -775,9 +866,14 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             make.top.equalTo(saleTable)
             make.left.equalTo(saleTable.snp.right).offset(PAD)
             make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
-            make.height.equalTo(DETAIL_TABLE_HEIGHT)
+            make.height.equalTo(REPORT_TABLE_HEIGHT)
         }
-        
+        reportTable.snp.makeConstraints { (make) in
+            make.top.equalTo(saleDetailTable.snp.bottom).offset(PAD)
+            make.left.equalTo(saleTable.snp.right).offset(PAD)
+            make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
+            make.height.equalTo(REPORT_TABLE_HEIGHT)
+        }
 
         
     }
@@ -785,6 +881,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     func startFirebaseCalls(){
         saleTableSpinner = UIViewController.displaySpinner(onView: self.saleTable)
         saleItemTableSpinner = UIViewController.displaySpinner(onView: self.saleDetailTable)
+        reportTableSpinner = UIViewController.displaySpinner(onView: self.reportTable)
 
         self.setInteractionTo(state: false)
         getSaleHistoryForDateRange()
@@ -800,30 +897,43 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.dispatchGroup.notify(queue: .main){
                     print("Finished adding events")
                     print("Finished adding sale items")
+                    print("Finished calculating report totals")
+                    
+                    self.reportTable.reloadData()
+                    UIViewController.removeSpinner(spinner: self.reportTableSpinner)
 
                     
                     self.getSaleItemInfoForDateRange()
                     self.dispatchGroup.notify(queue: .main){
                         
                         print("Finished getting all sale item info")
-  
-
+                        
+                        
                         self.saleDetailTable.reloadData()
                         UIViewController.removeSpinner(spinner: self.saleItemTableSpinner)
-
-                                              self.setInteractionTo(state: true)
-                       /// UIViewController.removeSpinner(spinner: self.saleItemTableSpinner)
+                        
+                        self.setInteractionTo(state: true)
                     }
                     
                 }
+            }else{
+                if(self.saleItemTableSpinner != nil){
+                    UIViewController.removeSpinner(spinner: self.saleItemTableSpinner)
+                }
+                if(self.reportTableSpinner != nil){
+                    UIViewController.removeSpinner(spinner: self.reportTableSpinner)
+                }
             }
             self.setInteractionTo(state: true)
-
+            
         }
     }
     
+    func getReportTotals(){
+        
+    }
+    
     func getSaleItemInfoForDateRange(){
-        self.setInteractionTo(state: false)
         let db = Firestore.firestore()
         
         for sale in self.sales {
@@ -882,12 +992,27 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("ERROR \(err.localizedDescription)")
                     self.dispatchGroup.leave()
                 }else{
-                    if(snapshot!.count > 0){
+                    var cashTotal = 0.0
+                    var creditTotal = 0.0
+                    //if(snapshot!.count > 0){
                         for document in snapshot!.documents {
-                            print("Adding event to sale \(document.documentID)")
+                            let eventCount:Double = Double(snapshot!.documents.count)
+                            let type = document["Type"] as! String
+                            let amount = document["Amount"] as! Double
+                            print("Event type: \(type) Amt: \(amount.toCurrencyString())")
+                            if(type.trimmingCharacters(in: .whitespaces) == "Cash" || type == "Gift" || type == "Check"){
+                                cashTotal += (amount - sale.taxTotal!/eventCount)
+                            }else{
+                                creditTotal += (amount - sale.taxTotal!/eventCount)
+                            }
                             sale.events.append(Event(id: document.documentID, dictionary: document.data()))
+                            
                         }
-                    }
+                        self.newReport.cash_sale_total! += cashTotal
+                        self.newReport.credit_sale_total! += creditTotal
+                        
+                        
+                   // }
                 }
                 self.dispatchGroup.leave()
             })
@@ -896,6 +1021,8 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func getSaleHistoryForDateRange(){
+        self.newReport = Report()
+        self.reportTable.reloadData()
         self.sales.removeAll()
         self.saleTable.reloadData()
         self.saleDetailTable.reloadData()
@@ -912,6 +1039,12 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if(snapshot!.documents.count > 0){
                     for document in snapshot!.documents {
                         print("Adding snapshot document \(document.documentID)")
+                        var taxTotal = 0.0
+                        var saleTotal = 0.0
+                        taxTotal = (document["Tax Total"] as? Double)!
+                        saleTotal = (document["Sale Total"] as? Double)!
+                        self.newReport.tax_total! += taxTotal
+                        self.newReport.sale_total! += saleTotal
                         self.sales.append(Sale(id: document.documentID, dictionary: document.data()))
                         
                     }
@@ -931,11 +1064,11 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.byWeekBtn.isUserInteractionEnabled = state
         self.byMonthBtn.isUserInteractionEnabled = state
         self.byYearBtn.isUserInteractionEnabled = state
-        if(state){
-            self.progressHUD.startAnimating()
-        }else{
-            self.progressHUD.stopAnimating()
-        }
+//        if(state){
+//            self.progressHUD.startAnimating()
+//        }else{
+//            self.progressHUD.stopAnimating()
+//        }
         
     }
     

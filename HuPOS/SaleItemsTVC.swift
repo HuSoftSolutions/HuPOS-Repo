@@ -13,7 +13,8 @@ let VOID_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 10/255, blue: 10/2
 let ZERO_CELL_BACKGROUND_COLOR = UIColor(red: 240/255, green: 240/255, blue: 25/255, alpha: 0.5)
 
 let STATE_TAX = 0.08
-
+var ADD_ITEM_OBSERVER_EXISTS = false
+var EDIT_MODE_OBSERVER_EXISTS = false
 
 public class Event {
     var id:String?
@@ -464,40 +465,47 @@ class SaleItemsTVC: UITableViewController {
                 self.tableView.reloadData()
             })
         }
-        
-        reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
-            self.tableView.reloadData()
-        })
-        
-        finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
-            self.getCurrentSale(saleHandler: {
-                (sale) in
-
-                if(!(sale.saleItems.isEmpty)){
-                    let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let paymentPopUp = PaymentPopUpVC()
-                    paymentPopUp.modalPresentationStyle = .overCurrentContext
-                    paymentPopUp.modalTransitionStyle = .crossDissolve
-                    _ = paymentPopUp.presentationController
-                    // paymentPopUp.delegate = self
-                    sale.timestamp = Date()
-                    paymentPopUp.sale = sale
-                    print(sale.description)
-                    self.present(paymentPopUp, animated: true, completion: {
-                        print("Finished presenting Payment Pad View!")
-                    })
-                }else{
-                    BTCommunication.openDrawer()
-                }
+        if(reloadTableViewObserver == nil){
+            reloadTableViewObserver = NotificationCenter.default.addObserver(forName: .reloadTableView, object: nil, queue: OperationQueue.main, using: { (notification) in
+                self.tableView.reloadData()
             })
-            
-
-        })
+        }
         
+        if(!ADD_ITEM_OBSERVER_EXISTS){
+            finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
+                ADD_ITEM_OBSERVER_EXISTS = true
+                
+                self.getCurrentSale(saleHandler: {
+                    (sale) in
+                    
+                    if(!(sale.saleItems.isEmpty)){
+                        let _:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let paymentPopUp = PaymentPopUpVC()
+                        paymentPopUp.modalPresentationStyle = .overCurrentContext
+                        paymentPopUp.modalTransitionStyle = .crossDissolve
+                        _ = paymentPopUp.presentationController
+                        // paymentPopUp.delegate = self
+                        sale.timestamp = Date()
+                        paymentPopUp.sale = sale
+                        print(sale.description)
+                        self.present(paymentPopUp, animated: true, completion: {
+                            print("Finished presenting Payment Pad View!")
+                        })
+                    }else{
+                        BTCommunication.openDrawer()
+                    }
+                })
+                
+                
+            })
+        }
+       // if(clearSaleItemsObserver == nil){
         clearSaleItemsObserver = NotificationCenter.default.addObserver(forName: .clearSaleItems, object: nil, queue: OperationQueue.main, using: { (notification) in
             self.saleCells.removeAll()
             self.tableView.reloadData()
         })
+        //}
+        
         
         print(NotificationCenter.default.observationInfo)
         self.tableView.reloadData()
@@ -520,7 +528,10 @@ class SaleItemsTVC: UITableViewController {
             NotificationCenter.default.removeObserver(reloadTableViewObserver)
         }
         if let finalizeSaleObserver = finalizeSaleObserver {
-            NotificationCenter.default.removeObserver(finalizeSaleObserver)
+            if(ADD_ITEM_OBSERVER_EXISTS){
+                NotificationCenter.default.removeObserver(finalizeSaleObserver)
+                ADD_ITEM_OBSERVER_EXISTS = false
+            }
         }
         if let clearSaleItemsObserver = clearSaleItemsObserver {
             NotificationCenter.default.removeObserver(clearSaleItemsObserver)

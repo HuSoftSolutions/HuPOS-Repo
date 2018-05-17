@@ -313,7 +313,7 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
         let defaults = UserDefaults.standard
         self.editModeOn = defaults.bool(forKey: "EditModeOn")
         
-        
+        if(editModeObserver == nil){
         editModeObserver = NotificationCenter.default.addObserver(forName: .editModeChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
             
             let editModeOn = notification.object as! Bool
@@ -330,8 +330,9 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 self.collectionView?.reloadData()
             })
         })
+        }
         
-        
+        if(inventoryItemObserver == nil){
         inventoryItemObserver =
             NotificationCenter.default.addObserver(forName: .inventoryItemAdded, object: nil, queue: OperationQueue.main, using: { (notification) in
                 let item = notification.object as! InventoryItem
@@ -341,13 +342,15 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                 })
                 
             })
-        
+        }
+        if(reloadCollectionView == nil){
         reloadCollectionView = NotificationCenter.default.addObserver(forName: .reloadCollectionView, object: nil, queue: OperationQueue.main, using: { (notification) in
             let itemToDelete = notification.object as! InventoryItem
             self.itemCells[itemToDelete.index!].inventoryItemCell = nil
             DispatchQueue.main.async(execute: {
                 self.collectionView?.reloadData()
             })        })
+    }
     }
     
     

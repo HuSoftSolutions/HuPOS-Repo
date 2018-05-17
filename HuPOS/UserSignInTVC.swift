@@ -67,7 +67,7 @@ class UserSignInTVC:UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @IBAction func clearPushed(_ sender: UIButton) {
-        self.passcodeTextField.text = ""
+        self.passcodeTextField.text = "" 
     }
     
     

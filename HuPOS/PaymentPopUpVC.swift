@@ -212,7 +212,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     
     @objc func clearAction(sender:UIButton){
-        self.acceptBtn.setTitle("Pay  \(self.sale?.remainingBalance?.toCurrencyString() ?? "$0.00")  \(self.eventType.description)", for: .normal)
+        self.acceptBtn.setTitle("Pay  \(self.sale!.remainingBalance!.toCurrencyString())  \(self.eventType.description)", for: .normal)
         
         self.amtPaid = "0"
         print("Raw Amt Paid Cleared: \(amtPaid)")
@@ -877,7 +877,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             self.saleTotal.text = saleTotal
         })
         self.saleSubtotal.text = self.sale!.remainingBalance?.toCurrencyString()
-        self.acceptBtn.setTitle("Pay  \(self.saleTotal.text))  \(self.eventType.description)", for: .normal)
+        self.acceptBtn.setTitle("Pay  \(self.saleTotal.text!)  \(self.eventType.description)", for: .normal)
         // apply events first
         
         eventTableView.separatorColor = .clear

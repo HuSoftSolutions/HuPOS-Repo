@@ -383,21 +383,22 @@ override func viewDidLoad() {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
-            let saleTotal:String = notification.object as! String
-            print("Changing button price to: \(saleTotal)")
-            if(saleTotal == "No Sale"){
-                self.payButton.setTitle("Open Drawer", for: .normal)
-                self.payButton.setTitleColor(UIColor.black.withAlphaComponent(0.5), for: .normal)
-            }else{
-                self.payButton.setTitle("Pay \(saleTotal)", for: .normal)
-                self.payButton.setTitleColor(UIColor.green.darker(by: 25), for: .normal)
-
-            }
-            
-        })
+      //  if(self.saleItemChanged == nil){
+            self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
+                let saleTotal:String = notification.object as! String
+                print("Changing button price to: \(saleTotal)")
+                if(saleTotal == "No Sale"){
+                    self.payButton.setTitle("Open Drawer", for: .normal)
+                    self.payButton.setTitleColor(UIColor.black.withAlphaComponent(0.5), for: .normal)
+                }else{
+                    self.payButton.setTitle("Pay \(saleTotal)", for: .normal)
+                    self.payButton.setTitleColor(UIColor.green.darker(by: 25), for: .normal)
+                    
+                }
+                
+            })
+        //}
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         if self.saleItemChanged != nil {
             NotificationCenter.default.removeObserver(self.saleItemChanged)

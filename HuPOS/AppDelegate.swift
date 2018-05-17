@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var selectedLanguage:         LanguageIndex!
     var selectedPaperSize:        PaperSizeIndex!
     
-    let BTDevice = "BT:mPOP"//"BT:Star Micronics"//"BT:mPOP"//"BT:Star Micronics"
+    let BTDevice = "BT:Star Micronics"//"BT:mPOP"//"BT:Star Micronics"
     
     
     public var currentUser:User?
