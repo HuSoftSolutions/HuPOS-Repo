@@ -140,7 +140,7 @@ class AddUserVC: UITableViewController {
                     alertController.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
                     self.present(alertController, animated: true, completion: nil)
                 }else{
-                    userDictionary["AuthID"] = fbuser?.user.uid
+                    userDictionary["AuthID"] = fbuser?.uid
                     self.db.collection("Users").addDocument(data: userDictionary) { _ in
                         print("Successfully added: \(userDictionary)")
                         self.emailField.text = ""

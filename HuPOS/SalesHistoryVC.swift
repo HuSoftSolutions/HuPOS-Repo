@@ -17,9 +17,9 @@ enum ReportCategory:Int {
 
     var description : String {
         switch self {
-        case .cash_sale_total: return "Cash Sale Total (Check & Gift Included)"
-        case .credit_sale_total: return "Credit Sale Total"
-        case .total_sales: return "Total Sales (Without Tax)"
+        case .cash_sale_total: return "Cash"
+        case .credit_sale_total: return "Credit"
+        case .total_sales: return "Total Sales"
         case .total_tax: return "Total Tax"
         case .total_tax_sales: return "Total Sales & Tax"
         }
@@ -588,7 +588,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             //cell.textLabel?.font = UIFont.systemFont(ofSize: 25)
             cell.textLabel?.adjustsFontSizeToFitWidth = true
             cell.textLabel?.numberOfLines = 2
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 25)
+            //cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 25)
             cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
             cell.selectionStyle = .none
             
