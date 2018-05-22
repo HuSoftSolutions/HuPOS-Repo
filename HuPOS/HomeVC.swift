@@ -399,6 +399,8 @@ override func viewDidLoad() {
             })
         //}
     }
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         if self.saleItemChanged != nil {
             NotificationCenter.default.removeObserver(self.saleItemChanged)
