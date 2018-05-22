@@ -28,7 +28,7 @@ class NumberPadPopUpVC:UIViewController {
         
         print("Captured misc price of: \(self.miscPriceTotal.text?.currencyInputFormatting())")
         
-        var miscPrice_ = self.miscPriceTotal.text!.dropFirst()
+        let miscPrice_ = self.miscPriceTotal.text!.dropFirst()
         let m = miscPrice_.replacingOccurrences(of: ",", with: "")
         
         self.item?.inventoryItemCell?.price = Double(m)

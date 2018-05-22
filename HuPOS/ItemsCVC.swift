@@ -502,10 +502,14 @@ class ItemsCVC:UICollectionViewController, UICollectionViewDelegateFlowLayout, U
                     numberPadPopUpController?.delegate = self
                     numberPadPopUp.cellIndex = indexPath.row
                     numberPadPopUp.item = self.itemCells[indexPath.row]
+                    
                     self.present(numberPadPopUp, animated: true, completion: {
                         print("Finished presenting Misc Item Number Pad View!")
                     })
                 }else{
+                    // Test
+//                    let item = InventoryItem(id: (self.itemCells[indexPath.row].inventoryItemCell?.id)!, dictionary: (self.itemCells[indexPath.row].inventoryItemCell?.dictionary())!)
+//                    NotificationCenter.default.post(name: .saleItemAdded, object: item)
                     NotificationCenter.default.post(name: .saleItemAdded, object: self.itemCells[indexPath.row])
                     
                 }

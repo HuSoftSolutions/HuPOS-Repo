@@ -440,6 +440,7 @@ class SaleItemsTVC: UITableViewController {
                 for (i, item) in self.saleCells.enumerated() {
                     print("Comparing \(item.inventoryItem?.title) to \(inventoryItem.inventoryItemCell?.title)")
                     if(item.inventoryItem?.title == inventoryItem.inventoryItemCell?.title && !(item.inventoryItem?.miscPrice)!){
+                        
                         exists = true
                         if(inventoryItem.inventoryItemCell?.taxIndex == 1){
                             print("\(self.saleCells[i].subtotal) += \((inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX))")

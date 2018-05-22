@@ -289,7 +289,7 @@ class PaymentPopUpVC:UIViewController, UITableViewDelegate, UITableViewDataSourc
             print("Payment \(payment) is more than the total due \(totalDue) by \((payment - totalDue)) ")
             
             // add payment event
-            let event = Event(_id: "", _type: self.eventType, _amount: payment, _userID: "ADMIN", _time: date)
+            let event = Event(_id: "", _type: self.eventType, _amount: totalDue, _userID: "ADMIN", _time: date)
             self.sale!.remainingBalance = totalDue - payment
             self.sale!.events.append(event)
             self.sale!.changeGiven = payment - totalDue
