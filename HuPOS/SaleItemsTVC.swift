@@ -283,7 +283,7 @@ class SaleItemCell: UITableViewCell {
             }else if(saleItem?.inventoryItem?.taxIndex == Tax.no_tax.rawValue){
                 tax = 0.0
                 saleItem?.taxTotal = tax
-                print("TAX INCLUDED: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
+                print("NO TAX: \(itemRawCost) + \(tax) = \(itemPriceTotal)")
             }
             let s_total = ((saleItem?.quantity)! * (saleItem?.inventoryItem?.price)!) + tax
             subtotal.text = NumberFormatter.localizedString(from: NSNumber(value: s_total), number: .currency)
@@ -455,7 +455,8 @@ class SaleItemsTVC: UITableViewController {
                 }
                 if(!exists){
                     let saleItem = SaleItem()
-                    saleItem.inventoryItem = inventoryItem.inventoryItemCell  
+                    let inventoryItem_ = InventoryItem(id: (inventoryItem.inventoryItemCell?.id!)!, dictionary: (inventoryItem.inventoryItemCell?.dictionary())!)
+                    saleItem.inventoryItem = inventoryItem_
                     if(inventoryItem.inventoryItemCell?.taxIndex == 1){
                         saleItem.subtotal += (inventoryItem.inventoryItemCell?.price)!/(1.0+STATE_TAX)
                     }else{
