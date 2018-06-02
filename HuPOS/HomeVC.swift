@@ -383,7 +383,7 @@ override func viewDidLoad() {
     
     
     override func viewWillAppear(_ animated: Bool) {
-      //  if(self.saleItemChanged == nil){
+        if(self.saleItemChanged == nil){
             self.saleItemChanged = NotificationCenter.default.addObserver(forName: .saleItemChanged, object: nil, queue: OperationQueue.main, using: { (notification) in
                 let saleTotal:String = notification.object as! String
                 print("Changing button price to: \(saleTotal)")
@@ -397,7 +397,7 @@ override func viewDidLoad() {
                 }
                 
             })
-        //}
+        }
     }
     
     

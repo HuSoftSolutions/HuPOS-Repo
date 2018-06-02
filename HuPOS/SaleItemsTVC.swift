@@ -473,7 +473,7 @@ class SaleItemsTVC: UITableViewController {
             })
         }
         
-        if(!ADD_ITEM_OBSERVER_EXISTS){
+        if(finalizeSaleObserver == nil){
             finalizeSaleObserver = NotificationCenter.default.addObserver(forName: .finalizeSale, object: nil, queue: OperationQueue.main, using: { (notification) in
                 ADD_ITEM_OBSERVER_EXISTS = true
                 
