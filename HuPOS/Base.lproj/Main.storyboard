@@ -257,91 +257,6 @@
             </objects>
             <point key="canvasLocation" x="47" y="-1478"/>
         </scene>
-        <!--Side Menu Table View Controller-->
-        <scene sceneID="niB-pK-Nwr">
-            <objects>
-                <tableViewController modalTransitionStyle="crossDissolve" id="dlb-Mz-n8v" customClass="SideMenuTableViewController" customModule="HuPOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bouncesZoom="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="DZR-as-y4u">
-                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <sections>
-                            <tableViewSection id="9yF-rw-p8t">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PGs-dP-wd4" rowHeight="71" style="IBUITableViewCellStyleDefault" id="rem-Ev-yhI" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                        <rect key="frame" x="0.0" y="0.0" width="1112" height="71"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rem-Ev-yhI" id="zVm-hU-g2W" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Sales History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PGs-dP-wd4">
-                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <segue destination="WwS-hy-MVU" kind="show" id="0KT-Go-RJD"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="m88-KB-B5t" rowHeight="71" style="IBUITableViewCellStyleDefault" id="iAp-7O-Q2p" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                        <rect key="frame" x="0.0" y="71" width="1112" height="71"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iAp-7O-Q2p" id="5qu-0b-gMX" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Add User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m88-KB-B5t">
-                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <segue destination="4SK-KK-ibT" kind="showDetail" id="YUR-6f-Jfw"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="uOf-Wo-w94" rowHeight="71" style="IBUITableViewCellStyleDefault" id="kRx-b9-XHc" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                        <rect key="frame" x="0.0" y="142" width="1112" height="71"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kRx-b9-XHc" id="wYG-BA-MIN" customClass="UITableViewVibrantCell" customModule="SideMenu">
-                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uOf-Wo-w94">
-                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <connections>
-                                            <segue destination="0ba-MF-3q9" kind="showDetail" identifier="to_Settings" id="CVD-cB-Zzw"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="dlb-Mz-n8v" id="QOY-lR-dVg"/>
-                            <outlet property="delegate" destination="dlb-Mz-n8v" id="E0f-fG-XYx"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="pnW-3V-b1G"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GUY-UU-oxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="47" y="-124"/>
-        </scene>
         <!--ReportingVC-->
         <scene sceneID="cRg-7F-Dmi">
             <objects>
@@ -670,13 +585,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
-                                <navigationItem title="Settings" id="N7d-9x-xUd">
-                                    <barButtonItem key="leftBarButtonItem" title="Back" id="5Pu-xR-IMP">
-                                        <connections>
-                                            <action selector="backAction:" destination="0ba-MF-3q9" id="JLo-NZ-Iww"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </navigationItem>
+                                <navigationItem title="Settings" id="N7d-9x-xUd"/>
                             </items>
                         </navigationBar>
                         <sections>
@@ -696,13 +605,6 @@
                                                         <action selector="editModeSwitchAction:" destination="0ba-MF-3q9" eventType="valueChanged" id="jEe-2L-l2P"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pr0-fc-OxD">
-                                                    <rect key="frame" x="58" y="15" width="123" height="34"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Off" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qpk-p8-G52">
                                                     <rect key="frame" x="1043" y="15" width="39" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -710,8 +612,75 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Edit Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pr0-fc-OxD">
+                                                    <rect key="frame" x="20" y="16" width="123" height="34"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="PGs-dP-wd4" rowHeight="71" style="IBUITableViewCellStyleDefault" id="rem-Ev-yhI" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                        <rect key="frame" x="0.0" y="110" width="1112" height="71"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rem-Ev-yhI" id="zVm-hU-g2W" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Sales History" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PGs-dP-wd4">
+                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="WwS-hy-MVU" kind="show" id="0KT-Go-RJD"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="m88-KB-B5t" rowHeight="71" style="IBUITableViewCellStyleDefault" id="iAp-7O-Q2p" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                        <rect key="frame" x="0.0" y="181" width="1112" height="71"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iAp-7O-Q2p" id="5qu-0b-gMX" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Add User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m88-KB-B5t">
+                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="4SK-KK-ibT" kind="showDetail" id="YUR-6f-Jfw"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="uOf-Wo-w94" rowHeight="71" style="IBUITableViewCellStyleDefault" id="kRx-b9-XHc" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                        <rect key="frame" x="0.0" y="252" width="1112" height="71"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kRx-b9-XHc" id="wYG-BA-MIN" customClass="UITableViewVibrantCell" customModule="SideMenu">
+                                            <rect key="frame" x="0.0" y="0.0" width="1112" height="70.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uOf-Wo-w94">
+                                                    <rect key="frame" x="20" y="0.0" width="1072" height="70.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.57461684940000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <segue destination="0ba-MF-3q9" kind="showDetail" identifier="to_Settings" id="CVD-cB-Zzw"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -728,7 +697,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zsn-L1-0yb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="682" y="-124"/>
+            <point key="canvasLocation" x="47" y="-108"/>
         </scene>
         <!--Item 2-->
         <scene sceneID="SlY-3f-T40">
@@ -863,7 +832,7 @@
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" title="Menu" id="6nt-5Z-x0W">
                             <connections>
-                                <action selector="menuAction:" destination="p18-3s-vKG" id="Kj7-Aj-0fF"/>
+                                <segue destination="0ba-MF-3q9" kind="show" id="BK6-oo-1fj"/>
                             </connections>
                         </barButtonItem>
                         <view key="titleView" contentMode="scaleToFill" id="rd3-Nk-1GH">
@@ -885,7 +854,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bluetooth:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hIl-d6-vEw">
-                                    <rect key="frame" x="751" y="0.0" width="97" height="35"/>
+                                    <rect key="frame" x="747" y="0.0" width="97" height="35"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                     <color key="textColor" red="0.75406885150000003" green="0.75408679249999999" blue="0.75407713649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -899,7 +868,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K7j-0q-qcG">
-                                    <rect key="frame" x="855" y="0.0" width="27" height="31"/>
+                                    <rect key="frame" x="852" y="0.0" width="27" height="31"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <connections>
                                         <action selector="BTSwitchChanged:" destination="p18-3s-vKG" eventType="valueChanged" id="TAF-HL-n9n"/>
@@ -927,26 +896,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gKO-sO-Nhv" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="46.942446043165468" y="-816.54676258992811"/>
-        </scene>
-        <!--Side Menu Navigation Controller-->
-        <scene sceneID="6tq-Xi-fJb">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="crossDissolve" navigationBarHidden="YES" id="Opj-KX-8Eb" customClass="UISideMenuNavigationController" customModule="SideMenu" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lWE-LT-Y2u">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="leftSide" value="YES"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <segue destination="dlb-Mz-n8v" kind="relationship" relationship="rootViewController" id="8je-do-QyX"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JGC-jM-6kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-654" y="-80"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tMo-mb-Jla">
@@ -1158,7 +1107,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WTD-ms-yvq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="166" y="662"/>
+            <point key="canvasLocation" x="152" y="662"/>
         </scene>
     </scenes>
     <resources>
