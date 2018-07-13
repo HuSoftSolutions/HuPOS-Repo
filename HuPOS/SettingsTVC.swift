@@ -50,8 +50,13 @@ class SettingsTVC: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "to_Settings"){
+            if let settingsMenu:SettingsTVC = segue.destination as! SettingsTVC {
+            }
+        }
+        
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
