@@ -27,7 +27,7 @@ class SettingsTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.allowsSelection = false
+        //tableView.allowsSelection = false
         let editModeOn = defaults.bool(forKey: "EditModeOn")
         self.setEditMode(editModeOn: editModeOn)
         
