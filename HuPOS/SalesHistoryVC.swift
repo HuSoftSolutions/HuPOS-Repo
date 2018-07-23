@@ -345,7 +345,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -361,7 +361,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -378,7 +378,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -395,7 +395,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -412,7 +412,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -429,7 +429,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = UIColor.blue.withAlphaComponent(0.75)
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 50)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.titleLabel?.sizeToFit()
         btn.layer.cornerRadius = 5
@@ -728,7 +728,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let REPORT_TABLE_WIDTH = (screen.width - 2*PAD) * (3/10)
         _ = (PICKER_WIDTH / 2) - 2*PAD
         let RANGE_BTN_WIDTH = ((screen.width - 2*PAD) - 4*S_PAD) / 5
-        let RANGE_BTN_HEIGHT = SCREEN_HEIGHT_SAFE * (1/10)
+        let RANGE_BTN_HEIGHT = TOOLBAR_HEIGHT//SCREEN_HEIGHT_SAFE * (1/10)
         var SALE_TABLE_HEIGHT = SCREEN_HEIGHT_SAFE - RANGE_BTN_HEIGHT - 3*PAD - GENERATE_REPORT_HEIGHT
 
         let PICKER_HEIGHT = (SALE_TABLE_HEIGHT - 4*PAD) / 2
@@ -779,57 +779,47 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         decrementRangeBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(saleTable)
             make.width.equalTo(RANGE_BTN_WIDTH/2)
             make.height.equalTo(RANGE_BTN_HEIGHT)
             
         }
         byDayBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(decrementRangeBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
             
         }
         byWeekBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(byDayBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
             
         }
         byMonthBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(byWeekBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
         }
         byYearBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(byMonthBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH)
             make.height.equalTo(RANGE_BTN_HEIGHT)
             
         }
         incrementRangeBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(view).offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT/2)
             make.left.equalTo(byYearBtn.snp.right).offset(S_PAD)
             make.width.equalTo(RANGE_BTN_WIDTH/2)
             make.height.equalTo(RANGE_BTN_HEIGHT)
             
         }
-        saleTable.snp.makeConstraints { (make) in
-            make.top.equalTo(decrementRangeBtn.snp.bottom).offset(PAD)
-            make.left.equalTo(self.view).offset(PAD)
-            //make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
-            //            make.right.equalTo(view).offset(-1*PAD)
-            make.width.equalTo(REPORT_TABLE_WIDTH)
-            make.height.equalTo(SALE_TABLE_HEIGHT)
-            //make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
-        }
-        
-        
+
         
         startDateLbl.snp.makeConstraints { (make) in
             make.top.equalTo(startDatePicker)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
@@ -840,7 +830,7 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         startDatePicker.snp.makeConstraints { (make) in
-            make.top.equalTo(incrementRangeBtn.snp.bottom).offset(PAD)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
+            make.top.equalTo(decrementRangeBtn.snp.bottom).offset(PAD)//.offset(NAVIGATIONBAR_HEIGHT + TOOLBAR_HEIGHT)
             //make.left.equalTo(saleTable.snp.right).offset(PAD/2)
             //make.width.equalTo(PICKER_WIDTH)
             make.height.equalTo(PICKER_HEIGHT)
@@ -862,16 +852,28 @@ class SalesHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         
+        // sale history
+        saleTable.snp.makeConstraints { (make) in
+            make.top.equalTo(decrementRangeBtn.snp.bottom).offset(PAD)
+            make.left.equalTo(self.view).offset(PAD)
+            //make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
+            //            make.right.equalTo(view).offset(-1*PAD)
+            make.width.equalTo(REPORT_TABLE_WIDTH)
+            make.height.equalTo(SALE_TABLE_HEIGHT / 2)
+            //make.bottom.equalTo(generateSaleBtn.snp.top).offset(-1*PAD)
+        }
+        
         saleDetailTable.snp.makeConstraints { (make) in
-            make.top.equalTo(saleTable)
-            make.left.equalTo(saleTable.snp.right).offset(PAD)
+            make.top.equalTo(saleTable.snp.bottom)
+            make.left.equalTo(saleTable.snp.right)
             make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
             make.height.equalTo(REPORT_TABLE_HEIGHT)
         }
         reportTable.snp.makeConstraints { (make) in
-            make.top.equalTo(saleDetailTable.snp.bottom).offset(PAD)
-            make.left.equalTo(saleTable.snp.right).offset(PAD)
-            make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
+            make.top.equalTo(saleTable.snp.bottom).offset(PAD)
+            make.left.equalTo(saleTable).offset(PAD)
+            make.width.equalTo(REPORT_TABLE_WIDTH)
+            //make.right.equalTo(startDatePicker.snp.left).offset(-1*PAD)
             make.height.equalTo(REPORT_TABLE_HEIGHT)
         }
 
